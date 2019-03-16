@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class UserPicked extends Notification
+class UserPicked extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -41,7 +41,7 @@ class UserPicked extends Notification
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-                    ->content('You have been picked!');
+                    ->content("{$notifiable->name} You have been picked!");
     }
 
     /**

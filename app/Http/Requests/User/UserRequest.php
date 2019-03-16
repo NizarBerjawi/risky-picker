@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\UniqueWhen;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,7 +30,10 @@ abstract class UserRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users', 'email')->ignore($this->user),
+                $this->isMethod('POST')
+                    ? Rule::unique('users', 'email')
+                    : Rule::unique('users', 'email')
+                          ->ignore($this->user),
             ],
             'cup_photo' => 'sometimes|file',
         ];
