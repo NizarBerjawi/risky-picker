@@ -1,27 +1,18 @@
 @extends('layouts.base')
 
 @section('content')
-    <h3>Edit Coffee</h3>
+    <h3>Update Coffee</h3>
+
+    @if(session()->has('success'))
+        @include('partials.success', [
+            'message' => session('success')->first()
+        ])
+    @endif
 
     <div class="row">
         @include('coffees.form', [
-            'action' => route('coffees.update', compact('user', 'userCoffee')),
+            'action' => route('coffees.update', $coffee),
             'method' => 'put',
-            'label' => 'Update',
         ])
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var elems = document.querySelectorAll('select');
-          var instances = M.FormSelect.init(elems, {});
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-           var elems = document.querySelectorAll('.timepicker');
-           var instances = M.Timepicker.init(elems, {});
-         });
-    </script>
 @endsection

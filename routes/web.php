@@ -22,16 +22,30 @@ Route::group(['prefix' => 'users'], function() {
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
 
     Route::group(['prefix' => '{user}/coffee'], function() {
-        Route::get('/', 'CoffeeController@index')->name('coffees.index');
-        Route::get('/create', 'CoffeeController@create')->name('coffees.create');
-        Route::post('/', 'CoffeeController@store')->name('coffees.store');
-        Route::get('/{userCoffee}', 'CoffeeController@show')->name('coffees.show');
-        Route::get('/{userCoffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
-        Route::put('/{userCoffee}', 'CoffeeController@update')->name('coffees.update');
-        Route::delete('/{userCoffee}', 'CoffeeController@destroy')->name('coffees.destroy');
+        Route::get('/', 'UserCoffeeController@index')->name('users.coffees.index');
+        Route::get('/create', 'UserCoffeeController@create')->name('users.coffees.create');
+        Route::post('/', 'UserCoffeeController@store')->name('users.coffees.store');
+        Route::get('/{userCoffee}', 'UserCoffeeController@show')->name('users.coffees.show');
+        Route::get('/{userCoffee}/edit', 'UserCoffeeController@edit')->name('users.coffees.edit');
+        Route::put('/{userCoffee}', 'UserCoffeeController@update')->name('users.coffees.update');
+        Route::delete('/{userCoffee}', 'UserCoffeeController@destroy')->name('users.coffees.destroy');
     });
 });
 
+Route::group(['prefix' => 'coffee'], function() {
+  Route::get('/', 'CoffeeController@index')->name('coffees.index');
+  Route::get('/create', 'CoffeeController@create')->name('coffees.create');
+  Route::post('/', 'CoffeeController@store')->name('coffees.store');
+  Route::get('/{coffee}', 'CoffeeController@show')->name('coffees.show');
+  Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
+  Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
+  Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
+
+});
+
+Route::group(['prefix' => 'orders'], function() {
+  Route::get('/', 'OrderController@index')->name('orders.name');
+});
 
 Route::group(['prefix' => 'restaurants'], function() {
     Route::get('/', 'RestaurantController@index')->name('restaurants.index');
@@ -43,5 +57,5 @@ Route::group(['prefix' => 'restaurants'], function() {
 
 Route::get('/', 'PickerController@index')->name('picker');
 Route::post('/', 'PickerController@pick')->name('pick');
-Route::get('/{type}/{user}', 'PickerController@show')->name('pick.user');
-Route::post('/{type}/{user}', 'PickerController@confirm')->name('pick.confirm');
+Route::get('/{user}', 'PickerController@show')->name('pick.user');
+Route::post('/{user}', 'PickerController@confirm')->name('pick.confirm');

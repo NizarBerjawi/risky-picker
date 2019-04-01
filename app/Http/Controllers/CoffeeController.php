@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\{User, Coffee, UserCoffee};
+use Picker\Coffee\Coffee;
+use Picker\Coffee\Requests\{CreateCoffee, UpdateCoffee};
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Coffee\{CreateCoffee, UpdateCoffee};
 use Illuminate\Support\MessageBag;
 use Illuminate\Http\{Response, Request, RedirectResponse};
 
@@ -29,113 +29,101 @@ class CoffeeController extends Controller
     }
 
     /**
-     * Display a listing of the user's coffee choices
-     *
-     * @param User $suer
-     * @return Response
-     */
-    public function index(User $user) : Response
-    {
-        $coffees = $user->coffees()->paginate(5);
-
-        return response()->view('coffees.index', compact('user', 'coffees'));
-    }
-
-    /**
-     * Show the form for creating a new user coffee.
-     *
-     * @param User $suer
-     * @return Response
-     */
-    public function create(User $user) : Response
-    {
-        return response()->view('coffees.create', compact('user'));
-    }
-
-    /**
-     * Store a new coffee entry for the user.
+     * Display a listing of the available coffee types
      *
      * @param Request $request
-     * @param User $user
+     * @return Response
+     */
+    public function index(Request $request) : Response
+    {
+        $coffees = Coffee::paginate(5);
+
+        return response()->view('coffees.index', compact('coffees'));
+    }
+
+    /**
+     * Show the form for creating a new coffee.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function create(Request $request) : Response
+    {
+        return response()->view('coffees.create');
+    }
+
+    /**
+     * Store a new coffee resource.
+     *
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function store(CreateCoffee $request, User $user) : RedirectResponse
+    public function store(CreateCoffee $request) : RedirectResponse
     {
-        $coffee = Coffee::where('slug', $request->only('name'))->first();
-
-        $user->coffees()->attach($coffee, $request->except('name'));
+        $coffee = Coffee::create($request->only(['name', 'description']));
 
         $this->messages->add('created', trans('messages.coffee.created'));
 
-        return redirect()->route('coffees.index', $user)
+        return redirect()->route('coffees.index')
                          ->withSuccess($this->messages);
     }
 
     /**
-     * Show the form user's coffee selection details.
-     *
-     * @param User $user
-     * @param Coffee $coffee
-     * @return Response
-     */
-    public function show(User $user, UserCoffee $userCoffee) : Response
-    {
-        return response()->view('coffees.show', compact('user', 'userCoffee'));
-    }
-
-    /**
-     * Show the form for editing a user coffee.
-     *
-     * @param User $user
-     * @param Coffee $coffee
-     * @return Response
-     */
-    public function edit(User $user, UserCoffee $userCoffee) : Response
-    {
-        return response()->view('coffees.edit', compact('user', 'userCoffee'));
-    }
-
-    /**
-     * Update a user's coffee selection.
+     * Show the form coffee details.
      *
      * @param Request $request
-     * @param User $user
-     * @param UserCoffee $userCoffee
+     * @param Coffee $coffee
+     * @return Response
+     */
+    public function show(Request $request, Coffee $coffee) : Response
+    {
+        return response()->view('coffees.show', compact('coffee'));
+    }
+
+    /**
+     * Show the form for editing a coffee resource.
+     *
+     * @param Request $request
+     * @param Coffee $coffee
+     * @return Response
+     */
+    public function edit(Request $request, Coffee $coffee) : Response
+    {
+        return response()->view('coffees.edit', compact('coffee'));
+    }
+
+    /**
+     * Update a coffee resource.
+     *
+     * @param Request $request
+     * @param Coffee $coffee
      * @return RedirectResponse;
      */
-    public function update(UpdateCoffee $request, User $user, UserCoffee $userCoffee) : RedirectResponse
+    public function update(UpdateCoffee $request, Coffee $coffee) : RedirectResponse
     {
-        // The user's new coffee type selection
-        $coffee = Coffee::where('slug', $request->only('name'))->first();
+        $coffee->update($request->only(['name', 'description']));
 
-        if ($userCoffee->isNotOfType($coffee)) {
-            $userCoffee->coffee()->associate($coffee);
-        };
+        $this->messages->add('updated', trans('messages.coffee.updated'));
 
-        $userCoffee->fill($request->except('name'))->save();
-
-        $this->messages->add('created', trans('messages.coffee.updated'));
-
-        return redirect()->route('coffees.index', $user)
+        return redirect()->route('coffees.index')
                          ->withSuccess($this->messages);
     }
 
     /**
-     * Delete a user's coffee selection
+     * Delete a coffee resource
      *
-     * @param User $user
-     * @param UserCoffee $userCoffee
+     * @param Coffee $coffee
      * @return RedirectResponse;
 
      */
-    public function destroy(User $user, UserCoffee $userCoffee) : RedirectResponse
+    public function destroy(Request $request, Coffee $coffee) : RedirectResponse
     {
-        $userCoffee->delete();
+        $coffee->delete();
 
         $this->messages->add('deleted', trans('messages.coffee.deleted'));
 
         return redirect()
-                ->route('coffees.index', $user)
+                ->route('coffees.index')
                 ->withSuccess($this->messages);
     }
 }

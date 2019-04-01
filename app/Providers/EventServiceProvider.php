@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Events\CupUpdated;
-use App\Events\CupDeleted;
-use App\Listeners\DeleteCupImage;
+use Picker\Cup\Events\CupUpdated;
+use Picker\Cup\Events\CupDeleted;
+use Picker\Cup\Listeners\DeleteCupImage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

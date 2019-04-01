@@ -1,6 +1,6 @@
 <form action={{ empty($disabled) ? $action : '' }} method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
-    {{ empty($disabled) ? method_field($method) : '' }}
+    {{ isset($enabled) ? method_field($method) : '' }}
 
     <div class="row">
         <div class="input-field col s12">
@@ -37,8 +37,10 @@
     @if (isset($user) && $user->hasCup() && $user->cup->hasImage())
     <div class="row">
         <div class="col s12 center-align">
-          <img class="materialboxed" width="250" src="{{ asset($user->cup->generateUrl()) }}" style="margin: auto;">
+          <img class="materialboxed" width="250" src="{{ asset($user->cup->file_path) }}" style="margin: auto;">
+          @if (empty($disabled))
           <button type="submit" name="delete_cup" value="{{ $user->cup->id }}" class="btn-floating btn-small"><i class="tiny material-icons">delete</i></button>
+          @endif
         </div>
     </div>
     @endif
@@ -47,7 +49,7 @@
         <div class="col s12 right-align">
             @if(empty($disabled))
                 <a href={{ route('users.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text">Cancel</a>
-                <button class="btn waves-effect waves-light" type="submit">{{ $label }}
+                <button class="btn waves-effect waves-light" type="submit">Save
                     <i class="material-icons right">send</i>
                 </button>
             @else

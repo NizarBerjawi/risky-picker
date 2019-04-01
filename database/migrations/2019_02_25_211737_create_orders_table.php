@@ -14,16 +14,14 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->integer('type_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
-            $table->primary(['type_id', 'user_id']);
+            $table->primary(['user_id']);
         });
 
         Schema::table('orders', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('type_id')->references('id')->on('order_types');
         });
     }
 
@@ -36,7 +34,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::table('orders', function(Blueprint $table) {
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['type_id']);
+            // $table->dropForeign(['type_id']);
         });
 
         Schema::dropIfExists('orders');

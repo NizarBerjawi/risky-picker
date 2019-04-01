@@ -27,10 +27,8 @@
                         <td><a href="{{ route('users.show', $user) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            <a class="btn-floating btn-small grey lighten-4" href="{{ route('coffees.index', $user) }}"><i class="tiny material-icons teal-text">local_cafe</i></a>
-
+                            <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.coffees.index', $user) }}"><i class="tiny material-icons teal-text">local_cafe</i></a>
                             <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.edit', $user) }}"><i class="tiny material-icons teal-text">edit</i></a>
-
                             <form action="{{ route('users.destroy', $user) }}" method="POST" style="display: inline;">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
@@ -41,7 +39,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td>No lunch for you today!</td>
+                        <td>No coffee for you today!</td>
                     </tr>
                 @endforelse
             </tbody>

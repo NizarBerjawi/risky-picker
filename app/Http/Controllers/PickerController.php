@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\{User, Order, Type, Picker};
-use App\Notifications\UserPicked;
+use Picker\Picker;
+use Picker\User\User;
+use Picker\Order\Jobs\CreateOrder;
 use App\Http\Controllers\Controller;
 use App\Exceptions\UnluckyUserNotFoundException;
 use Illuminate\Support\MessageBag;
@@ -49,15 +50,10 @@ class PickerController extends Controller
      */
     public function pick(Request $request) : RedirectResponse
     {
-        $type = Type::whereSlug($request->input('type'))->first();
-
         $users = User::whereIn('slug', $request->input('users'))->get();
 
         try {
-            $picker = new Picker($users, $type);
-
-            $user = $picker->pick();
-
+            $user = Picker::pick($users);
         } catch (UnluckyUserNotFoundException $exception) {
             $this->messages->add('warning', trans('messages.picker.fail'));
 
@@ -66,19 +62,18 @@ class PickerController extends Controller
                 ->withInput($request->only(['type', 'users']));
         }
 
-        return redirect()->route('pick.user', compact('type', 'user'));
+        return redirect()->route('pick.user', compact('user'));
     }
 
     /**
      * Show the result of the random picker.
      *
-     * @param Type $type
      * @param User $user
      * @return Response
      */
-    public function show(Type $type, User $user) : Response
+    public function show(User $user) : Response
     {
-        return response()->view('show', compact('type', 'user'));
+        return response()->view('show', compact('user'));
     }
 
     /**
@@ -88,14 +83,9 @@ class PickerController extends Controller
      * @param User $user
      * @return RedirectResponse
      */
-    public function confirm(Type $type, User $user) : RedirectResponse
+    public function confirm(Request $request, User $user) : RedirectResponse
     {
-        $order = Order::create([
-            'user_id' => $user->id,
-            'type_id' => $type->id,
-        ]);
-
-        $user->notify(new UserPicked($order));
+        dispatch(new CreateOrder($user));
 
         $this->messages->add('found', trans('messages.picker.success'));
 

@@ -17,5 +17,6 @@
         'created' => 'Coffee successfully created.',
         'updated' => 'Coffee successfully updated.',
         'deleted' => 'Coffee successfully deleted.',
+        'duplicate' => 'This coffee is already available',
     ]
 ];

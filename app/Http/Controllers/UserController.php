@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\{User, Coffee, Cup};
-use App\Events\CupUpdated;
-use App\Listeners\DeleteCupImage;
+use Picker\Cup\Cup;
+use Picker\User\User;
+use Picker\Coffee\Coffee;
+use Picker\User\Requests\{CreateUser, UpdateUser};
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\{CreateUser, UpdateUser};
 use Illuminate\Http\File;
 use Illuminate\Support\MessageBag;
 use Illuminate\Http\{Response, Request, RedirectResponse};
@@ -40,8 +40,6 @@ class UserController extends Controller
     /**
      * Display a listing of the users
      *
-     * @param Request $request
-     * @param User $suer
      * @return Response
      */
     public function index() : Response
@@ -111,7 +109,7 @@ class UserController extends Controller
      * @param User $user
      * @return RedirectResponse
      */
-    public function update(UpdateUser $request,  User $user) : RedirectResponse
+    public function update(UpdateUser $request, User $user) : RedirectResponse
     {
         if ($user->hasCup() && $this->handleFileDelete($request, $user->cup)) {
             $this->messages->add('deleted', trans('messages.cup.deleted'));
@@ -126,7 +124,8 @@ class UserController extends Controller
 
         $this->messages->add('updated', trans('messages.user.updated'));
 
-        return back()->withSuccess($this->messages);
+        return redirect()->route('users.edit', $user)
+                         ->withSuccess($this->messages);
     }
 
     /**

@@ -24,8 +24,8 @@ class CreateCoffeeUserTable extends Migration
         });
 
         Schema::table('coffee_user', function(Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('coffee_id')->references('id')->on('coffees');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('coffee_id')->references('id')->on('coffees')->onDelete('cascade');
         });
     }
 

@@ -7,7 +7,7 @@
     </div>
 
     <div class="row">
-        <form class="col s12" action="{{ route('pick.confirm', compact('type', 'user')) }}" method="post">
+        <form class="col s12" action="{{ route('pick.confirm', compact('user')) }}" method="post">
             {{ csrf_field() }}
 
             <div class="col s12 center-align">

@@ -6,8 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class AppServiceProvider extends ServiceProvider
-{
-    /**
+{ /**
      * Register any application services.
      *
      * @return void
@@ -24,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        require app_path('helpers.php');
+
         LengthAwarePaginator::defaultView('partials.pagination');
     }
 }

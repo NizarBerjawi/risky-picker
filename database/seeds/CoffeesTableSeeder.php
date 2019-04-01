@@ -1,6 +1,6 @@
 <?php
 
-use App\Coffee;
+use Picker\Coffee\Coffee;
 use Illuminate\Database\Seeder;
 
 class CoffeesTableSeeder extends Seeder
@@ -22,15 +22,19 @@ class CoffeesTableSeeder extends Seeder
         return collect([
             [
                 'name' => 'Long Black',
+                'description' => 'A very long black',
             ],
             [
                 'name' => 'Flat White',
+                'description' => 'A very flat white'
             ],
             [
                 'name' => 'Nitro',
+                'description' => 'Nitro... Stronger than Turbo',
             ],
             [
                 'name' => 'Latte',
+                'description' => 'A plain Latte',
             ],
         ]);
     }

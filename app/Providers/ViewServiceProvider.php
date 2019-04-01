@@ -27,7 +27,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-           'coffees.form', CoffeeFormComposer::Class
+           'users.coffees.form', CoffeeFormComposer::Class
         );
 
         View::composer(
