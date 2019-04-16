@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         $users = User::paginate(5);
 
-        return response()->view('users.index', compact('users'));
+        return response()->view('admin.users.index', compact('users'));
     }
 
     /**
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function show(User $user) : Response
     {
-        return response()->view('users.show', compact('user'));
+        return response()->view('admin.users.show', compact('user'));
     }
 
     /**
@@ -67,7 +67,7 @@ class UserController extends Controller
      */
     public function create() : Response
     {
-        return response()->view('users.create');
+        return response()->view('admin.users.create');
     }
 
     /**
@@ -99,7 +99,7 @@ class UserController extends Controller
      */
     public function edit(User $user) : Response
     {
-        return response()->view('users.edit', compact('user'));
+        return response()->view('admin.users.edit', compact('user'));
     }
 
     /**

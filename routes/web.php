@@ -11,51 +11,8 @@
 |
 */
 
+Auth::routes();
 
-Route::group(['prefix' => 'users'], function() {
-    Route::get('/', 'UserController@index')->name('users.index');
-    Route::get('/create', 'UserController@create')->name('users.create');
-    Route::post('/', 'UserController@store')->name('users.store');
-    Route::get('/{user}', 'UserController@show')->name('users.show');
-    Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
-    Route::put('{user}', 'UserController@update')->name('users.update');
-    Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
-
-    Route::group(['prefix' => '{user}/coffee'], function() {
-        Route::get('/', 'UserCoffeeController@index')->name('users.coffees.index');
-        Route::get('/create', 'UserCoffeeController@create')->name('users.coffees.create');
-        Route::post('/', 'UserCoffeeController@store')->name('users.coffees.store');
-        Route::get('/{userCoffee}', 'UserCoffeeController@show')->name('users.coffees.show');
-        Route::get('/{userCoffee}/edit', 'UserCoffeeController@edit')->name('users.coffees.edit');
-        Route::put('/{userCoffee}', 'UserCoffeeController@update')->name('users.coffees.update');
-        Route::delete('/{userCoffee}', 'UserCoffeeController@destroy')->name('users.coffees.destroy');
-    });
+Route::get('/', function() {
+  return view('index');
 });
-
-Route::group(['prefix' => 'coffee'], function() {
-  Route::get('/', 'CoffeeController@index')->name('coffees.index');
-  Route::get('/create', 'CoffeeController@create')->name('coffees.create');
-  Route::post('/', 'CoffeeController@store')->name('coffees.store');
-  Route::get('/{coffee}', 'CoffeeController@show')->name('coffees.show');
-  Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
-  Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
-  Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
-
-});
-
-Route::group(['prefix' => 'orders'], function() {
-  Route::get('/', 'OrderController@index')->name('orders.name');
-});
-
-Route::group(['prefix' => 'restaurants'], function() {
-    Route::get('/', 'RestaurantController@index')->name('restaurants.index');
-    Route::get('/create', 'RestaurantController@create')->name('restaurants.create');
-    Route::post('/', 'RestaurantController@store')->name('restaurants.store');
-    Route::get('{restaurant}/edit', 'RestaurantController@edit')->name('restaurants.edit');
-    Route::put('{restaurant}', 'RestaurantController@update')->name('restaurants.update');
-});
-
-Route::get('/', 'PickerController@index')->name('picker');
-Route::post('/', 'PickerController@pick')->name('pick');
-Route::get('/{user}', 'PickerController@show')->name('pick.user');
-Route::post('/{user}', 'PickerController@confirm')->name('pick.confirm');

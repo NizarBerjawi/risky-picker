@@ -1,6 +1,6 @@
 <form action={{ empty($disabled) ? $action : '' }} method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
-    {{ isset($enabled) ? method_field($method) : '' }}
+    {{ empty($disabled) ? method_field($method) : '' }}
 
     <div class="row">
         <div class="input-field col s12">

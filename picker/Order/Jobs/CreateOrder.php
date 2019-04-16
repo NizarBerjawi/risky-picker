@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace Picker\Order\Jobs;
 
+use Picker\User\User;
 use Picker\Order\Order;
-// use Picker\User\\UserPicked;
+use Picker\User\Notifications\UserPicked;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;

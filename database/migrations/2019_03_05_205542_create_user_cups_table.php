@@ -14,8 +14,8 @@ class CreateUserCupsTable extends Migration
     public function up()
     {
         Schema::create('user_cups', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
             $table->string('file_path');
             $table->timestamps();
         });

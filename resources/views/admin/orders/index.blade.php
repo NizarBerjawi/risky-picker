@@ -13,7 +13,7 @@
         @foreach($users as $user)
           <div>Name: {{ $user->name }}</div>
 
-          <img class="materialboxed" width="250" src="{{ $user->cup->generateUrl() }}">
+          <img class="materialboxed" width="250" src="{{ $user->cup->file_path }}">
         @endforeach
     </div>
 

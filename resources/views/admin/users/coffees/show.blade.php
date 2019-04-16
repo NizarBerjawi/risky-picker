@@ -1,9 +1,9 @@
 @extends('layouts.base')
 
 @section('content')
-    <h3>Update User</h3>
+    <h3>View Coffee</h3>
 
     <div class="row">
-        @include('users.form', ['disabled' => true])
+        @include('admin.users.coffees.form', ['disabled' => true])
     </div>
 @endsection

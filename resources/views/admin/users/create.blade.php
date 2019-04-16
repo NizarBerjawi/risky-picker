@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <h3>Update User</h3>
+    <h3>Create User</h3>
 
     @if(session()->has('success'))
         @include('partials.success', [
@@ -10,9 +10,9 @@
     @endif
 
     <div class="row">
-        @include('users.form', [
-            'action' => route('users.update', $user),
-            'method' => 'put',
+        @include('admin.users.form', [
+            'action' => route('users.store'),
+            'method' => 'post',
         ])
     </div>
 @endsection

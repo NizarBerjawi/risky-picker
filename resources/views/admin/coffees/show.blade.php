@@ -4,7 +4,7 @@
     <h3>View Coffee</h3>
 
     <div class="row">
-        @include('coffees.form', [
+        @include('admin.coffees.form', [
             'disabled' => true,
         ])
     </div>

@@ -44,8 +44,9 @@ class UserCoffeeRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
-            if ($this->invalidEndDate()) {
-                $validator->errors()->add('end_time', 'The end time should be after the start time.');
+            if ($this->invalidTimeRange()) {
+                $validator->errors()
+                          ->add('end_time', trans('messages.coffee.invalid'));
             }
         });
     }
@@ -55,7 +56,7 @@ class UserCoffeeRequest extends FormRequest
      *
      * @return bool
      */
-    public function invalidEndDate()
+    public function invalidTimeRange()
     {
         $startTime = Carbon::parse($this->input('start_time'));
         $endTime = Carbon::parse($this->input('end_time'));

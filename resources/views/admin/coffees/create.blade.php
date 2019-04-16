@@ -1,17 +1,17 @@
 @extends('layouts.base')
 
 @section('content')
-    <h3>Create User</h3>
+    <h3>Create Coffee</h3>
 
     @if(session()->has('success'))
         @include('partials.success', [
             'message' => session('success')->first()
         ])
     @endif
-    
+
     <div class="row">
-        @include('users.form', [
-            'action' => route('users.store'),
+        @include('admin.coffees.form', [
+            'action' => route('coffees.store'),
             'method' => 'post',
         ])
     </div>

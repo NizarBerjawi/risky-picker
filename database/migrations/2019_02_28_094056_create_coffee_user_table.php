@@ -14,9 +14,9 @@ class CreateCoffeeUserTable extends Migration
     public function up()
     {
         Schema::create('coffee_user', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('coffee_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('coffee_id')->unsigned();
             $table->integer('sugar')->default(0);
             $table->string('start_time');
             $table->string('end_time');

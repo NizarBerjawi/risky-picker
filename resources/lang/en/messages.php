@@ -14,9 +14,10 @@
         'deleted' => 'Cup successfully deleted.',
     ],
     'coffee' => [
-        'created' => 'Coffee successfully created.',
-        'updated' => 'Coffee successfully updated.',
-        'deleted' => 'Coffee successfully deleted.',
+        'created'   => 'Coffee successfully created.',
+        'updated'   => 'Coffee successfully updated.',
+        'deleted'   => 'Coffee successfully deleted.',
         'duplicate' => 'This coffee is already available',
+        'invalid'   => 'The end time should be after the start time.',
     ]
 ];

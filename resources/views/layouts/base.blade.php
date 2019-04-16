@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        @include('partials.options')
+        @includeWhen(Auth::check(), 'partials.options')
     </div>
 
     @yield('modals')

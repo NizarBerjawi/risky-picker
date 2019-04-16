@@ -39,7 +39,7 @@ class PickerController extends Controller
      */
     public function index() : Response
     {
-        return response()->view('index');
+        return response()->view('admin.index');
     }
 
     /**
@@ -73,11 +73,11 @@ class PickerController extends Controller
      */
     public function show(User $user) : Response
     {
-        return response()->view('show', compact('user'));
+        return response()->view('admin.show', compact('user'));
     }
 
     /**
-     * Confirm the select user that was picked by the random picker
+     * Confirm the user that was picked by the random picker
      *
      * @param Type $type
      * @param User $user

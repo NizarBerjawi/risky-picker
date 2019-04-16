@@ -10,7 +10,7 @@
     @endif
 
     <div class="row">
-        @include('coffees.form', [
+        @include('admin.coffees.form', [
             'action' => route('coffees.update', $coffee),
             'method' => 'put',
         ])

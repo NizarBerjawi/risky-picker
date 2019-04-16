@@ -38,7 +38,7 @@ class CoffeeController extends Controller
     {
         $coffees = Coffee::paginate(5);
 
-        return response()->view('coffees.index', compact('coffees'));
+        return response()->view('admin.coffees.index', compact('coffees'));
     }
 
     /**
@@ -49,7 +49,7 @@ class CoffeeController extends Controller
      */
     public function create(Request $request) : Response
     {
-        return response()->view('coffees.create');
+        return response()->view('admin.coffees.create');
     }
 
     /**
@@ -77,7 +77,7 @@ class CoffeeController extends Controller
      */
     public function show(Request $request, Coffee $coffee) : Response
     {
-        return response()->view('coffees.show', compact('coffee'));
+        return response()->view('admin.coffees.show', compact('coffee'));
     }
 
     /**
@@ -89,7 +89,7 @@ class CoffeeController extends Controller
      */
     public function edit(Request $request, Coffee $coffee) : Response
     {
-        return response()->view('coffees.edit', compact('coffee'));
+        return response()->view('admin.coffees.edit', compact('coffee'));
     }
 
     /**

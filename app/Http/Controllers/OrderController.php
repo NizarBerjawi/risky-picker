@@ -37,6 +37,6 @@ class OrderController extends Controller
                      ->with(['userCoffees', 'cup'])
                      ->paginate(5);
 
-        return response()->view('orders.index', compact('users'));
+        return response()->view('admin.orders.index', compact('users'));
     }
 }
