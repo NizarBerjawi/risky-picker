@@ -15,9 +15,9 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        // if ($request->user()->name === 'Nizar') {
-        //     return redirect()->route('dashboard.index');
-        // }
+        if (!$request->user()->isAdmin()) {
+            return back();
+        }
         return $next($request);
     }
 }

@@ -2,41 +2,26 @@
 
 @section('content')
     <h3>The Picker</h3>
+    @errors
+        @alert('errors')
+    @enderrors
 
-    @if(session()->has('warning'))
-        @include('partials.warning', [
-            'message' => session('warning')->first()
-        ])
-    @endif
-
-    @if(session()->has('success'))
-        @include('partials.success', [
-            'message' => session('success')->first()
-        ])
-    @endif
+    @success
+         @alert('success')
+    @endsuccess
 
     <div class="row">
         <form action="{{ route('pick') }}" method="POST" class="col s12">
-            {{ csrf_field() }}
+            @csrf
 
             <div class="row">
                 <div class="input-field col s12">
                   <select name="users[]" multiple>
                     @foreach($users as $user)
-                        <option value="{{ $user->slug }}" selected>{{ $user->name }}</option>
+                        <option value="{{ $user->slug }}" selected>{{ $user->first_name }}</option>
                     @endforeach
                   </select>
                   <label>Who's in the office today?</label>
-                </div>
-
-                <div class="input-field col s12">
-                  <select name="type">
-
-                    @foreach($types as $type)
-                        <option value="{{ $type->slug }}" {{ old('type') === $type->slug ? 'selected="selected"' : '' }}>{{ $type->display_name }}</option>
-                    @endforeach
-                  </select>
-                  <label>What are you getting?</label>
                 </div>
             </div>
 

@@ -2,7 +2,7 @@
 
 namespace Picker\Coffee\Requests;
 
-use Picker\Coffee\Coffee;
+use Picker\Coffee;
 use Cocur\Slugify\Slugify;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,11 +28,7 @@ class CoffeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
         ];
     }
@@ -54,7 +50,7 @@ class CoffeeRequest extends FormRequest
 
     /**
      * Check if the coffee type the user is trying to
-     * create has already been created by someone else.
+     * create has already been created.
      *
      * @return bool
      */

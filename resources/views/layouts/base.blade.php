@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    @include('partials.navbar')
+
     <div class="container">
         <div class="row">
             <div class="col m8 s12 offset-m2">

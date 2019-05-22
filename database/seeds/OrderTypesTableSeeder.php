@@ -1,6 +1,6 @@
 <?php
 
-use Picker\Type\Type;
+use Picker\Type;
 use Illuminate\Database\Seeder;
 
 class OrderTypesTableSeeder extends Seeder

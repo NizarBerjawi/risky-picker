@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Picker\User\User::class,
+            'model' => Picker\User::class,
         ],
 
         // 'users' => [

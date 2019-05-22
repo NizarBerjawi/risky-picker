@@ -3,11 +3,9 @@
 @section('content')
     <h3>Orders</h3>
 
-    @if(session()->has('success'))
-        @include('partials.success', [
-            'message' => session('success')->first()
-        ])
-    @endif
+    @success
+        @alert('success')
+    @endsuccess
 
     <div class="row">
         @foreach($users as $user)

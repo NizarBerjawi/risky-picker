@@ -2,8 +2,7 @@
 
 namespace App\Http\View\Composers;
 
-use Picker\User\User;
-use Picker\Type\Type;
+use Picker\{Type, User};
 use Illuminate\View\View;
 
 class PickerFormComposer

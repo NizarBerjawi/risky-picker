@@ -23,7 +23,16 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $adminNameSpace = 'App\Http\Controllers\Admin';
+    protected $adminNamespace = 'App\Http\Controllers\Admin';
+
+    /**
+     * This namespace is applied to your dashboard controller routes.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $dashboardNamespace = 'App\Http\Controllers\Dashboard';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -77,7 +86,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes()
     {
         Route::middleware(['web', 'auth', 'admin'])
-             ->namespace($this->namespace)
+             ->namespace($this->adminNamespace)
              ->prefix('admin')
              ->group(base_path('routes/admin.php'));
     }
@@ -93,7 +102,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('dashboard')
              ->middleware(['web', 'auth'])
-             ->namespace($this->namespace)
+             ->namespace($this->dashboardNamespace)
              ->group(base_path('routes/dashboard.php'));
     }
 }

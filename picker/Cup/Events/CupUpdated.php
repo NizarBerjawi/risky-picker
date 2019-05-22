@@ -2,7 +2,7 @@
 
 namespace Picker\Cup\Events;
 
-use Picker\Cup\Cup;
+use Picker\Cup;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;

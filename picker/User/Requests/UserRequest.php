@@ -25,16 +25,8 @@ abstract class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                $this->isMethod('POST')
-                    ? Rule::unique('users', 'email')
-                    : Rule::unique('users', 'email')
-                          ->ignore($this->user),
-            ],
-            'cup_photo' => 'sometimes|file',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
         ];
     }
 }

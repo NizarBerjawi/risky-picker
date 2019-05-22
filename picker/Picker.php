@@ -2,7 +2,7 @@
 
 namespace Picker;
 
-use Picker\User\User;
+use Picker\User;
 use Illuminate\Support\Collection;
 use App\Exceptions\UnluckyUserNotFoundException;
 

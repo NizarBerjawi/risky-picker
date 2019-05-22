@@ -12,12 +12,14 @@
 */
 Route::group(['prefix' => 'users'], function() {
     Route::get('/', 'UserController@index')->name('users.index');
-    Route::get('/create', 'UserController@create')->name('users.create');
-    Route::post('/', 'UserController@store')->name('users.store');
+    Route::get('/invite', 'UserController@invitation')->name('users.invitation');
+    Route::post('/', 'UserController@invite')->name('users.invite');
+
     Route::get('/{user}', 'UserController@show')->name('users.show');
     Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
     Route::put('{user}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
+
 
     Route::group(['prefix' => '{user}/coffee'], function() {
         Route::get('/', 'UserCoffeeController@index')->name('users.coffees.index');
@@ -49,6 +51,3 @@ Route::get('/', 'PickerController@index')->name('picker');
 Route::post('/', 'PickerController@pick')->name('pick');
 Route::get('/{user}', 'PickerController@show')->name('pick.user');
 Route::post('/{user}', 'PickerController@confirm')->name('pick.confirm');
-
-
-// Route::get('/home', 'HomeController@index')->name('home');

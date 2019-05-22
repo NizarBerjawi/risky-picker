@@ -14,7 +14,7 @@ class CreateOrderTypesTable extends Migration
     public function up()
     {
         Schema::create('order_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('display_name');
             $table->string('slug')->unique();
             $table->text('description');

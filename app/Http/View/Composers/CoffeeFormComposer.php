@@ -2,7 +2,7 @@
 
 namespace App\Http\View\Composers;
 
-use Picker\Coffee\Coffee;
+use Picker\Coffee;
 use Illuminate\View\View;
 
 class CoffeeFormComposer

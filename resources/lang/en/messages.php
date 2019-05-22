@@ -7,11 +7,13 @@
         'created' => 'User successfully created.',
         'updated' => 'User successfully updated.',
         'deleted' => 'User successfully deleted.',
+        'invited' => 'User successfully invited.',
     ],
     'cup' => [
         'created' => 'Cup successfully created.',
         'updated' => 'Cup successfully updated.',
         'deleted' => 'Cup successfully deleted.',
+        'failed'  => 'Could not create cup.',
     ],
     'coffee' => [
         'created'   => 'Coffee successfully created.',
@@ -19,5 +21,6 @@
         'deleted'   => 'Coffee successfully deleted.',
         'duplicate' => 'This coffee is already available',
         'invalid'   => 'The end time should be after the start time.',
+        'conflict'  => 'Time range is already taken',
     ]
 ];
