@@ -2,6 +2,7 @@
 
 namespace App\Http\View\Composers;
 
+use Carbon\Carbon;
 use Picker\Coffee;
 use Illuminate\View\View;
 
@@ -30,6 +31,8 @@ class CoffeeFormComposer
             'wed' => 'Wednesday',
             'thu' => 'Thursday',
             'fri' => 'Friday',
+            'sat' => 'Saturday',
+            'sun' => 'Sunday',
         ];
 
         $view->with(compact('coffees', 'sugars', 'days'));

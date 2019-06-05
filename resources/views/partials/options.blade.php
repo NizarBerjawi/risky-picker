@@ -1,4 +1,7 @@
 <div class="fixed-action-btn">
+    <!-- Modal Trigger -->
+    <a href="#modal1" class="btn-floating btn-large red modal-trigger"><i class="large material-icons">local_cafe</i></a>
+
     @onadmin
     <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('dashboard.profile.edit') }}">
         <i class="material-icons">home</i>
@@ -6,27 +9,21 @@
     @endonadmin
 
     @ondashboard
-    <!-- Modal Trigger -->
-    <a href="#modal1" class="btn-floating btn-large red modal-trigger"><i class="large material-icons">local_cafe</i></a>
-
     @if(Auth::user()->isAdmin())
-        <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('picker') }}">
+        <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('users.index') }}">
             <i class="material-icons">dashboard</i>
         </a>
     @endif
     @endondashboard
 </div>
 
-@ondashboard
 <!-- Modal Structure -->
 <div id="modal1" class="modal bottom-sheet">
     <div class="modal-content">
-        <h4>Order Details</h4>
-
+        <h4>Today's Coffee</h4>
         <div class="row">
-
-          <ul class="col s12 m6 offset-m3 collection">
-              @foreach(Auth::user()->userCoffees as $coffee)
+          <ul class="col s12 collection">
+              @foreach($todaysCoffee as $coffee)
               <li class="collection-item avatar">
                   <img src="images/yuna.jpg" alt="" class="circle">
                   <span class="title">{{ $coffee->type}}</span>
@@ -44,4 +41,3 @@
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
 </div>
-@endondashboard

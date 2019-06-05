@@ -12,14 +12,14 @@
     <tbody>
         @forelse($coffees as $coffee)
             <tr>
-                <td>{{ $coffee->name }}</td>
-                <td>{{ $coffee->pivot->sugar }}</td>
-                <td>{{ $coffee->pivot->start_time }} - {{ $coffee->pivot->end_time }}</td>
-                <td>{{ $coffee->pivot->getFormattedDays() }}</td>
+                <td>{{ $coffee->type }}</td>
+                <td>{{ $coffee->sugar }}</td>
+                <td>{{ $coffee->start_time }} - {{ $coffee->end_time }}</td>
+                <td>{{ $coffee->getFormattedDays() }}</td>
                 <td>
-                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.coffees.edit', ['user' => $user, 'coffee' => $coffee->pivot->id]) }}"><i class="tiny material-icons teal-text">edit</i></a>
+                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.coffees.edit', ['user' => $user, 'coffee' => $coffee->id]) }}"><i class="tiny material-icons teal-text">edit</i></a>
 
-                    <form action="{{ route('users.coffees.destroy', ['user' => $user, 'coffee' => $coffee->pivot->id]) }}" method="POST" style="display: inline;">
+                    <form action="{{ route('users.coffees.destroy', ['user' => $user, 'coffee' => $coffee->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
 

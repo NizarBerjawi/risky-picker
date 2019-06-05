@@ -13,6 +13,12 @@
 
 Auth::routes();
 
-Route::get('/', function() {
-  return view('index');
-})->name('home');
+Route::group(['prefix' => 'coffee-run'], function() {
+  Route::get('/', 'CoffeeRunController@index')->name('picker.run');
+  Route::get('orders', 'PickerController@update')->name('');
+  Route::post('/', 'PickerController@pick')->name('pick');
+  // Route::get('/{user}', 'PickerController@show')->name('pick.user');
+  // Route::post('/{user}', 'PickerController@confirm')->name('pick.confirm');
+});
+
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('home');

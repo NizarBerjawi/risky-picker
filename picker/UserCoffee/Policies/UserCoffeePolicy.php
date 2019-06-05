@@ -16,9 +16,7 @@ class UserCoffeePolicy
      */
     public function before(User $user)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+        //
     }
 
     /**
@@ -29,7 +27,15 @@ class UserCoffeePolicy
      */
     public function create(User $user)
     {
-        return true;
+        if (!request()->get('is_adhoc', false)) {
+            return true;
+        }
+
+        // Check if the person creating the adhoc coffee, is owner
+        // of the original coffee.
+        return $user->userCoffees()
+                    ->where('id', request()->get('id'))
+                    ->exists();
     }
 
     /**

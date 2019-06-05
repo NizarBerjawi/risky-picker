@@ -5,9 +5,11 @@ namespace Picker;
 use DateTime;
 use Carbon\Carbon;
 use Picker\Coffee;
+use Picker\UserCoffee\Scopes\AdhocScope;
 use Picker\Support\Traits\ExcludesFromQuery;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, Pivot};
+use Illuminate\Support\Facades\URL;
 
 class UserCoffee extends Pivot
 {
@@ -18,21 +20,7 @@ class UserCoffee extends Pivot
       *
       * @var string
       */
-    protected $table = 'coffee_user';
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['coffee'];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+    protected $table = 'user_coffee';
 
     /**
      * The attributes that should be cast to native types.
@@ -42,7 +30,20 @@ class UserCoffee extends Pivot
     protected $casts = [
         'sugar' => 'integer',
         'days' => 'array',
+        'is_adhoc' => 'boolean',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new AdhocScope);
+    }
 
     /**
      * Get the coffee this user's selection belongs to.
@@ -116,11 +117,11 @@ class UserCoffee extends Pivot
      */
     public function scopeDays(Builder $query, array $days, bool $strict = false) : Builder
     {
-        $operator = $strict ? 'and' : 'or';
+        $boolean = $strict ? 'and' : 'or';
 
-        $query->where(function($query) use ($days, $operator) {
+        $query->where(function($query) use ($days, $boolean) {
             foreach($days as $day) {
-                $query->where('days', 'LIKE', "%$day%", $operator);
+                $query->where('days', 'LIKE', "%$day%", $boolean);
             }
         });
 
@@ -135,13 +136,47 @@ class UserCoffee extends Pivot
      */
     public function scopeToday(Builder $query) : Builder
     {
-        $today = Carbon::today()->dayOfWeek;
+        $today = Carbon::today();
 
-        dd($today);
         return $query->between(
-            Carbon::now()->startOfDay()->format('G:i'),
-            Carbon::now()->endOfDay()->format('G:i')
-        );
+            $today->startOfDay()->format('G:i'),
+            $today->endOfDay()->format('G:i')
+        )->days([strtolower($today->shortEnglishDayOfWeek)]);
+    }
+
+    /**
+     * Get all the user coffees that could be part of the next
+     * coffee run.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeNextRun(Builder $query) : Builder
+    {
+        $now = Carbon::now();
+
+        // The user is not allowed to create coffee that overlap
+        // in time range. We can safely assume that there will only be
+        // a maximum of 1 coffee per user at any given time/day
+        // combination
+        return $query->between($now->format('G:i'), $now->format('G:i'))
+                     ->days([strtolower($now->shortEnglishDayOfWeek)]);
+    }
+    
+    /**
+     * Get a signed url that allows the user to replace this
+     * coffee with another adhoc coffee for a particular coffee run.
+     *
+     * @return string
+     */
+    public function getAdhocUrlAttribute() : string
+    {
+        $expires = now()->addHours(1);
+
+        return URL::temporarySignedRoute('dashboard.coffee.create', $expires, [
+            'id' => $this->id,
+            'is_adhoc' => true
+        ]);
     }
 
     /**

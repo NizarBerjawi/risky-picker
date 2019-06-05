@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Notifications;
+namespace Picker\User\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class UserPicked extends Notification implements ShouldQueue
+class UserPicked extends Notification
 {
-    use Queueable;
+    // use Queueable;
 
     /**
      * Get the notification's delivery channels.
@@ -31,7 +31,8 @@ class UserPicked extends Notification implements ShouldQueue
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-                    ->content("{$notifiable->name} You have been picked!");
+                    ->content("{$notifiable->name} You have been picked!
+                    You can find today's orders here: www.google.com");
     }
 
     /**

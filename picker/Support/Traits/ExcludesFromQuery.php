@@ -18,7 +18,7 @@ trait ExcludesFromQuery
          $exclude = array_map(
              function($item) {
                  if ($item instanceof static) {
-                     return $item->getKeyName();
+                     return $item->getAttribute($item->getKeyName());
                  }
 
                  return $item;

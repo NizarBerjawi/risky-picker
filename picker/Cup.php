@@ -51,24 +51,24 @@ class Cup extends Model
      */
     protected static function boot()
     {
-      parent::boot();
+        parent::boot();
 
-      // Delete the cup's image if the model
-      // is deleted from the database
-      static::deleted(function($model) {
-          event(new CupDeleted($model));
-      });
+        // Delete the cup's image if the model
+        // is deleted from the database
+        static::deleted(function($model) {
+            event(new CupDeleted($model));
+        });
 
-      // Delete the cup's old image if the user
-      // uploaded a new image
-      static::updated(function($model) {
-          $oldPath = $model->getOriginal('file_path');
-          $newPath = $model->getAttribute('file_path');
+        // Delete the cup's old image if the user
+        // uploaded a new image
+        static::updated(function($model) {
+            $oldPath = $model->getOriginal('file_path');
+            $newPath = $model->getAttribute('file_path');
 
-          if ($oldPath !== $newPath) {
-              event(new CupUpdated($model));
-          };
-      });
+            if ($oldPath !== $newPath) {
+                event(new CupUpdated($model));
+            };
+        });
     }
     /**
      * The user that owns this cup
@@ -87,7 +87,7 @@ class Cup extends Model
      */
     public function hasImage() : bool
     {
-      return $this->storage->exists($this->getOriginal('file_path'));
+        return $this->storage->exists($this->getOriginal('file_path'));
     }
 
     /**
@@ -108,8 +108,10 @@ class Cup extends Model
      *
      * @return string
      */
-    public function getFilePathAttribute() : string
+    public function getFilePathAttribute() : ?string
     {
+        if (!$this->hasImage()) { return false; }
+
         return $this->storage->url($this->getOriginal('file_path'));
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row center-align">
-        <h1>{{ $user->name }}!!<h1>
+        <h1>{{ $user->full_name }}!!<h1>
         <h2> You have been picked!</h2>
     </div>
 

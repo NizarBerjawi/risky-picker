@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\View\Composers\CoffeeFormComposer;
-use App\Http\View\Composers\PickerFormComposer;
+use App\Http\View\Composers\{CoffeeFormComposer, PickerFormComposer, OptionsComposer};
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,7 +33,7 @@ class ViewServiceProvider extends ServiceProvider
         );
 
         View::composer(
-           'admin.index', PickerFormComposer::Class
+           'partials.options', OptionsComposer::Class
         );
     }
 }

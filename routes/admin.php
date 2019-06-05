@@ -40,14 +40,4 @@ Route::group(['prefix' => 'coffee'], function() {
   Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
   Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
   Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
-
 });
-
-Route::group(['prefix' => 'orders'], function() {
-  Route::get('/', 'OrderController@index')->name('orders.name');
-});
-
-Route::get('/', 'PickerController@index')->name('picker');
-Route::post('/', 'PickerController@pick')->name('pick');
-Route::get('/{user}', 'PickerController@show')->name('pick.user');
-Route::post('/{user}', 'PickerController@confirm')->name('pick.confirm');

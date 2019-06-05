@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="section">
-        @errors
+        {{-- @errors
             @alert('errors')
-        @enderrors
+        @enderrors --}}
 
         @include('dashboard.coffee.form', [
-            'action' => route('dashboard.coffee.store'),
+            'action' => route('dashboard.coffee.store', request()->all()),
             'method' => 'POST',
         ])
     </div>

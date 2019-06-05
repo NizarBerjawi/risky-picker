@@ -10,16 +10,16 @@
     </thead>
 
     <tbody>
-    @forelse($coffees as $userCoffeee)
+    @forelse($coffees as $userCoffee)
         <tr>
-            <td>{{ $userCoffeee->coffee->name }}</td>
-            <td>{{ $userCoffeee->sugar }}</td>
-            <td>{{ $userCoffeee->start_time }} - {{ $userCoffeee->end_time }}</td>
-            <td>{{ $userCoffeee->getFormattedDays() }}</td>
+            <td>{{ $userCoffee->type }}</td>
+            <td>{{ $userCoffee->sugar }}</td>
+            <td>{{ $userCoffee->start_time }} - {{ $userCoffee->end_time }}</td>
+            <td>{{ $userCoffee->getFormattedDays() }}</td>
             <td>
-                <a href="{{ route('dashboard.coffee.edit', $userCoffeee) }}"class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">edit</i></a>
+                <a href="{{ route('dashboard.coffee.edit', $userCoffee) }}"class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">edit</i></a>
 
-                <form action="{{ route('dashboard.coffee.delete', $userCoffeee) }}" method="POST" style="display: inline;">
+                <form action="{{ route('dashboard.coffee.delete', $userCoffee) }}" method="POST" style="display: inline;">
                     @csrf
                     @method('DELETE')
 

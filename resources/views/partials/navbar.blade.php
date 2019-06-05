@@ -21,16 +21,16 @@
     <div class="nav-content white">
         <div class="row">
             <ul class="tabs tabs-fixed-width col m8 s12 offset-m2">
+
             @onadmin
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('picker') ? 'active' : '' }}" href="{{ route('picker') }}">Picker</a></li>
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a></li>
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('coffees.index') ? 'active' : '' }}" href="{{ route('coffees.index') }}">Coffees</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('coffees.*') ? 'active' : '' }}" href="{{ route('coffees.index') }}">Coffees</a></li>
             @endonadmin
 
             @ondashboard
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.profile.edit') ? 'active' : '' }}" href="{{ route('dashboard.profile.edit') }}">Personal Details</a></li>
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.coffee.index') ? 'active' : '' }}" href="{{ route('dashboard.coffee.index') }}">Coffee</a></li>
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.cups.index') ? 'active' : '' }}" href="{{ route('dashboard.cups.index') }}">Cups</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.profile.*') ? 'active' : '' }}" href="{{ route('dashboard.profile.edit') }}">Personal Details</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.coffee.*') ? 'active' : '' }}" href="{{ route('dashboard.coffee.index') }}">Coffee</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.cups.*') ? 'active' : '' }}" href="{{ route('dashboard.cups.index') }}">Cups</a></li>
             @endondashboard
             </ul>
         </div>

@@ -3,10 +3,11 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\{Cup, Coffee, Order, Role, UserCoffee};
+use Picker\{Cup, Coffee, CoffeeRun, Role, UserCoffee};
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
+use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\{Notifiable, Notification};
 
@@ -31,22 +32,13 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $with = [
-        'userCoffees'
-    ];
-
-    /**
-     * Get all orders the user has done.
+     * Get all coffee runs the user has done.
      *
      * @return HasMany
      */
-    public function orders() : HasMany
+    public function coffeeRuns() : HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(CoffeeRun::class);
     }
 
     /**
@@ -56,21 +48,73 @@ class User extends Authenticatable
      */
     public function coffees() : BelongsToMany
     {
-        return $this->belongsToMany(Coffee::class)
+        return $this->belongsToMany(Coffee::class, 'user_coffee')
                     ->using(UserCoffee::class)
+                    ->withTimestamps()
                     ->withPivot([
                         'id', 'sugar', 'start_time', 'end_time', 'days'
                     ]);
     }
 
     /**
-     * Get all the coffees that this user wants.
+     * Get all the coffees that this user has planned.
      *
      * @return HasMany
      */
     public function userCoffees() : HasMany
     {
         return $this->hasMany(UserCoffee::class);
+    }
+
+    /**
+     * Get the user's planned coffees for today'
+     *
+     * @return HasMany
+     */
+    public function todaysCoffees() : HasMany
+    {
+        return $this->userCoffees()->today();
+    }
+
+    /**
+     * Get the user's next planned coffee that will be delivered
+     * in the next coffee run
+     *
+     * @return HasOne
+     */
+    public function nextCoffee()
+    {
+        return $this->hasOne(UserCoffee::class)->nextRun();
+    }
+
+    /**
+     * Get all the user's adhoc coffees
+     *
+     * @return HasMany
+     */
+    public function adhocCoffees() : HasMany
+    {
+        return $this->hasMany(UserCoffee::class)->onlyAdhoc();
+    }
+
+    /**
+     * The user's latest requested adhoc coffee
+     *
+     * @return HasOne
+     */
+    public function nextAdhocCoffee() : HasOne
+    {
+        $range = $this->nextCoffee()
+                      ->select(['start_time', 'end_time'])
+                      ->first()
+                      ->toArray();
+
+        return $this->hasOne(UserCoffee::class)
+                    ->onlyAdhoc()
+                    ->whereDate('created_at', today())
+                    ->between(...array_values($range))
+                    ->latest()
+                    ->limit(1);
     }
 
     /**
@@ -81,6 +125,16 @@ class User extends Authenticatable
     public function cups() : HasMany
     {
         return $this->hasMany(Cup::class);
+    }
+
+    /**
+     * Get the cup that belongs to this user.
+     *
+     * @return HasOne
+     */
+    public function cup() : HasOne
+    {
+        return $this->hasOne(Cup::class);
     }
 
     /**
@@ -100,7 +154,7 @@ class User extends Authenticatable
      */
     public function hasCup() : bool
     {
-        return $this->cups()->exists();
+        return (bool) $this->cup;
     }
 
     /**
@@ -303,6 +357,6 @@ class User extends Authenticatable
      */
     public function routeNotificationForSlack(Notification $notification) : string
     {
-        return config('logging.slack.url');
+        return config('logging.channels.slack.url');
     }
 }

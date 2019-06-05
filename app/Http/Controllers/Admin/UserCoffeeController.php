@@ -18,8 +18,10 @@ class UserCoffeeController extends Controller
      */
     public function index(User $user) : Response
     {
-        $coffees = $user->coffees()->paginate(3);
-
+        $coffees = $user->userCoffees()
+                        ->with('coffee')
+                        ->paginate(3);
+                        
         return response()->view('admin.users.coffees.index', compact('user', 'coffees'));
     }
 

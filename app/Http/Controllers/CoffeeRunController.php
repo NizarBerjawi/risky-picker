@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use Picker\{User, Picker};
+use Picker\{User, UserCoffee, Picker};
 use Picker\Order\Jobs\CreateOrder;
 use App\Http\Controllers\Controller;
 use App\Exceptions\UnluckyUserNotFoundException;
 use Illuminate\Http\{Request, Response, RedirectResponse};
 
-class PickerController extends Controller
+class CoffeeRunController extends Controller
 {
     /**
      * Display the page that allows the user to randomly
@@ -18,7 +18,13 @@ class PickerController extends Controller
      */
     public function index() : Response
     {
-        return response()->view('admin.index');
+        $users = User::with([
+          'nextCoffee',
+          'nextAdhocCoffee',
+          'cup'
+        ])->get();
+
+        return response()->view('index', compact('users'));
     }
 
     /**

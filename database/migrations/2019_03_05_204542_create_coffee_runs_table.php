@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateCoffeeRunsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('coffee_runs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('user_coffee_id')->unsigned();
             $table->timestamps();
         });
 
-        Schema::table('orders', function(Blueprint $table) {
+        Schema::table('coffee_runs', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_coffee_id')->references('id')->on('user_coffee');
         });
     }
 
@@ -31,10 +33,11 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function(Blueprint $table) {
+        Schema::table('coffee_runs', function(Blueprint $table) {
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['user_coffee_id']);
         });
 
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('coffee_runs');
     }
 }

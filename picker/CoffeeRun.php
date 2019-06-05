@@ -7,7 +7,7 @@ use Picker\{Type, User};
 use Illuminate\Database\Eloquent\{Builder, Model};
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Order extends Model
+class CoffeeRun extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -15,28 +15,18 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'type_id',
         'user_id',
+        'user_coffee_id',
     ];
 
     /**
-     * Get the user that made the order.
+     * Get the user that made the coffee run.
      *
      * @return BelongsTo
      */
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the type of the order.
-     *
-     * @return BelongsTo
-     */
-    public function type() : BelongsTo
-    {
-        return $this->belongsTo(Type::class);
     }
 
     /**
@@ -67,7 +57,7 @@ class Order extends Model
      * @param Builder $query
      * @return Builder
      */
-    public function scopeLastOrder(Builder $query) : Builder
+    public function scopeLastRun(Builder $query) : Builder
     {
         return $query->latest()->limit(1);
     }

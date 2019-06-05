@@ -6,9 +6,20 @@ use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UserCoffeeRequest extends FormRequest
 {
+    /**
+     * Instantiate the Form Request
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function __construct(Request $request)
+    {
+        $this->adhoc = $request->get('is_adhoc', false);
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,13 +37,17 @@ class UserCoffeeRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        return array_merge([
             'name' => 'required|string|max:255',
             'sugar' => 'required|integer',
+        ], !$this->adhoc ? [
             'start_time' => 'required|string|date_format:h:i A',
             'end_time' => 'required|string|date_format:h:i A',
-            'days' => ['required', 'array', Rule::in(['mon', 'tue', 'wed', 'thu', 'fri'])]
-        ];
+            'days' => [
+              'required', 'array', Rule::in([
+                'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
+              ])]
+        ] : []);
     }
 
     /**
@@ -43,6 +58,9 @@ class UserCoffeeRequest extends FormRequest
      */
     public function withValidator(Validator $validator)
     {
+        // Adhoc coffees do not have a time range or day
+        if ($this->adhoc) { return; }
+
         $validator->after(function ($validator) {
             if ($this->invalidTimeRange()) {
                 $validator->errors()
@@ -79,9 +97,9 @@ class UserCoffeeRequest extends FormRequest
     {
         return $this->user()
                     ->userCoffees()
-                    ->exclude([$this->userCoffee])
                     ->between($this->input('start_time'), $this->input('end_time'))
                     ->days($this->input('days'))
+                    ->exclude([$this->userCoffee])
                     ->exists();
     }
 }

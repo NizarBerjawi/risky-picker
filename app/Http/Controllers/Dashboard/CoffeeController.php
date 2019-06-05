@@ -17,7 +17,10 @@ class CoffeeController extends Controller
      */
     public function index(Request $request) : Response
     {
-        $coffees = $request->user()->userCoffees()->paginate(3);
+        $coffees = $request->user()
+                           ->userCoffees()
+                           ->with('coffee')
+                           ->paginate(3);
 
         return response()
                 ->view('dashboard.coffee.index', compact('coffees'));
@@ -26,13 +29,18 @@ class CoffeeController extends Controller
     /**
      * Show the form for creating a new user coffee.
      *
+     * @param Request $request
      * @return Response
      */
-    public function create() : Response
+    public function create(Request $request) : Response
     {
         $this->authorize('create', UserCoffee::class);
 
-        return response()->view('dashboard.coffee.create');
+        $adhoc = $request->get('is_adhoc', false);
+
+        if ($adhoc && !$request->hasValidSignature()) { abort(401); }
+
+        return response()->view('dashboard.coffee.create', compact('adhoc'));
     }
 
     /**
@@ -43,18 +51,24 @@ class CoffeeController extends Controller
      */
     public function store(CreateUserCoffee $request) : RedirectResponse
     {
-        $user = $request->user();
-
         $this->authorize('create', UserCoffee::class);
 
         $coffee = Coffee::findBySlug($request->input('name'));
 
-        $user->coffees()->attach($coffee, $request->except('name'));
+        $request->user()->coffees()->attach($coffee, [
+            'sugar'      => $request->input('sugar'),
+            'start_time' => $request->input('start_time', now()->format('G:i')),
+            'end_time'   => $request->input('end_time', now()->format('G:i')),
+            'days'       => $request->input('days', [now()->shortEnglishDayOfWeek]),
+            'is_adhoc'   => $request->input('is_adhoc', false),
+        ]);
 
         $this->messages->add('created', trans('messages.coffee.created'));
 
-        return redirect()->route('dashboard.coffee.index')
-                         ->withSuccess($this->messages);
+        $route = $request->get('is_adhoc') ? 'picker.run' : 'dashboard.coffee.index';
+
+        return redirect()->route($route)
+                  ->withSuccess($this->messages);
     }
 
     /**
@@ -69,7 +83,9 @@ class CoffeeController extends Controller
      {
          $this->authorize('update', $userCoffee);
 
-         return response()->view('dashboard.coffee.edit', compact('userCoffee'));
+         $adhoc = $request->get('is_adhoc', false);
+
+         return response()->view('dashboard.coffee.edit', compact('userCoffee', 'adhoc'));
      }
 
      /**

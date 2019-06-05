@@ -5,13 +5,13 @@
     <div class="row">
         <div class="col s12">
             <div class="input-field">
-                <select name="name" class="{{ $errors->has('name') ? 'invalid' : 'validate' }}">
-                    <option value="" disabled selected>My coffee of choice is a</option>
+                <select name="name" class="{{ $errors->has('end_time') ? 'invalid' : 'validate' }}">
+                    <option value="" disabled selected>{{ $adhoc ? 'Trying something different?' : 'Choose your coffee' }}</option>
                     @foreach($coffees as $coffee)
                         <option value="{{ $coffee->slug }}" {{ ($userCoffee->coffee->slug ?? old('name')) === $coffee->slug ? "selected='selected'" : "" }}>{{ $coffee->name }}</option>
                     @endforeach
                 </select>
-                @validation('name')
+                @validation('end_time')
             </div>
         </div>
 
@@ -26,6 +26,7 @@
             </div>
         </div>
 
+        @if (!$adhoc)
         <div class="col s6">
             <div class="input-field">
                 <input type="text" class="timepicker {{ $errors->has('start_time') ? 'invalid' : 'validate' }}" name="start_time" value="{{ $userCoffee->start_time ?? old('start_time') }}" placeholder="From">
@@ -50,6 +51,7 @@
                 @validation('days')
             </div>
         </div>
+      @endif
     </div>
 
     <div class="row">
