@@ -2,7 +2,6 @@
 
 namespace Picker;
 
-use DateTime;
 use Carbon\Carbon;
 use Picker\Coffee;
 use Picker\UserCoffee\Scopes\AdhocScope;
@@ -162,7 +161,7 @@ class UserCoffee extends Pivot
         return $query->between($now->format('G:i'), $now->format('G:i'))
                      ->days([strtolower($now->shortEnglishDayOfWeek)]);
     }
-    
+
     /**
      * Get a signed url that allows the user to replace this
      * coffee with another adhoc coffee for a particular coffee run.
@@ -276,4 +275,41 @@ class UserCoffee extends Pivot
             $this->start_time and $this->end_time
             every {$this->getFormattedDays()}";
     }
+
+    /**
+     * A function to validate that a user coffee's start and end
+     * times are valid.
+     *
+     * @param string
+     * @param string
+     * @return bool
+     */
+    public static function validateTimeRange($start, $end)
+    {
+        $startTime = Carbon::parse(date("G:i", strtotime($start)));
+        $endTime = Carbon::parse(date("G:i", strtotime($end)));
+
+        return $startTime->gte($endTime);
+    }
+
+    /**
+     * Check if a new coffee not yet stored in the database could
+     * cause a conflict with one of the user's other previously
+     * created coffees.
+     *
+     * @param User $user
+     * @param UserCoffee $new
+     * @param UserCoffee|null $existing
+     */
+    public static function timeslotConflict(User $user, UserCoffee $coffee)
+    {
+        return $user->userCoffees()
+                    ->between($coffee->start_time, $coffee->end_time)
+                    ->days($coffee->days)
+                    ->when($coffee->exists, function($query) {
+                        $query->exclude([$coffee]);
+                    })
+                    ->exists();
+    }
+
 }

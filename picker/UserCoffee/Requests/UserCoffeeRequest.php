@@ -3,6 +3,7 @@
 namespace Picker\UserCoffee\Requests;
 
 use Carbon\Carbon;
+use Picker\UserCoffee;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -81,10 +82,9 @@ class UserCoffeeRequest extends FormRequest
      */
     public function invalidTimeRange() : bool
     {
-        $startTime = Carbon::parse($this->input('start_time'));
-        $endTime = Carbon::parse($this->input('end_time'));
-
-        return $startTime->gte($endTime);
+        return UserCoffee::validateTimeRange(
+            $this->input('start_time'), $this->input('end_time')
+        );
     }
 
     /**
@@ -95,11 +95,14 @@ class UserCoffeeRequest extends FormRequest
      */
     public function timeslotConflict() : bool
     {
-        return $this->user()
-                    ->userCoffees()
-                    ->between($this->input('start_time'), $this->input('end_time'))
-                    ->days($this->input('days'))
-                    ->exclude([$this->userCoffee])
-                    ->exists();
+        $existing = $this->userCoffee;
+
+        $newCoffee = new UserCoffee([
+            'start_time' => $this->input('start_time'),
+            'end_time' => $this->input('end_time'),
+            'days' => $this->input('days'),
+        ]);
+
+        return UserCoffee::timeslotConflict($this->user(), $existing ?? $newCoffee);
     }
 }

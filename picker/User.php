@@ -104,15 +104,16 @@ class User extends Authenticatable
      */
     public function nextAdhocCoffee() : HasOne
     {
-        $range = $this->nextCoffee()
-                      ->select(['start_time', 'end_time'])
-                      ->first()
-                      ->toArray();
+        $next = $this->nextCoffee()
+                     ->select(['start_time', 'end_time'])
+                     ->first();
+
+        if (empty($next)) { return $this->nextCoffee(); }
 
         return $this->hasOne(UserCoffee::class)
                     ->onlyAdhoc()
                     ->whereDate('created_at', today())
-                    ->between(...array_values($range))
+                    ->between(...array_values($next->toArray()))
                     ->latest()
                     ->limit(1);
     }
