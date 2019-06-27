@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="section">
-        @errors
-            @alert('errors')
-        @enderrors
+        @success
+            @alert('success')
+        @endsuccess
 
         @include('dashboard.coffee.form', [
             'action' => route('dashboard.coffee.update', $userCoffee),

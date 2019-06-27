@@ -16,13 +16,12 @@ class CreateCoffeeRunsTable extends Migration
         Schema::create('coffee_runs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('user_coffee_id')->unsigned();
+            $table->text('signed_url')->nullable();
             $table->timestamps();
         });
 
         Schema::table('coffee_runs', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('user_coffee_id')->references('id')->on('user_coffee');
         });
     }
 
@@ -35,7 +34,6 @@ class CreateCoffeeRunsTable extends Migration
     {
         Schema::table('coffee_runs', function(Blueprint $table) {
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['user_coffee_id']);
         });
 
         Schema::dropIfExists('coffee_runs');

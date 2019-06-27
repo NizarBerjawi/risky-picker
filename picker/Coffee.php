@@ -4,14 +4,13 @@ namespace Picker;
 
 use Picker\{User, UserCoffee};
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
 use Cviebrock\EloquentSluggable\{Sluggable, SluggableScopeHelpers};
 
 class Coffee extends Model
 {
-    use Sluggable;
-    use SluggableScopeHelpers;
+    use Sluggable, SluggableScopeHelpers, SoftDeletes;
 
     /**
       * The table associated with the model.
@@ -33,6 +32,22 @@ class Coffee extends Model
      * @var array
      */
     protected $fillable = ['name', 'description'];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Delete the user coffees that were associated
+        // with this coffee type
+        static::deleted(function($model) {
+            $model->userCoffees()->delete();
+        });
+    }
 
     /**
      * The users that belong to this coffee

@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="input-field col s12">
-            <input id="email" class="{{ $errors->has('email') ? 'invalid' : 'validate' }}" type="text" name="email" value="{{ $user->email ?? old('email') }}" disabled>
+            <input id="email" type="text" name="email" value="{{ $user->email }}" disabled>
             <label for="email">Email</label>
         </div>
     </div>

@@ -17,17 +17,19 @@
                 <td>
                     <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.coffees.index', $user) }}"><i class="tiny material-icons teal-text">local_cafe</i></a>
                     <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.edit', $user) }}"><i class="tiny material-icons teal-text">edit</i></a>
+                    @if (!$user->is(request()->user()))
                     <form action="{{ route('users.destroy', $user) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
 
                         <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
                     </form>
+                    @endif
                 </td>
             </tr>
         @empty
             <tr>
-                <td>No coffee for you today!</td>
+                <td>No one wants coffee!</td>
             </tr>
         @endforelse
     </tbody>

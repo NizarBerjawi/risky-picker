@@ -82,7 +82,7 @@ class User extends Authenticatable
      *
      * @return HasOne
      */
-    public function nextCoffee()
+    public function nextCoffee() : HasOne
     {
         return $this->hasOne(UserCoffee::class)->nextRun();
     }
@@ -117,17 +117,7 @@ class User extends Authenticatable
                     ->latest()
                     ->limit(1);
     }
-
-    /**
-     * Get the cup that belongs to this user.
-     *
-     * @return HasMany
-     */
-    public function cups() : HasMany
-    {
-        return $this->hasMany(Cup::class);
-    }
-
+    
     /**
      * Get the cup that belongs to this user.
      *
@@ -210,31 +200,7 @@ class User extends Authenticatable
      }
 
     /**
-     * Check if a user can be picked to make
-     * an order of a certain type
-     *
-     * @return bool
-     */
-    public function canBePickedFor(Type $type) : bool
-    {
-        return $type->name === 'food'
-            ? $this->canBePickedForFood()
-            : $this->canBePickedForCoffee();
-    }
-
-    /**
-     * Check if a user can be picked to make
-     * an order of a certain type
-     *
-     * @return bool
-     */
-    public function canNotBePickedFor(Type $type) : bool
-    {
-        return !$this->canBePickedFor($type);
-    }
-
-    /**
-     * Determine if a user can be picked for coffee run.
+     * Determine if a user can be picked to do a coffee run.
      *
      * @return bool
      */
@@ -246,71 +212,42 @@ class User extends Authenticatable
     }
 
     /**
-     * Determine if a user can be picked for food order.
-     *
-     * @return bool
-     */
-    public function canBePickedForFood() : bool
-    {
-        return !$this->pickedToday() &&
-               !$this->pickedForFoodLastTime();
-    }
-
-    /**
-     * Detrmine if the user was picked last time regardless
-     * of order type.
+     * Detrmine if the user was picked last time to do a
+     * coffee run. i.e this could be after a public holiday
+     * or a weekend
      *
      * @return bool
      */
     public function pickedLastTime() : bool
     {
-        // Get the last order made by any user
-        $order = Order::lastOrder()
-                      ->with('user')
-                      ->first();
+        // Get the last coffee run and the user who made it
+        $run = CoffeeRun::lastRun()
+                        ->with('user')
+                        ->first();
 
-        return $order && $this->is($order->user);
+        return $run && $this->is($run->user);
     }
 
     /**
-     * Detrmine if the user was picked last time for food
-     * order
-     *
-     * @return bool
-     */
-    public function pickedForFoodLastTime() : bool
-    {
-        // Get the last food order made by any user
-        $order = Order::food()
-                      ->lastOrder()
-                      ->with('user')
-                      ->first();
-
-        return $order && $this->is($order->user);
-    }
-
-    /**
-     * Determine the user was picked today regardless
-     * of order type.
+     * Determine if the user did a coffee run today
      *
      * @return bool
      */
     public function pickedToday() : bool
     {
-        return $this->orders()
+        return $this->coffeeRuns()
                     ->today()
                     ->exists();
     }
 
     /**
-     * Determine the user was picked yesterday regardless
-     * of order type.
+     * Determine if the user did a coffee run yesterday
      *
      * @return bool
      */
     public function pickedYesterday() : bool
     {
-        return $this->orders()
+        return $this->coffeeRuns()
                     ->yesterday()
                     ->exists();
     }

@@ -49,6 +49,36 @@ class AdhocScope implements Scope
     }
 
     /**
+     * Get the "deleted at" column for the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return string
+     */
+    protected function getDeletedAtColumn(Builder $builder)
+    {
+        if (count((array) $builder->getQuery()->joins) > 0) {
+            return $builder->getModel()->getQualifiedDeletedAtColumn();
+        }
+
+        return $builder->getModel()->getDeletedAtColumn();
+    }
+
+    /**
+     * Add the restore extension to the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return void
+     */
+    protected function addRestore(Builder $builder)
+    {
+        $builder->macro('restore', function (Builder $builder) {
+            $builder->withTrashed();
+
+            return $builder->update([$builder->getModel()->getDeletedAtColumn() => null]);
+        });
+    }
+
+    /**
      * Add the with-trashed extension to the builder.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder

@@ -27,7 +27,7 @@ class CupController extends Controller
     public function __construct(CupManager $manager, MessageBag $messages)
     {
         parent::__construct($messages);
-        
+
         $this->manager = $manager;
     }
 
@@ -39,9 +39,9 @@ class CupController extends Controller
      */
     public function index(Request $request) : Response
     {
-        $cups = $request->user()->cups()->paginate(3);
+        $cup = $request->user()->cup;
 
-        return response()->view('dashboard.cups.index', compact('cups'));
+        return response()->view('dashboard.cups.index', compact('cup'));
     }
 
     /**
@@ -71,7 +71,7 @@ class CupController extends Controller
             return back()->withError(trans('messages.cup.failed'));
         }
 
-        $user->cups()->create(['file_path' => $path]);
+        $user->cup()->create(['filename' => $path]);
 
         $this->messages->add('updated', trans('messages.cup.created'));
 
@@ -113,7 +113,7 @@ class CupController extends Controller
         // delete the old image from storage
         $cup->deleteImage();
 
-        $cup->update(['file_path' => $path]);
+        $cup->update(['filename' => $path]);
 
         $this->messages->add('updated', trans('messages.cup.updated'));
 

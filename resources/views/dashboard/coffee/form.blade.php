@@ -11,7 +11,7 @@
                         <option value="{{ $coffee->slug }}" {{ ($userCoffee->coffee->slug ?? old('name')) === $coffee->slug ? "selected='selected'" : "" }}>{{ $coffee->name }}</option>
                     @endforeach
                 </select>
-                @validation('end_time')
+                @validation('name')
             </div>
         </div>
 

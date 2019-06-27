@@ -9,9 +9,9 @@
     </thead>
 
     <tbody>
-    @forelse($cups as $cup)
+    @if($cup)
         <tr>
-            <td><img src="{{ asset($cup->file_path) }}" width="100"/></td>
+            <td><img src="{{ asset($cup->thumbnail_path) }}" width="100"/></td>
             <td>{{ $cup->created_at }}</td>
             <td>{{ $cup->updated_at}}</td>
             <td>
@@ -25,10 +25,10 @@
                 </form>
             </td>
         </tr>
-    @empty
+    @else
         <tr>
             <td>You don't have any cups!</td>
         </tr>
-    @endforelse
+    @endif
     </tbody>
 </table>

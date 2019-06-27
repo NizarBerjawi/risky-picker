@@ -18,6 +18,7 @@ class CreateCoffeesTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('slug')->unique();
+            $table->softDeletes();
         });
     }
 

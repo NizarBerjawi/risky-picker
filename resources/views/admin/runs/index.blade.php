@@ -2,17 +2,18 @@
 
 @section('content')
     <div class="section">
-        <h3>Create Coffee</h3>
+        <h3>Coffee Runs</h3>
 
         @success
             @alert('success')
         @endsuccess
 
         <div class="row">
-            @include('admin.users.coffees.form', [
-                'action' => route('users.coffees.store', $user),
-                'method' => 'POST',
-            ])
+            @include('admin.runs.table')
+        </div>
+
+        <div class="row center-align">
+            {{ $runs->links() }}
         </div>
     </div>
 @endsection

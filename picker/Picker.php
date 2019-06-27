@@ -9,7 +9,7 @@ use App\Exceptions\UnluckyUserNotFoundException;
 class Picker
 {
     /**
-     * Attempt to pick a user
+     * Attempt to pick a user from a collection of users
      *
      * @return Collection $user
      * @throws UnluckyUserNotFoundException

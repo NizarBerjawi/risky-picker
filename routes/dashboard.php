@@ -1,5 +1,7 @@
 <?php
 
+Route::get('/', 'UserController@edit')->name('dashboard.profile.edit');
+
 Route::group(['prefix' => 'profile'], function() {
     Route::get('/', 'UserController@edit')->name('dashboard.profile.edit');
     Route::match(['put', 'patch'], '/', 'UserController@update')->name('dashboard.profile.update');

@@ -12,7 +12,7 @@ class InviteUser extends UserRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
         ];
     }
 }

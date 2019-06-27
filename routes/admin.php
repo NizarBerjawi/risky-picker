@@ -33,11 +33,15 @@ Route::group(['prefix' => 'users'], function() {
 });
 
 Route::group(['prefix' => 'coffee'], function() {
-  Route::get('/', 'CoffeeController@index')->name('coffees.index');
-  Route::get('/create', 'CoffeeController@create')->name('coffees.create');
-  Route::post('/', 'CoffeeController@store')->name('coffees.store');
-  Route::get('/{coffee}', 'CoffeeController@show')->name('coffees.show');
-  Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
-  Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
-  Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
+    Route::get('/', 'CoffeeController@index')->name('coffees.index');
+    Route::get('/create', 'CoffeeController@create')->name('coffees.create');
+    Route::post('/', 'CoffeeController@store')->name('coffees.store');
+    Route::get('/{coffee}', 'CoffeeController@show')->name('coffees.show');
+    Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
+    Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
+    Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
+});
+
+Route::group(['prefix' => 'coffee-run'], function() {
+    Route::get('/', 'CoffeeRunController@index')->name('run.index');
 });

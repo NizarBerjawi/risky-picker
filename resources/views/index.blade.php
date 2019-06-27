@@ -3,25 +3,29 @@
 @section('content')
     <h3>Today's order</h3>
 
-    @forelse($users as $user)
-      <div class="col s12 m6">
-        <div class="card horizontal">
-          <div class="card-image">
-            <img src="{{ ($user->cup) ? $user->cup->file_path : 'https://lorempixel.com/100/190/nature/6' }}">
-          </div>
-          <div class="card-stacked">
-            <div class="card-content">
-              <h6>{{ $user->full_name }}</h6>
-              <p>{{ $user->nextCoffee->type }}</p>
-              <p>{{ $user->nextCoffee->sugar }} Sugars</p>
+    @success
+        @alert('success')
+    @endsuccess
+    
+    @forelse($run->coffees as $coffee)
+        <div class="col s12 m6">
+            <div class="card">
+                <div class="card-image">
+                    <a href="{{ $coffee->user->cup ? $coffee->user->cup->image_path : '/storage/cups/no-cup.png' }}" target="_blank">
+                        <img class="" src="{{ $coffee->user->cup ? $coffee->user->cup->thumbnail_path : '/storage/cups/thumbs/no-cup.png' }}">
+                    </a>
+
+                    <a href="{{ $coffee->adhoc_url }}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a>
+                </div>
+                <div class="card-content">
+                    <span class="card-title grey-text text-darken-4">{{ $coffee->user->full_name }}</span>
+                    <p><strong>Coffee</strong>: {{ $coffee->type }}</p>
+                    <p><strong>Sugars</strong>: {{ $coffee->sugar }}</p>
+                </div>
             </div>
-            <div class="card-action">
-              <a href="{{ $user->nextCoffee->adhoc_url }}">Change my Coffee</a>
-            </div>
-          </div>
+
         </div>
-      </div>
     @empty
-      <p>No coffee available</p>
+        <p>No coffee available</p>
     @endforelse
 @endsection

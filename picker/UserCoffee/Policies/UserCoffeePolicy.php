@@ -34,6 +34,7 @@ class UserCoffeePolicy
         // Check if the person creating the adhoc coffee, is owner
         // of the original coffee.
         return $user->userCoffees()
+                    ->withAdhoc()
                     ->where('id', request()->get('id'))
                     ->exists();
     }

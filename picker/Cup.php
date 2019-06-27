@@ -3,10 +3,10 @@
 namespace Picker;
 
 use Picker\User;
+use Picker\Cup\CupManager;
 use Picker\Cup\Events\{CupUpdated, CupDeleted};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasOne};
-use Illuminate\Support\Facades\Storage;
 
 class Cup extends Model
 {
@@ -18,18 +18,18 @@ class Cup extends Model
     protected $table = 'user_cups';
 
     /**
-      * The storage driver for cups
+      * The cup manager
       *
-      * @var Storage
+      * @var CupManager
       */
-    protected $storage;
+    protected $manager;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['file_path'];
+    protected $fillable = ['filename'];
 
     /**
      * Create a new Eloquent model instance.
@@ -41,7 +41,7 @@ class Cup extends Model
      {
        parent::__construct($attributes);
 
-       $this->storage = Storage::disk('local');
+       $this->manager = app(CupManager::class);
      }
 
     /**
@@ -70,6 +70,7 @@ class Cup extends Model
             };
         });
     }
+    
     /**
      * The user that owns this cup
      *
@@ -87,7 +88,21 @@ class Cup extends Model
      */
     public function hasImage() : bool
     {
-        return $this->storage->exists($this->getOriginal('file_path'));
+        $filename = basename($this->getOriginal('filename'));
+
+        return $this->manager->imageExists($filename);
+    }
+
+    /**
+     * Determine if a cup has a thumbnail image
+     *
+     * @return bool
+     */
+    public function hasThumbnail() : bool
+    {
+        $filename = basename($this->getOriginal('filename'));
+
+        return $this->manager->thumbnailExists($filename);
     }
 
     /**
@@ -99,7 +114,9 @@ class Cup extends Model
     {
         if (!$this->hasImage()) { return false; }
 
-        return $this->storage->delete($this->getOriginal('file_path'));
+        $filename = basename($this->getOriginal('filename'));
+
+        return $this->manager->deleteImage($filename);
     }
 
     /**
@@ -108,10 +125,23 @@ class Cup extends Model
      *
      * @return string
      */
-    public function getFilePathAttribute() : ?string
+    public function getThumbnailPathAttribute() : string
     {
-        if (!$this->hasImage()) { return false; }
+        $filename = basename($this->getOriginal('filename'));
 
-        return $this->storage->url($this->getOriginal('file_path'));
+        return $this->manager->getStorage()->url("cups/thumbs/$filename");
+    }
+
+    /**
+     * Generate a url for the cup's image that is
+     * publicly accessible.
+     *
+     * @return string
+     */
+    public function getImagePathAttribute() : string
+    {
+        $filename = basename($this->getOriginal('filename'));
+
+        return $this->manager->getStorage()->url("cups/$filename");
     }
 }

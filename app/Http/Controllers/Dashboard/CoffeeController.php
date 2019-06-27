@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{Coffee, User, UserCoffee};
+use Picker\{Coffee, CoffeeRun, User, UserCoffee};
 use Picker\UserCoffee\Requests\{CreateUserCoffee, UpdateUserCoffee};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\{Request, Response, RedirectResponse};
+use Illuminate\Support\Facades\DB;
 
 class CoffeeController extends Controller
 {
@@ -53,21 +54,39 @@ class CoffeeController extends Controller
     {
         $this->authorize('create', UserCoffee::class);
 
-        $coffee = Coffee::findBySlug($request->input('name'));
+        // Find the type of coffee the user is attempting to create
+        $coffee = Coffee::findBySlugOrFail($request->input('name'));
 
-        $request->user()->coffees()->attach($coffee, [
-            'sugar'      => $request->input('sugar'),
+        // Create a valid user coffee (or adhoc coffee) with all its details
+        $userCoffee = UserCoffee::create([
+            'user_id'    => $request->user()->id,
+            'coffee_id'  => $coffee->id,
+            'sugar'      => $request->input('sugar', 0),
             'start_time' => $request->input('start_time', now()->format('G:i')),
             'end_time'   => $request->input('end_time', now()->format('G:i')),
-            'days'       => $request->input('days', [now()->shortEnglishDayOfWeek]),
+            'days'       => $request->input('days', [strtolower(now()->shortEnglishDayOfWeek)]),
             'is_adhoc'   => $request->input('is_adhoc', false),
         ]);
 
+        // If the user is creating an adhoc coffee, then
+        // the user is replacing one of their default coffees
+        // with an adhoc one in a specific coffee run
+        if ($userCoffee->is_adhoc) {
+            $run = CoffeeRun::find($request->get('run_id'));
+            $run->coffees()->updateExistingPivot($request->get('id'), [
+                'user_coffee_id' => $userCoffee->id
+            ]);
+        }
+
         $this->messages->add('created', trans('messages.coffee.created'));
 
-        $route = $request->get('is_adhoc') ? 'picker.run' : 'dashboard.coffee.index';
+        // If this is an adhoc coffee being created, we need to redirect
+        // the user back to the related coffee run page.
+        $route = $request->get('is_adhoc')
+            ? $run->signed_url
+            : route('dashboard.coffee.index');
 
-        return redirect()->route($route)
+        return redirect($route)
                   ->withSuccess($this->messages);
     }
 
@@ -99,7 +118,7 @@ class CoffeeController extends Controller
       {
           $this->authorize('update', $userCoffee);
 
-          $coffee = Coffee::findBySlug($request->input('name'));
+          $coffee = Coffee::findBySlugOrFail($request->input('name'));
 
           if ($userCoffee->isNotOfType($coffee)) {
               $userCoffee->coffee()->associate($coffee);

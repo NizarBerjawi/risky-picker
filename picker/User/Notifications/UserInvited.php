@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserInvited extends Notification
+class UserInvited extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -48,6 +48,7 @@ class UserInvited extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject('Risky Picker Invitation')
             ->markdown('notifications.invited', [
                 'url' => $this->url,
             ]);

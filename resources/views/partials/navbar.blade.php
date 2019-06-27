@@ -1,6 +1,6 @@
 <nav class="nav-extended">
     <div class="nav-wrapper">
-        <a href="{{ route('home') }}" class="brand-logo center">Risky Picker</a>
+        <a href="{{ Auth::check() ? route('dashboard.profile.edit') : route('home') }}" class="brand-logo center">Risky Picker</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
             @guest
@@ -23,6 +23,7 @@
             <ul class="tabs tabs-fixed-width col m8 s12 offset-m2">
 
             @onadmin
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('coffee-run.*') ? 'active' : '' }}" href="{{ route('run.index') }}">Coffee Runs</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('coffees.*') ? 'active' : '' }}" href="{{ route('coffees.index') }}">Coffees</a></li>
             @endonadmin

@@ -22,13 +22,6 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect admins after login.
-     *
-     * @var string
-     */
-    protected $redirectAdminTo = '/dashboard';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -45,22 +38,6 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        $user = $this->getUser();
-
-        // if ($user->isAdmin()) {
-        //     return $this->redirectAdminTo;
-        // }
-
-        return route('dashboard.profile.edit', $user->slug);
-    }
-
-    /**
-     * The user making the request
-     *
-     * @return User
-     */
-    protected function getUser()
-    {
-        return request()->user();
+        return route('dashboard.profile.edit');
     }
 }

@@ -63,7 +63,7 @@ class UserCoffeeRequest extends FormRequest
         if ($this->adhoc) { return; }
 
         $validator->after(function ($validator) {
-            if ($this->invalidTimeRange()) {
+            if (!$this->validTimeRange()) {
                 $validator->errors()
                           ->add('end_time', trans('messages.coffee.invalid'));
             }
@@ -80,7 +80,7 @@ class UserCoffeeRequest extends FormRequest
      *
      * @return bool
      */
-    public function invalidTimeRange() : bool
+    public function validTimeRange() : bool
     {
         return UserCoffee::validateTimeRange(
             $this->input('start_time'), $this->input('end_time')

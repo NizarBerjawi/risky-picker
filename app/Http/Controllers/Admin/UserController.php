@@ -44,15 +44,18 @@ class UserController extends Controller
     public function invite(InviteUser $request)
     {
         $email = $request->input('email');
+
+        // Invitation emails expire within 2 days
         $expires = now()->addDays(2);
 
+        // Generate a signed URL
         $url = URL::temporarySignedRoute('register', $expires, [
             'email' => $email
         ]);
 
         Notification::route('mail', $email)->notify(new UserInvited($url));
 
-        $this->messages->add('invited', trans('messages.user.updated'));
+        $this->messages->add('invited', trans('messages.user.invited'));
 
         return back()->withSuccess($this->messages);
     }

@@ -18,6 +18,7 @@ class CheckAdmin
         if (!$request->user()->isAdmin()) {
             return back();
         }
+
         return $next($request);
     }
 }

@@ -23,6 +23,7 @@ class CreateUserCoffeeTable extends Migration
             $table->json('days')->nullable();
             $table->boolean('is_adhoc')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('user_coffee', function(Blueprint $table) {

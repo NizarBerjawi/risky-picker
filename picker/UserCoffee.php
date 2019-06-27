@@ -3,16 +3,15 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\Coffee;
 use Picker\UserCoffee\Scopes\AdhocScope;
 use Picker\Support\Traits\ExcludesFromQuery;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, Pivot};
+use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, Pivot};
 use Illuminate\Support\Facades\URL;
 
 class UserCoffee extends Pivot
 {
-    use ExcludesFromQuery;
+    use ExcludesFromQuery, SoftDeletes;
 
     /**
       * The table associated with the model.
@@ -62,6 +61,16 @@ class UserCoffee extends Pivot
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the coffee runs that this user coffee is part off.
+     *
+     * @return BelongsToMany
+     */
+    public function runs() : BelongsToMany
+    {
+        return $this->belongsToMany(CoffeeRun::class, 'coffee_run_user_coffee', 'user_coffee_id', 'coffee_run_id');
     }
 
     /**
@@ -174,7 +183,8 @@ class UserCoffee extends Pivot
 
         return URL::temporarySignedRoute('dashboard.coffee.create', $expires, [
             'id' => $this->id,
-            'is_adhoc' => true
+            'is_adhoc' => true,
+            'run_id' => $this->runs()->lastRun()->first()->id,
         ]);
     }
 
@@ -265,18 +275,6 @@ class UserCoffee extends Pivot
     }
 
     /**
-     * Get the string representation of the user's coffee.
-     *
-     * @return string
-     */
-    public function __toString() : string
-    {
-        return "{$this->getType()} between
-            $this->start_time and $this->end_time
-            every {$this->getFormattedDays()}";
-    }
-
-    /**
      * A function to validate that a user coffee's start and end
      * times are valid.
      *
@@ -284,12 +282,12 @@ class UserCoffee extends Pivot
      * @param string
      * @return bool
      */
-    public static function validateTimeRange($start, $end)
+    public static function validateTimeRange($start, $end) : bool
     {
         $startTime = Carbon::parse(date("G:i", strtotime($start)));
         $endTime = Carbon::parse(date("G:i", strtotime($end)));
 
-        return $startTime->gte($endTime);
+        return $startTime->lt($endTime);
     }
 
     /**
@@ -301,15 +299,26 @@ class UserCoffee extends Pivot
      * @param UserCoffee $new
      * @param UserCoffee|null $existing
      */
-    public static function timeslotConflict(User $user, UserCoffee $coffee)
+    public static function timeslotConflict(User $user, UserCoffee $coffee) : bool
     {
         return $user->userCoffees()
                     ->between($coffee->start_time, $coffee->end_time)
                     ->days($coffee->days)
-                    ->when($coffee->exists, function($query) {
+                    ->when($coffee->exists, function($query) use ($coffee) {
                         $query->exclude([$coffee]);
                     })
                     ->exists();
     }
 
+    /**
+     * Get the string representation of the user's coffee.
+     *
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "{$this->getType()} between
+            $this->start_time and $this->end_time
+            every {$this->getFormattedDays()}";
+    }
 }

@@ -3,20 +3,26 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\{Type, User};
+use Picker\{Type, User, UserCoffee};
 use Illuminate\Database\Eloquent\{Builder, Model};
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 
 class CoffeeRun extends Model
 {
+    /**
+      * The table associated with the model.
+      *
+      * @var string
+      */
+    protected $table = 'coffee_runs';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user_id',
-        'user_coffee_id',
+        'user_id', 'signed_url'
     ];
 
     /**
@@ -27,6 +33,18 @@ class CoffeeRun extends Model
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get all the user coffees that were part of this
+     * coffee run
+     *
+     * @return HasMany
+     */
+    public function coffees()
+    {
+        return $this->belongsToMany(UserCoffee::class, 'coffee_run_user_coffee', 'coffee_run_id', 'user_coffee_id')
+                    ->withAdhoc();
     }
 
     /**
@@ -73,32 +91,6 @@ class CoffeeRun extends Model
     {
         return $query->whereHas('user', function($query) use ($user) {
             $query->where('id', $user->id);
-        });
-    }
-
-    /**
-     * Scope coffee orders that were made
-     *
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeCoffee(Builder $query) : Builder
-    {
-        return $query->whereHas('type', function($query) {
-            $query->where('name', 'coffee');
-        });
-    }
-
-    /**
-     * Scope food orders that were made
-     *
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeFood(Builder $query) : Builder
-    {
-        return $query->whereHas('type', function($query) {
-            $query->where('name', 'food');
         });
     }
 }
