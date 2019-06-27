@@ -57,7 +57,7 @@ class DummyDataSeeder extends Seeder
         $coffees = factory(Picker\Coffee::class, $this->totalCoffees)->create();
 
         // Get all the available week days
-        $daysOfWeek = $this->getDays();
+        $daysOfWeek = collect(days())->keys();
 
         // Create all the users, attach a role to every user, create user coffees
         factory(Picker\User::class, $this->totalUsers)
@@ -116,17 +116,5 @@ class DummyDataSeeder extends Seeder
                 'display_name' => 'User',
             ],
         ]);
-    }
-
-    /**
-     * Get a list of week days to choose from
-     *
-     * @return Collection
-     */
-    protected function getDays()
-    {
-        return collect(Carbon::getDays())->map(function ($day) {
-            return strtolower(Carbon::parse($day)->shortEnglishDayOfWeek);
-        });
     }
 }

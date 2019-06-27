@@ -21,7 +21,7 @@ class UserCoffeeController extends Controller
         $coffees = $user->userCoffees()
                         ->with('coffee')
                         ->paginate(3);
-                        
+
         return response()->view('admin.users.coffees.index', compact('user', 'coffees'));
     }
 
@@ -54,7 +54,6 @@ class UserCoffeeController extends Controller
         return redirect()->route('users.coffees.index', $user)
                          ->withSuccess($this->messages);
     }
-
 
     /**
      * Show the form for editing a user coffee.

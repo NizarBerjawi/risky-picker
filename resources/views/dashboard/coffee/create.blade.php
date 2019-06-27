@@ -6,6 +6,10 @@
             @alert('success')
         @endsuccess
 
+        @errors
+            @alert('errors')
+        @enderrors
+
         @include('dashboard.coffee.form', [
             'action' => route('dashboard.coffee.store', request()->all()),
             'method' => 'POST',

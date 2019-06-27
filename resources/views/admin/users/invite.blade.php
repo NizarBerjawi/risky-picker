@@ -20,6 +20,7 @@
             </div>
 
             <div class="right-align">
+                <a href={{ route('users.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text">Cancel</a>
                 <button class="btn waves-effect waves-light" type="submit">{{ __('Invite') }}</button>
             </div>
         </form>

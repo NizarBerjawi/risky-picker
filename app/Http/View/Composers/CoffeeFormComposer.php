@@ -25,15 +25,7 @@ class CoffeeFormComposer
             '3' => 'Three sugars',
         ];
 
-        $days = [
-            'mon' => 'Monday',
-            'tue' => 'Tuesday',
-            'wed' => 'Wednesday',
-            'thu' => 'Thursday',
-            'fri' => 'Friday',
-            'sat' => 'Saturday',
-            'sun' => 'Sunday',
-        ];
+        $days = days();
 
         $view->with(compact('coffees', 'sugars', 'days'));
     }

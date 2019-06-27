@@ -21,6 +21,7 @@ class UserCoffeeRequest extends FormRequest
     {
         $this->adhoc = $request->get('is_adhoc', false);
     }
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -45,9 +46,7 @@ class UserCoffeeRequest extends FormRequest
             'start_time' => 'required|string|date_format:h:i A',
             'end_time' => 'required|string|date_format:h:i A',
             'days' => [
-              'required', 'array', Rule::in([
-                'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
-              ])]
+              'required', 'array', Rule::in(array_keys(days()))]
         ] : []);
     }
 
@@ -100,7 +99,7 @@ class UserCoffeeRequest extends FormRequest
         $newCoffee = new UserCoffee([
             'start_time' => $this->input('start_time'),
             'end_time' => $this->input('end_time'),
-            'days' => $this->input('days'),
+            'days' => $this->input('days', []),
         ]);
 
         return UserCoffee::timeslotConflict($this->user(), $existing ?? $newCoffee);

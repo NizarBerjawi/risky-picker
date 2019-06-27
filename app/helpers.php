@@ -1,5 +1,19 @@
 <?php
 
+if (! function_exists('days')) {
+    /**
+     * Get a list of week days to choose from
+     *
+     * @return Collection
+     */
+    function days()
+    {
+        return collect(\Carbon\Carbon::getDays())->flatMap(function ($day) {
+            return [strtolower(\Carbon\Carbon::parse($day)->shortEnglishDayOfWeek) => $day];
+        })->all();
+    }
+}
+
 if (! function_exists('dist_path')) {
     /**
      * Get the path to the dist folder.

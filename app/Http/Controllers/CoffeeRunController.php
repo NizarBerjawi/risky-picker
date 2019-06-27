@@ -31,7 +31,8 @@ class CoffeeRunController extends Controller
     {
         $run = CoffeeRun::where('id', $request->get('run_id'))
                         ->with(['coffees.user.cup'])
-                        ->first();
+                        ->firstOrFail();
+
 
         return response()->view('index', compact('run'));
     }

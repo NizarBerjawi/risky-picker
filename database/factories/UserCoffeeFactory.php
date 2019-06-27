@@ -23,7 +23,7 @@ $factory->define(Picker\UserCoffee::class, function (Faker $faker) {
         'end_time' => $faker->time($format = 'G:i', null),
         'days' => function () {
             // All the available days of the week
-            $daysOfWeek = collect(Carbon::getDays());
+            $daysOfWeek = collect(days())->keys();
             // Randomly pick a number of days
             $days = $daysOfWeek->random(mt_rand(1, count($daysOfWeek)));
             // Return the short english name of the week days

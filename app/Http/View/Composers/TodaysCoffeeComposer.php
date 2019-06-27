@@ -5,7 +5,7 @@ namespace App\Http\View\Composers;
 use Picker\User;
 use Illuminate\View\View;
 
-class OptionsComposer
+class TodaysCoffeeComposer
 {
     /**
      * Bind data to the view.

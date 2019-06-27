@@ -18,9 +18,9 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function index() : Response
+    public function index(Request $request) : Response
     {
-        $users = User::paginate(10);
+        $users = User::exclude([$request->user()])->paginate(10);
 
         return response()->view('admin.users.index', compact('users'));
     }
@@ -39,9 +39,9 @@ class UserController extends Controller
      * Send an invitation email to the specified email
      *
      * @param InviteUser  $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function invite(InviteUser $request)
+    public function invite(InviteUser $request) : RedirectResponse
     {
         $email = $request->input('email');
 

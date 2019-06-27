@@ -4,6 +4,7 @@ namespace Picker;
 
 use Carbon\Carbon;
 use Picker\{Cup, Coffee, CoffeeRun, Role, UserCoffee};
+use Picker\Support\Traits\ExcludesFromQuery;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
@@ -13,7 +14,7 @@ use Illuminate\Notifications\{Notifiable, Notification};
 
 class User extends Authenticatable
 {
-    use Notifiable, Sluggable, SoftDeletes;
+    use ExcludesFromQuery, Notifiable, Sluggable, SoftDeletes;
 
     /**
      * The column name of the "remember me" token.
@@ -117,7 +118,7 @@ class User extends Authenticatable
                     ->latest()
                     ->limit(1);
     }
-    
+
     /**
      * Get the cup that belongs to this user.
      *

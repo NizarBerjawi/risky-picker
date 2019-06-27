@@ -22,22 +22,24 @@
     <div class="modal-content">
         <h4>Today's Coffee</h4>
         <div class="row">
-          <ul class="col s12 collection">
-              @foreach($todaysCoffee as $coffee)
-              <li class="collection-item avatar">
-                  {{-- <img src="images/yuna.jpg" alt="" class="circle"> --}}
-                  <i class="medium material-icons teal-text circle">local_cafe</i>
-                  <span class="title">{{ $coffee->type}}</span>
-                  <p>{{ $coffee->getFormattedDays() }}<br>
-                      {{ $coffee->start_time }} and {{ $coffee->end_time }}
-                  </p>
-                  <a href={{ route('dashboard.coffee.edit', $coffee) }} class="secondary-content">Edit</a>
-              </li>
-              @endforeach
-          </ul>
+            <ul class="col s12 collection">
+                @forelse($todaysCoffee as $coffee)
+                    <li class="collection-item avatar">
+                        <i class="medium material-icons teal-text circle">local_cafe</i>
+                        <span class="title">{{ $coffee->type}}</span>
+                        <p>{{ $coffee->getFormattedDays() }}<br>
+                            {{ $coffee->start_time }} and {{ $coffee->end_time }}
+                        </p>
+                        <a href={{ route('dashboard.coffee.edit', $coffee) }} class="secondary-content">Edit</a>
+                    </li>
+                @empty
+                    <li>No coffee scheduled for today!</li>
+                @endforelse
+            </ul>
 
         </div>
     </div>
+
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">close</a>
     </div>

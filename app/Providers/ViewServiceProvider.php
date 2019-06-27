@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\View\Composers\{CoffeeFormComposer, PickerFormComposer, OptionsComposer};
+use App\Http\View\Composers\{CoffeeFormComposer, TodaysCoffeeComposer};
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,7 +33,7 @@ class ViewServiceProvider extends ServiceProvider
         );
 
         View::composer(
-           'partials.options', OptionsComposer::Class
+           'partials.options', TodaysCoffeeComposer::Class
         );
     }
 }

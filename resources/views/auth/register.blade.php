@@ -29,7 +29,7 @@
 
       <div class="row">
           <div class="input-field col s12">
-              <input id="email" type="email" class="{{ $errors->has('email') ? 'invalid' : 'validate' }}" type="text" name="email" value="{{ old('email') }}" required >
+              <input id="email" type="email" class="{{ $errors->has('email') ? 'invalid' : 'validate' }}" type="text" name="email" value="{{ request()->get('email') }}" readonly >
               <label for="email">{{ __('E-Mail Address') }}</label>
               @validation('email')
           </div>
