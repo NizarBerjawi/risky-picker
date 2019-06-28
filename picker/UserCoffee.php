@@ -175,16 +175,21 @@ class UserCoffee extends Pivot
      * Get a signed url that allows the user to replace this
      * coffee with another adhoc coffee for a particular coffee run.
      *
+     * @param CoffeeRun $run
      * @return string
      */
-    public function getAdhocUrlAttribute() : string
+    public function getAdhocUrl(CoffeeRun $run = null) : string
     {
+        if (is_null($run)) {
+            $run = $this->runs()->lastRun()->first();
+        }
+
         $expires = now()->addHours(1);
 
         return URL::temporarySignedRoute('dashboard.coffee.create', $expires, [
             'id' => $this->id,
             'is_adhoc' => true,
-            'run_id' => $this->runs()->lastRun()->first()->id,
+            'run_id' => $run->id,
         ]);
     }
 

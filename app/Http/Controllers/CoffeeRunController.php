@@ -30,9 +30,8 @@ class CoffeeRunController extends Controller
     public function index(Request $request) : Response
     {
         $run = CoffeeRun::where('id', $request->get('run_id'))
-                        ->with(['coffees.user.cup'])
+                        ->with(['coffees.user.cup', 'coffees.coffee'])
                         ->firstOrFail();
-
 
         return response()->view('index', compact('run'));
     }
