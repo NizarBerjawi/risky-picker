@@ -6,13 +6,13 @@
     @success
         @alert('success')
     @endsuccess
-    
+
     @forelse($run->coffees as $coffee)
         <div class="col s12 m6">
             <div class="card">
                 <div class="card-image">
-                    <a href="{{ $coffee->user->cup ? $coffee->user->cup->image_path : '/storage/cups/no-cup.png' }}" target="_blank">
-                        <img class="" src="{{ $coffee->user->cup ? $coffee->user->cup->thumbnail_path : '/storage/cups/thumbs/no-cup.png' }}">
+                    <a href="{{ $coffee->user->cup ? $coffee->user->cup->image_path : '/dist/img/no-cup.png' }}" target="_blank">
+                        <img class="" src="{{ $coffee->user->cup ? $coffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.png' }}">
                     </a>
 
                     <a href="{{ $coffee->adhoc_url }}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a>
