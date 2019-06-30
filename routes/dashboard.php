@@ -24,3 +24,10 @@ Route::group(['prefix' => 'cups'], function() {
     Route::match(['put', 'patch'], '/{cup}', 'CupController@update')->name('dashboard.cups.update');
     Route::delete('/{cup}', 'CupController@destroy')->name('dashboard.cups.delete');
 });
+
+Route::group(['prefix' => 'coffee-run'], function() {
+    Route::get('/', 'CoffeeRunController@index')->name('dashboard.runs.index');
+    Route::get('/{run}', 'CoffeeRunController@show')->name('dashboard.runs.show');
+    Route::post('/{run}/busy', 'CoffeeRunController@busy')->name('dashboard.runs.busy');
+    Route::post('/{run}/volunteer', 'CoffeeRunController@volunteer')->name('dashboard.runs.volunteer');
+});

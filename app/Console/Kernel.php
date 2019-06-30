@@ -26,8 +26,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new PickUser)->dailyAt('08:30');
-        $schedule->job(new PickUser)->dailyAt('13:30');
+        $schedule->job(new PickUser)->everyMinute();
+        // $schedule->job(new PickUser)->dailyAt('08:30');
+        // $schedule->job(new PickUser)->dailyAt('13:30');
     }
 
     /**

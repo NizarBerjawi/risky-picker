@@ -2,18 +2,14 @@
 
 @section('content')
     <div class="section">
-        <h3>Coffee Runs</h3>
+        <h3>View Coffee Run</h3>
 
         @success
             @alert('success')
         @endsuccess
 
         <div class="row">
-            @include('admin.runs.table')
-        </div>
-
-        <div class="row center-align">
-            {{ $runs->links() }}
+            @include('dashboard.runs.form')
         </div>
     </div>
 @endsection

@@ -23,7 +23,6 @@
             <ul class="tabs tabs-fixed-width col m8 s12 offset-m2">
 
             @onadmin
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('coffee-run.*') ? 'active' : '' }}" href="{{ route('run.index') }}">Coffee Runs</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">Users</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('coffees.*') ? 'active' : '' }}" href="{{ route('coffees.index') }}">Coffees</a></li>
             @endonadmin
@@ -32,6 +31,7 @@
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.profile.*') ? 'active' : '' }}" href="{{ route('dashboard.profile.edit') }}">Personal Details</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.coffee.*') ? 'active' : '' }}" href="{{ route('dashboard.coffee.index') }}">Coffee</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.cups.*') ? 'active' : '' }}" href="{{ route('dashboard.cups.index') }}">Cups</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.runs.*') ? 'active' : '' }}" href="{{ route('dashboard.runs.index') }}">Coffee Runs</a></li>
             @endondashboard
             </ul>
         </div>

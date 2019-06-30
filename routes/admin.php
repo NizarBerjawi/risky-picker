@@ -41,7 +41,3 @@ Route::group(['prefix' => 'coffee'], function() {
     Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
     Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
 });
-
-Route::group(['prefix' => 'coffee-run'], function() {
-    Route::get('/', 'CoffeeRunController@index')->name('run.index');
-});

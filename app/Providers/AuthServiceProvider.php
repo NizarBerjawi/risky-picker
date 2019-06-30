@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Picker\{Cup, User, UserCoffee};
+use Picker\{CoffeeRun, Cup, User, UserCoffee};
 use Picker\Cup\Policies\CupPolicy;
 use Picker\User\Policies\UserPolicy;
 use Picker\UserCoffee\Policies\UserCoffeePolicy;
+use Picker\CoffeeRun\Policy\CoffeeRunPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         UserCoffee::class => UserCoffeePolicy::class,
         Cup::class => CupPolicy::class,
+        CoffeeRun::class => CoffeeRunPolicy::class,
 
     ];
 
