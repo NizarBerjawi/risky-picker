@@ -17,8 +17,8 @@ class CoffeeController extends Controller
      */
     public function index() : Response
     {
-        $coffees = Coffee::paginate(10);
-        
+        $coffees = Coffee::paginate(5);
+
         return response()->view('admin.coffees.index', compact('coffees'));
     }
 

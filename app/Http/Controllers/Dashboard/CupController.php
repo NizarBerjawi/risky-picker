@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use Picker\Cup;
 use Picker\Cup\CupManager;
+use Picker\Cup\Requests\CupRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
 use Illuminate\Http\{Request, Response, RedirectResponse};
@@ -61,7 +62,7 @@ class CupController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(CupRequest $request) : RedirectResponse
     {
         $user = $request->user();
 
@@ -99,7 +100,7 @@ class CupController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function update(Request $request, Cup $cup) : RedirectResponse
+    public function update(CupRequest $request, Cup $cup) : RedirectResponse
     {
         $this->authorize('update', $cup);
 

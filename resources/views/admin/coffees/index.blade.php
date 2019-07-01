@@ -5,7 +5,7 @@
         <h3>Coffee</h3>
 
         @success
-        @alert('success')
+            @alert('success')
         @endsuccess
 
         <div class="row">

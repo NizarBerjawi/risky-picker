@@ -6,7 +6,6 @@ use Picker\{Cup, User, Coffee};
 use Picker\User\Notifications\UserInvited;
 use Picker\User\Requests\{CreateUser, UpdateUser, InviteUser};
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\{Notification, URL};
 use Illuminate\Http\{Response, Request, RedirectResponse};
@@ -20,7 +19,7 @@ class UserController extends Controller
      */
     public function index(Request $request) : Response
     {
-        $users = User::exclude([$request->user()])->paginate(10);
+        $users = User::exclude([$request->user()])->paginate(5);
 
         return response()->view('admin.users.index', compact('users'));
     }
