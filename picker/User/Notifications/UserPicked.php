@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\URL;
 
 class UserPicked extends Notification
 {
-    // use Queueable;
+    use Queueable;
 
     /**
      * The coffee run that the user was picked for

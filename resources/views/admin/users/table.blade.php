@@ -1,4 +1,4 @@
-<table class="col s12">
+<table class="responsive-table">
     <thead>
         <tr>
             <th>First Name</th>

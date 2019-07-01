@@ -18,7 +18,7 @@
     @if (isset($cup) && $cup->hasImage())
         <div class="row">
             <div class="col s12 center-align">
-                <img class="materialboxed" width="500" src="{{ asset($cup->image_path) }}" style="margin: auto;">
+                <img class="materialboxed responsive-img" src="{{ asset($cup->image_path) }}" >
             </div>
         </div>
     @endif

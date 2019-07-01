@@ -1,4 +1,4 @@
-<table>
+<table class="responsive-table">
     <thead>
         <tr>
             <th>Cup</th>

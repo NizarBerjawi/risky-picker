@@ -1,7 +1,7 @@
 <nav class="nav-extended">
     <div class="nav-wrapper">
         <a href="{{ Auth::check() ? route('dashboard.profile.edit') : route('home') }}" class="brand-logo center">Risky Picker</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        {{-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> --}}
         <ul class="right hide-on-med-and-down">
             @guest
                 <li><a class="waves-effect waves-light btn" href="{{ route('login') }}">Login</a></li>
@@ -28,10 +28,10 @@
             @endonadmin
 
             @ondashboard
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.profile.*') ? 'active' : '' }}" href="{{ route('dashboard.profile.edit') }}">Personal Details</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.profile.*') ? 'active' : '' }}" href="{{ route('dashboard.profile.edit') }}">Personal</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.coffee.*') ? 'active' : '' }}" href="{{ route('dashboard.coffee.index') }}">Coffee</a></li>
                 <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.cups.*') ? 'active' : '' }}" href="{{ route('dashboard.cups.index') }}">Cups</a></li>
-                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.runs.*') ? 'active' : '' }}" href="{{ route('dashboard.runs.index') }}">Coffee Runs</a></li>
+                <li class="tab col s3"><a target="_self" class="{{ Route::is('dashboard.runs.*') ? 'active' : '' }}" href="{{ route('dashboard.runs.index') }}">Runs</a></li>
             @endondashboard
             </ul>
         </div>
@@ -39,5 +39,5 @@
     @endauth
 </nav>
 
-<ul class="sidenav" id="mobile-demo">
-</ul>
+{{-- <ul class="sidenav" id="mobile-demo">
+</ul> --}}

@@ -1,4 +1,4 @@
-<table class="col s12">
+<table class="col s12 responsive-table">
     <thead>
         <tr>
             <th>ID</th>
