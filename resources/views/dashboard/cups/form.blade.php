@@ -8,7 +8,6 @@
                 <span>Photo</span>
                 <input type="file" name="cup_photo">
             </div>
-            @validation('cup_photo')
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" placeholder="Upload a photo of your cup">
             </div>
