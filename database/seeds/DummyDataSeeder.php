@@ -1,12 +1,17 @@
 <?php
 
 use Picker\{User, UserCoffee, Role};
+use Picker\Cup\CupManager;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 class DummyDataSeeder extends Seeder
 {
+    protected $disk = 'cups';
+
     /**
      * The total number of users in the database
      *
@@ -50,6 +55,9 @@ class DummyDataSeeder extends Seeder
      */
     public function run(\Faker\Generator $faker)
     {
+        // The storage disk
+        $storage = Storage::disk($this->disk);
+
         // Get all the available user roles
         $roles = Role::get();
 
@@ -62,12 +70,15 @@ class DummyDataSeeder extends Seeder
         // Create all the users, attach a role to every user, create user coffees
         factory(Picker\User::class, $this->totalUsers)
             ->create()
-            ->each(function($user) use ($coffees, $roles, $daysOfWeek, $faker) {
+            ->each(function($user) use ($coffees, $roles, $daysOfWeek, $storage, $faker) {
                 // Give the user a role
                 $user->roles()->attach($roles->random());
                 // Give a percentage of the users a reusable cup
                 if (mt_rand(0, $this->totalUsers) > ($this->totalUsers * $this->percentageWithoutCup)) {
-                  $user->cup()->create(['filename' => 'cup.jpg']);
+                    $file = new File(dist_path('img/cup.jpg'));
+                    $path = $storage->putFile(null, $file);
+                    (new CupManager)->generateThumbnail($path);
+                    $user->cup()->create(['filename' => $path]);
                 }
                 // Give every user a random number of coffees
                 for($i = 0; $i <= mt_rand(0, $this->maxNumberOfCoffeesPerUser); $i++) {
@@ -97,24 +108,5 @@ class DummyDataSeeder extends Seeder
                     ])->save();
                 }
             });
-    }
-
-    /**
-     * Get the custom roles required
-     *
-     * @return Collection
-     */
-    protected function roles()
-    {
-        return collect([
-            [
-                'name' => 'admin',
-                'display_name' => 'Administrator',
-            ],
-            [
-                'name' => 'user',
-                'display_name' => 'User',
-            ],
-        ]);
     }
 }

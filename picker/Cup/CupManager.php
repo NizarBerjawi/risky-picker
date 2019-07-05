@@ -48,6 +48,19 @@ class CupManager
     }
 
     /**
+     * Handle the process of deleting any uploaded
+     * files related to a specific cup
+     *
+     * @param string
+     * @return bool
+     */
+    public function handleFileDelete($filename)
+    {
+        return $this->deleteImage($filename) &&
+               $this->deleteThumbnail($filename);
+    }
+
+    /**
      * Get the storage disk for cup images
      *
      * @return Storage
@@ -91,12 +104,23 @@ class CupManager
     }
 
     /**
+     * Delete a cup thumbnail that exists on disk
+     *
+     * @param string $filename
+     * @return bool
+     */
+    public function deleteThumbnail($filename)
+    {
+        return $this->storage->delete("thumbs/$filename");
+    }
+
+    /**
      * Create a thumbnail for the uploaded cup image.
      *
      * @param string $path
      * @return string
      */
-    protected function generateThumbnail($path)
+    public function generateThumbnail($path)
     {
         $manager = new ImageManager();
 

@@ -7,12 +7,19 @@
         @alert('success')
     @endsuccess
 
+    <ul class="collection">
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+    </ul>
+
     @forelse($run->coffees as $userCoffee)
         <div class="col s12 m6">
             <div class="card">
                 <div class="card-image">
                     <a href="{{ $userCoffee->user->cup ? $userCoffee->user->cup->image_path : '/dist/img/no-cup.png' }}" target="_blank">
-                        <img class="" src="{{ $userCoffee->user->cup ? $userCoffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.png' }}">
+                        <img class="" src="{{ $userCoffee->user->cup ? $userCoffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.jpg' }}">
                     </a>
 
                     <a href="{{ $userCoffee->getAdhocUrl($run) }}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a>
@@ -23,7 +30,6 @@
                     <p><strong>Sugars</strong>: {{ $userCoffee->sugar }}</p>
                 </div>
             </div>
-
         </div>
     @empty
         <p>No coffee available</p>

@@ -110,9 +110,8 @@ class CupController extends Controller
             return back()->withError(trans('messages.cup.failed'));
         }
 
-        // If the new image was uploaded successfully,
-        // delete the old image from storage
-        $cup->deleteImage();
+        // Delete any old images
+        $this->manager->handleFileDelete($cup->filename);
 
         $cup->update(['filename' => $path]);
 

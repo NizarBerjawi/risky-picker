@@ -25,5 +25,6 @@ class DeleteCupImage
     public function handle($event)
     {
         $event->cup->deleteImage();
+        $event->cup->deleteThumbnail();
     }
 }

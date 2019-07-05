@@ -24,7 +24,7 @@ class CupRequest extends FormRequest
     public function rules()
     {
         return [
-            'cup_photo'   => 'required|image|size:10000',
+            'cup_photo'   => 'required|image',
         ];
     }
 }

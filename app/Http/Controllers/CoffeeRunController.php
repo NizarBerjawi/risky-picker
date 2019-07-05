@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Picker\{User, UserCoffee, Picker, CoffeeRun};
+use Picker\{Coffee, User, UserCoffee, Picker, CoffeeRun};
 use Illuminate\Support\{Collection, Str};
 use Picker\Order\Jobs\CreateOrder;
 use App\Http\Controllers\Controller;
@@ -33,6 +33,8 @@ class CoffeeRunController extends Controller
                         ->with(['coffees.user.cup', 'coffees.coffee'])
                         ->firstOrFail();
 
-        return response()->view('index', compact('run'));
+        $coffeeTypes = $run->coffees->pluck('coffee')->unique();
+
+        return response()->view('index', compact('run', 'coffeeTypes'));
     }
 }

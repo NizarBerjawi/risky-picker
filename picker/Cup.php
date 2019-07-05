@@ -70,7 +70,7 @@ class Cup extends Model
             };
         });
     }
-    
+
     /**
      * The user that owns this cup
      *
@@ -117,6 +117,20 @@ class Cup extends Model
         $filename = basename($this->getOriginal('filename'));
 
         return $this->manager->deleteImage($filename);
+    }
+
+    /**
+     * Delete a cup's thumbnail if it exists
+     *
+     * @return bool
+     */
+    public function deleteThumbnail() : bool
+    {
+        if (!$this->hasThumbnail()) { return false; }
+
+        $filename = basename($this->getOriginal('filename'));
+
+        return $this->manager->deleteThumbnail($filename);
     }
 
     /**
