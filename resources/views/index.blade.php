@@ -7,13 +7,6 @@
         @alert('success')
     @endsuccess
 
-    <ul class="collection">
-      <li class="collection-item">Alvin</li>
-      <li class="collection-item">Alvin</li>
-      <li class="collection-item">Alvin</li>
-      <li class="collection-item">Alvin</li>
-    </ul>
-
     @forelse($run->coffees as $userCoffee)
         <div class="col s12 m6">
             <div class="card">
