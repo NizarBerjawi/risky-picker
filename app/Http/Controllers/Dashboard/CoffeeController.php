@@ -21,7 +21,7 @@ class CoffeeController extends Controller
         $coffees = $request->user()
                            ->userCoffees()
                            ->with('coffee')
-                           ->paginate(5);
+                           ->paginate(20);
 
         return response()
                 ->view('dashboard.coffee.index', compact('coffees'));

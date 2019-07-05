@@ -19,7 +19,7 @@ class CoffeeRunController extends Controller
     {
         $runs = CoffeeRun::latest()
                          ->with(['user', 'volunteer', 'coffees'])
-                         ->paginate(5);
+                         ->paginate(20);
 
         return response()->view('dashboard.runs.index', compact('runs'));
     }

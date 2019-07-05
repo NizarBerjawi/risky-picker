@@ -20,7 +20,7 @@ class UserCoffeeController extends Controller
     {
         $coffees = $user->userCoffees()
                         ->with('coffee')
-                        ->paginate(5);
+                        ->paginate(20);
 
         return response()->view('admin.users.coffees.index', compact('user', 'coffees'));
     }
