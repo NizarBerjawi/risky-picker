@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{Coffee, CoffeeRun, User, UserCoffee};
+use Picker\{Coffee, CoffeeRun, UserCoffee};
 use Picker\UserCoffee\Requests\{CreateUserCoffee, UpdateUserCoffee};
 use App\Http\Controllers\Controller;
-use Illuminate\Http\{Request, Response, RedirectResponse};
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class CoffeeController extends Controller
 {
@@ -14,26 +13,25 @@ class CoffeeController extends Controller
      * Show a listing of all the user's coffees
      *
      * @param Request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) : Response
+    public function index(Request $request)
     {
         $coffees = $request->user()
                            ->userCoffees()
                            ->with('coffee')
                            ->paginate(20);
 
-        return response()
-                ->view('dashboard.coffee.index', compact('coffees'));
+        return response()->view('dashboard.coffee.index', compact('coffees'));
     }
 
     /**
      * Show the form for creating a new user coffee.
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) : Response
+    public function create(Request $request)
     {
         $this->authorize('create', UserCoffee::class);
 
@@ -48,9 +46,9 @@ class CoffeeController extends Controller
      * Store a new coffee entry for the user.
      *
      * @param CreateUserCoffee $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateUserCoffee $request) : RedirectResponse
+    public function store(CreateUserCoffee $request)
     {
         $this->authorize('create', UserCoffee::class);
 
@@ -72,8 +70,8 @@ class CoffeeController extends Controller
         // the user is replacing one of their default coffees
         // with an adhoc one in a specific coffee run
         if ($userCoffee->is_adhoc) {
-            $run = CoffeeRun::find($request->get('run_id'));
-            $run->coffees()->updateExistingPivot($request->get('id'), [
+            $run = CoffeeRun::findOrFail($request->get('run_id'));
+            $run->userCoffees()->updateExistingPivot($request->get('id'), [
                 'user_coffee_id' => $userCoffee->id
             ]);
         }
@@ -83,7 +81,7 @@ class CoffeeController extends Controller
         // If this is an adhoc coffee being created, we need to redirect
         // the user back to the related coffee run page.
         $route = $request->get('is_adhoc')
-            ? $run->signed_url
+            ? route('index', $run)
             : route('dashboard.coffee.index');
 
         return redirect($route)
@@ -96,9 +94,9 @@ class CoffeeController extends Controller
      *
      * @param Request $request
      * @param UserCoffee $userCoffee
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-     public function edit(Request $request, UserCoffee $userCoffee) : Response
+     public function edit(Request $request, UserCoffee $userCoffee)
      {
          $this->authorize('update', $userCoffee);
 
@@ -112,9 +110,9 @@ class CoffeeController extends Controller
       *
       * @param UpdateUserCoffee $request
       * @param UserCoffee $userCoffee
-      * @return RedirectResponse
+      * @return \Illuminate\Http\RedirectResponse
       */
-      public function update(UpdateUserCoffee $request, UserCoffee $userCoffee) : RedirectResponse
+      public function update(UpdateUserCoffee $request, UserCoffee $userCoffee)
       {
           $this->authorize('update', $userCoffee);
 
@@ -138,10 +136,10 @@ class CoffeeController extends Controller
        *
        * @param Request $request
        * @param UserCoffee $userCoffee
-       * @return RedirectResponse;
+       * @return \Illuminate\Http\RedirectResponse
 
        */
-      public function destroy(Request $request, UserCoffee $userCoffee) : RedirectResponse
+      public function destroy(Request $request, UserCoffee $userCoffee)
       {
           $this->authorize('delete', $userCoffee);
 

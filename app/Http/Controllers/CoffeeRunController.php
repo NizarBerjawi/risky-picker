@@ -2,39 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use Picker\{Coffee, User, UserCoffee, Picker, CoffeeRun};
-use Illuminate\Support\{Collection, Str};
-use Picker\Order\Jobs\CreateOrder;
+use Picker\{Coffee, CoffeeRun};
+use Picker\UserCoffee\Filters\UserCoffeeFilters;
 use App\Http\Controllers\Controller;
-use App\Exceptions\UnluckyUserNotFoundException;
-use Illuminate\Http\{Request, Response, RedirectResponse};
+use Illuminate\Http\Request;
 
 class CoffeeRunController extends Controller
 {
+    /**
+     * Coffee run filters
+     *
+     * @var CoffeeRunFilters
+     */
+    protected $filters;
+
     /**
      * Instantiate the controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserCoffeeFilters $filters)
     {
-        $this->middleware('signed')->only('index');
+        $this->filters = $filters;
     }
 
     /**
      * Display the page that allows the user to randomly
      * pick a user to order.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) : Response
+    public function index(Request $request, $uuid)
     {
-        $run = CoffeeRun::where('id', $request->get('run_id'))
-                        ->with(['coffees.user.cup', 'coffees.coffee'])
-                        ->firstOrFail();
+        // Get the coffee run
+        $run = CoffeeRun::findOrFail($uuid);
 
-        $coffeeTypes = $run->coffees->pluck('coffee')->unique();
+        // If the coffee run is expired, abort the request
+        if ($run->expired()) { abort(404); }
 
-        return response()->view('index', compact('run', 'coffeeTypes'));
+        // Get all the coffee types that are available in this run
+        $coffeeTypes = Coffee::byRun($run)->get();
+
+        // Get all the coffees in this coffee run and filter
+        $userCoffees = $run->userCoffees()
+                           ->filter($this->filters)
+                           ->with(['coffee', 'user.cup'])
+                           ->get();
+
+        return response()->view('index', compact('run', 'coffeeTypes', 'userCoffees'));
     }
 }

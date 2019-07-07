@@ -4,14 +4,15 @@ namespace Picker;
 
 use Carbon\Carbon;
 use Picker\UserCoffee\Scopes\AdhocScope;
+use Picker\Support\Filters\Filterable;
 use Picker\Support\Traits\ExcludesFromQuery;
 use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, Pivot};
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\URL;
 
 class UserCoffee extends Pivot
 {
-    use ExcludesFromQuery, SoftDeletes;
+    use ExcludesFromQuery, Filterable, SoftDeletes;
 
     /**
       * The table associated with the model.
@@ -46,9 +47,9 @@ class UserCoffee extends Pivot
     /**
      * Get the coffee this user's selection belongs to.
      *
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function coffee() : BelongsTo
+    public function coffee()
     {
       return $this->belongsTo(Coffee::class);
     }
@@ -56,9 +57,9 @@ class UserCoffee extends Pivot
     /**
      * Get the user that this coffee belongs to
      *
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() : BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -66,9 +67,9 @@ class UserCoffee extends Pivot
     /**
      * Get the coffee runs that this user coffee is part off.
      *
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function runs() : BelongsToMany
+    public function runs()
     {
         return $this->belongsToMany(CoffeeRun::class, 'coffee_run_user_coffee', 'user_coffee_id', 'coffee_run_id');
     }
@@ -77,11 +78,11 @@ class UserCoffee extends Pivot
      * Get all user coffees that are scheduled before a
      * certain time.
      *
-     * @param Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $time  "G:i"  or "h:i A" time format
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeBefore(Builder $query, string $time) : Builder
+    public function scopeBefore(Builder $query, string $time)
     {
         $time = date("G:i", strtotime($time));
 
@@ -92,11 +93,11 @@ class UserCoffee extends Pivot
      * Get all user coffees that are scheduled after a
      * certain time.
      *
-     * @param Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $time  "G:i"  or "h:i A" time format
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeAfter(Builder $query, string $time) : Builder
+    public function scopeAfter(Builder $query, string $time)
     {
         $time = date("G:i", strtotime($time));
 
@@ -106,11 +107,11 @@ class UserCoffee extends Pivot
     /**
      * Get all user coffees that fall within a certain time slot
      *
-     * @param Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $time  "G:i"  or "h:i A" time format
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeBetween(Builder $query, string $start, string $end) : Builder
+    public function scopeBetween(Builder $query, string $start, string $end)
     {
       return $query->after($start)->before($end);
     }
@@ -118,12 +119,12 @@ class UserCoffee extends Pivot
     /**
      * Get all the user coffees that fall on specific days of the week
      *
-     * @param Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @param array $days
      * @param bool $strict
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDays(Builder $query, array $days, bool $strict = false) : Builder
+    public function scopeDays(Builder $query, array $days, bool $strict = false)
     {
         $boolean = $strict ? 'and' : 'or';
 
@@ -139,10 +140,10 @@ class UserCoffee extends Pivot
     /**
      * Get all the user coffees that are on today's order
      *
-     * @param Builder $query
-     * @return Builder
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeToday(Builder $query) : Builder
+    public function scopeToday(Builder $query)
     {
         $today = Carbon::today();
 
@@ -156,10 +157,10 @@ class UserCoffee extends Pivot
      * Get all the user coffees that could be part of the next
      * coffee run.
      *
-     * @param Builder $query
-     * @return Builder
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeNextRun(Builder $query) : Builder
+    public function scopeNextRun(Builder $query)
     {
         $now = Carbon::now();
 
@@ -172,13 +173,25 @@ class UserCoffee extends Pivot
     }
 
     /**
+     * Get user coffees by their type
+     *
+     * @param \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByType(Builder $query, Coffee $coffee)
+    {
+        return $query->whereHas('coffee', function(Builder $query) use ($coffee) {
+            $query->where('slug', $coffee->slug);
+        });
+    }
+
+    /**
      * Get a signed url that allows the user to replace this
      * coffee with another adhoc coffee for a particular coffee run.
      *
      * @param CoffeeRun $run
      * @return string
      */
-    public function getAdhocUrl(CoffeeRun $run = null) : string
+    public function getAdhocUrl(CoffeeRun $run = null)
     {
         if (is_null($run)) {
             $run = $this->runs()->lastRun()->first();
@@ -199,7 +212,7 @@ class UserCoffee extends Pivot
      * @param Coffee $coffee
      * @return bool
      */
-    public function isOfType(Coffee $coffee) : bool
+    public function isOfType(Coffee $coffee)
     {
         return $this->coffee->is($coffee);
     }
@@ -210,7 +223,7 @@ class UserCoffee extends Pivot
      * @param Coffee $coffee
      * @return bool
      */
-     public function isNotOfType(Coffee $coffee) : bool
+     public function isNotOfType(Coffee $coffee)
      {
          return !$this->isOfType($coffee);
      }
@@ -220,7 +233,7 @@ class UserCoffee extends Pivot
       *
       * @return string
       */
-     public function getTypeAttribute() : string
+     public function getTypeAttribute()
      {
          return $this->coffee->name;
      }
@@ -250,7 +263,7 @@ class UserCoffee extends Pivot
       *
       * @return string
       */
-     public function getStartTimeAttribute($value) : string
+     public function getStartTimeAttribute($value)
      {
          return date("h:i A", strtotime($value));
      }
@@ -260,7 +273,7 @@ class UserCoffee extends Pivot
       *
       * @return string
       */
-     public function getEndTimeAttribute($value) : string
+     public function getEndTimeAttribute($value)
      {
          return date("h:i A", strtotime($value));
      }
@@ -271,7 +284,7 @@ class UserCoffee extends Pivot
      *
      * @return string
      */
-    public function getFormattedDays() : string
+    public function getFormattedDays()
     {
         // Capitalize the first letter of every day
         $days = array_map('ucfirst', $this->days);
@@ -287,7 +300,7 @@ class UserCoffee extends Pivot
      * @param string
      * @return bool
      */
-    public static function validateTimeRange($start, $end) : bool
+    public static function validateTimeRange($start, $end)
     {
         $startTime = Carbon::parse(date("G:i", strtotime($start)));
         $endTime = Carbon::parse(date("G:i", strtotime($end)));
@@ -304,7 +317,7 @@ class UserCoffee extends Pivot
      * @param UserCoffee $new
      * @param UserCoffee|null $existing
      */
-    public static function timeslotConflict(User $user, UserCoffee $coffee) : bool
+    public static function timeslotConflict(User $user, UserCoffee $coffee)
     {
         return $user->userCoffees()
                     ->between($coffee->start_time, $coffee->end_time)
@@ -320,7 +333,7 @@ class UserCoffee extends Pivot
      *
      * @return string
      */
-    public function __toString() : string
+    public function __toString()
     {
         return "{$this->getType()} between
             $this->start_time and $this->end_time

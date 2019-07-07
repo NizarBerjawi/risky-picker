@@ -52,11 +52,9 @@ class UserVolunteered extends Notification implements ShouldQueue
                     ->from('Risky Picker')
                     ->content("{$notifiable->full_name} has volunteered to take this run! Thank you!")
                     ->attachment(function($attachment) {
-                        $attachment->content("You can find today's orders here:" . $this->run->signed_url);
+                        $attachment->content("You can find today's orders here:" . route('index', $this->run));
                     });
     }
-
-
 
     /**
      * Get the array representation of the notification.

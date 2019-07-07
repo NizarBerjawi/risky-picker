@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use Picker\{Coffee, User, UserCoffee};
 use Picker\UserCoffee\Requests\{CreateUserCoffee, UpdateUserCoffee};
 use App\Http\Controllers\Controller;
-use Illuminate\Support\MessageBag;
-use Illuminate\Http\{Response, RedirectResponse};
 
 class UserCoffeeController extends Controller
 {
@@ -14,9 +12,9 @@ class UserCoffeeController extends Controller
      * Display a listing of the user's coffee choices
      *
      * @param User $suer
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(User $user) : Response
+    public function index(User $user)
     {
         $coffees = $user->userCoffees()
                         ->with('coffee')
@@ -29,9 +27,9 @@ class UserCoffeeController extends Controller
      * Show the form for creating a new user coffee.
      *
      * @param User $suer
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function create(User $user) : Response
+    public function create(User $user)
     {
         return response()->view('admin.users.coffees.create', compact('user'));
     }
@@ -41,9 +39,9 @@ class UserCoffeeController extends Controller
      *
      * @param CreateUserCoffee $request
      * @param User $user
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateUserCoffee $request, User $user) : RedirectResponse
+    public function store(CreateUserCoffee $request, User $user)
     {
         $coffee = Coffee::findBySlug($request->input('name'));
 
@@ -60,9 +58,9 @@ class UserCoffeeController extends Controller
      *
      * @param User $user
      * @param Coffee $coffee
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, UserCoffee $userCoffee) : Response
+    public function edit(User $user, UserCoffee $userCoffee)
     {
         return response()->view('admin.users.coffees.edit', compact('user', 'userCoffee'));
     }
@@ -73,9 +71,9 @@ class UserCoffeeController extends Controller
      * @param UpdateUserCoffee $request
      * @param User $user
      * @param UserCoffee $userCoffee
-     * @return RedirectResponse;
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateUserCoffee $request, User $user, UserCoffee $userCoffee) : RedirectResponse
+    public function update(UpdateUserCoffee $request, User $user, UserCoffee $userCoffee)
     {
         $coffee = Coffee::findBySlug($request->input('name'));
 
@@ -96,10 +94,9 @@ class UserCoffeeController extends Controller
      *
      * @param User $user
      * @param UserCoffee $userCoffee
-     * @return RedirectResponse;
-
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(User $user, UserCoffee $userCoffee) : RedirectResponse
+    public function destroy(User $user, UserCoffee $userCoffee)
     {
         $userCoffee->delete();
 

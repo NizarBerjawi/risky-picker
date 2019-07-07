@@ -14,7 +14,7 @@ class CreateCoffeeRunUserCoffeeTable extends Migration
     public function up()
     {
         Schema::create('coffee_run_user_coffee', function (Blueprint $table) {
-            $table->bigInteger('coffee_run_id')->unsigned();
+            $table->uuid('coffee_run_id');
             $table->bigInteger('user_coffee_id')->unsigned();
         });
 

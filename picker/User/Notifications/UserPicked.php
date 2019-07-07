@@ -51,7 +51,7 @@ class UserPicked extends Notification
                     ->from('Risky Picker')
                     ->content("{$notifiable->full_name} You have been picked!")
                     ->attachment(function($attachment) {
-                        $attachment->content("You can find today's orders here:" . $this->run->signed_url);
+                        $attachment->content("You can find today's orders here:" . route('index', $this->run));
                     });
     }
 

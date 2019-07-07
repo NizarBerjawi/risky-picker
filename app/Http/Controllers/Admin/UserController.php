@@ -6,18 +6,17 @@ use Picker\{Cup, User, Coffee};
 use Picker\User\Notifications\UserInvited;
 use Picker\User\Requests\{CreateUser, UpdateUser, InviteUser};
 use App\Http\Controllers\Controller;
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\{Notification, URL};
-use Illuminate\Http\{Response, Request, RedirectResponse};
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the users
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) : Response
+    public function index(Request $request)
     {
         $users = User::exclude([$request->user()])->paginate(20);
 
@@ -27,9 +26,9 @@ class UserController extends Controller
     /**
      * Display the form to invite users to the application.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function invitation() : Response
+    public function invitation()
     {
         return response()->view('admin.users.invite');
     }
@@ -38,9 +37,9 @@ class UserController extends Controller
      * Send an invitation email to the specified email
      *
      * @param InviteUser  $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function invite(InviteUser $request) : RedirectResponse
+    public function invite(InviteUser $request)
     {
         $email = $request->input('email');
 
@@ -63,9 +62,9 @@ class UserController extends Controller
      * Display the form for editing a user resource.
      *
      * @param User $user
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function edit(User $user) : Response
+    public function edit(User $user)
     {
         return response()->view('admin.users.edit', compact('user'));
     }
@@ -75,9 +74,9 @@ class UserController extends Controller
      *
      * @param UpdateUser $request
      * @param User $user
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateUser $request, User $user) : RedirectResponse
+    public function update(UpdateUser $request, User $user)
     {
         $user->update($request->only(['first_name','last_name']));
 
@@ -92,9 +91,9 @@ class UserController extends Controller
      * Delete a specfied user resource
      *
      * @param User $user
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(User $user) : RedirectResponse
+    public function destroy(User $user)
     {
         $user->delete();
 

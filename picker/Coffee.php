@@ -2,10 +2,7 @@
 
 namespace Picker;
 
-use Picker\{User, UserCoffee};
-
-use Illuminate\Database\Eloquent\{Model, SoftDeletes};
-use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use Cviebrock\EloquentSluggable\{Sluggable, SluggableScopeHelpers};
 
 class Coffee extends Model
@@ -52,9 +49,9 @@ class Coffee extends Model
     /**
      * The users that belong to this coffee
      *
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users() : BelongsToMany
+    public function users()
     {
         return $this->belongsToMany(User::class)
                     ->using(UserCoffee::class);
@@ -63,11 +60,27 @@ class Coffee extends Model
     /**
      * The coffee selections that belong to the user
      *
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function userCoffees() : HasMany
+    public function userCoffees()
     {
         return $this->hasMany(UserCoffee::class);
+    }
+
+    /**
+     * Get the coffee types that are available in a specified run
+     *
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @param CoffeeRun
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByRun(Builder $query, CoffeeRun $run)
+    {
+        return $this->whereHas('userCoffees', function($query) use ($run) {
+            $query->whereHas('runs', function($query) use ($run) {
+                $query->where('id', $run->id);
+            });
+        })->distinct();
     }
 
     /**
@@ -75,7 +88,7 @@ class Coffee extends Model
      *
      * @return array
      */
-    public function sluggable() : array
+    public function sluggable()
     {
         return [
             'slug' => [
@@ -90,7 +103,7 @@ class Coffee extends Model
      *
      * @return string
      */
-    public function getRouteKeyName() : string
+    public function getRouteKeyName()
     {
         return 'slug';
     }

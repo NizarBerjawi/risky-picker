@@ -2,7 +2,7 @@
 
 namespace Picker\Coffee\Policies;
 
-use Picker\{Coffee, User};
+use Picker\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CoffeePolicy

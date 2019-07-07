@@ -2,13 +2,10 @@
 
 namespace Picker;
 
-use Carbon\Carbon;
 use Picker\{Cup, Coffee, CoffeeRun, Role, UserCoffee};
 use Picker\Support\Traits\ExcludesFromQuery;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
-use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\{Notifiable, Notification};
 
@@ -35,9 +32,9 @@ class User extends Authenticatable
     /**
      * Get all coffee runs the user has done.
      *
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function coffeeRuns() : HasMany
+    public function coffeeRuns()
     {
         return $this->hasMany(CoffeeRun::class);
     }
@@ -45,9 +42,9 @@ class User extends Authenticatable
     /**
      * Get the coffees
      *
-     * @param BelongsToMany
+     * @param \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function coffees() : BelongsToMany
+    public function coffees()
     {
         return $this->belongsToMany(Coffee::class, 'user_coffee')
                     ->using(UserCoffee::class)
@@ -60,9 +57,9 @@ class User extends Authenticatable
     /**
      * Get all the coffees that this user has planned.
      *
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function userCoffees() : HasMany
+    public function userCoffees()
     {
         return $this->hasMany(UserCoffee::class);
     }
@@ -70,9 +67,9 @@ class User extends Authenticatable
     /**
      * Get the user's planned coffees for today'
      *
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function todaysCoffees() : HasMany
+    public function todaysCoffees()
     {
         return $this->userCoffees()->today();
     }
@@ -81,9 +78,9 @@ class User extends Authenticatable
      * Get the user's next planned coffee that will be delivered
      * in the next coffee run
      *
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function nextCoffee() : HasOne
+    public function nextCoffee()
     {
         return $this->hasOne(UserCoffee::class)->nextRun();
     }
@@ -91,9 +88,9 @@ class User extends Authenticatable
     /**
      * Get all the user's adhoc coffees
      *
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function adhocCoffees() : HasMany
+    public function adhocCoffees()
     {
         return $this->hasMany(UserCoffee::class)->onlyAdhoc();
     }
@@ -101,9 +98,9 @@ class User extends Authenticatable
     /**
      * The user's latest requested adhoc coffee
      *
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function nextAdhocCoffee() : HasOne
+    public function nextAdhocCoffee()
     {
         $next = $this->nextCoffee()
                      ->select(['start_time', 'end_time'])
@@ -122,9 +119,9 @@ class User extends Authenticatable
     /**
      * Get the cup that belongs to this user.
      *
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function cup() : HasOne
+    public function cup()
     {
         return $this->hasOne(Cup::class);
     }
@@ -132,9 +129,9 @@ class User extends Authenticatable
     /**
      * The roles that belong to the user.
      *
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles() : BelongsToMany
+    public function roles()
     {
         return $this->belongsToMany(Role::class);
     }
@@ -144,7 +141,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function hasCup() : bool
+    public function hasCup()
     {
         return (bool) $this->cup;
     }
@@ -155,7 +152,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function doesnttHaveCup() : bool
+    public function doesnttHaveCup()
     {
         return !$this->hasCup();
     }
@@ -167,7 +164,7 @@ class User extends Authenticatable
      * @param string $role
      * @return boolean
      */
-    public function hasRole(string $role) : bool
+    public function hasRole(string $role)
     {
         return $this->roles()->where('name', $role)->exists();
     }
@@ -179,7 +176,7 @@ class User extends Authenticatable
      * @param array $roles
      * @return boolean
      */
-     public function hasRoles(array $roles) : bool
+     public function hasRoles(array $roles)
      {
          $query = $this->roles();
 
@@ -195,7 +192,7 @@ class User extends Authenticatable
       *
       * @return boolean
       */
-     public function isAdmin() : bool
+     public function isAdmin()
      {
          return $this->hasRoles(['admin']);
      }
@@ -205,7 +202,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function canBePickedForCoffee() : bool
+    public function canBePickedForCoffee()
     {
         return !$this->pickedLastTime() &&
                !$this->pickedToday() &&
@@ -219,7 +216,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function pickedLastTime() : bool
+    public function pickedLastTime()
     {
         // Get the last coffee run and the user who made it
         $run = CoffeeRun::lastRun()
@@ -234,7 +231,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function pickedToday() : bool
+    public function pickedToday()
     {
         return $this->coffeeRuns()
                     ->today()
@@ -246,7 +243,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function pickedYesterday() : bool
+    public function pickedYesterday()
     {
         return $this->coffeeRuns()
                     ->yesterday()
@@ -258,7 +255,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getFullNameAttribute() : string
+    public function getFullNameAttribute()
     {
         return "$this->first_name $this->last_name";
     }
@@ -268,7 +265,7 @@ class User extends Authenticatable
      *
      * @return array
      */
-    public function sluggable() : array
+    public function sluggable()
     {
         return [
             'slug' => [
@@ -283,7 +280,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getRouteKeyName() : string
+    public function getRouteKeyName()
     {
         return 'slug';
     }
@@ -294,7 +291,7 @@ class User extends Authenticatable
      * @param  Notification  $notification
      * @return string
      */
-    public function routeNotificationForSlack(Notification $notification) : string
+    public function routeNotificationForSlack(Notification $notification)
     {
         return config('logging.channels.slack.url');
     }

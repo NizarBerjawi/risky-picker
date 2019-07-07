@@ -14,7 +14,7 @@
             <tr>
                 <td>{{ $run->id }}</td>
                 <td>{{ $run->user->full_name }}</td>
-                <td>{{ $run->coffees->count() }}</td>
+                <td>{{ $run->userCoffees->count() }}</td>
                 <td>{{ $run->created_at }}</td>
                 <td>
                     {{-- If the user who was selected to do the run sees the his own run,

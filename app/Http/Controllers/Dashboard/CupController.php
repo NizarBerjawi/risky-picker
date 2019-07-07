@@ -6,8 +6,8 @@ use Picker\Cup;
 use Picker\Cup\CupManager;
 use Picker\Cup\Requests\CupRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
-use Illuminate\Http\{Request, Response, RedirectResponse};
 
 class CupController extends Controller
 {
@@ -36,9 +36,9 @@ class CupController extends Controller
      * Show a listing of all the user's cups
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) : Response
+    public function index(Request $request)
     {
         $cup = $request->user()->cup;
 
@@ -49,9 +49,9 @@ class CupController extends Controller
      * Display the form for creating a cup
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) : Response
+    public function create(Request $request)
     {
         return response()->view('dashboard.cups.create');
     }
@@ -60,9 +60,9 @@ class CupController extends Controller
      * Store or update a user's cup.
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CupRequest $request) : RedirectResponse
+    public function store(CupRequest $request)
     {
         $user = $request->user();
 
@@ -85,9 +85,9 @@ class CupController extends Controller
      * Display the form for uploading a cup photo
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, Cup $cup) : Response
+    public function edit(Request $request, Cup $cup)
     {
         $this->authorize('update', $cup);
 
@@ -98,9 +98,9 @@ class CupController extends Controller
      * Store or update a user's cup.
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(CupRequest $request, Cup $cup) : RedirectResponse
+    public function update(CupRequest $request, Cup $cup)
     {
         $this->authorize('update', $cup);
 
@@ -126,9 +126,9 @@ class CupController extends Controller
      *
      * @param Request $request
      * @param Cup $cup
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, Cup $cup) : RedirectResponse
+    public function destroy(Request $request, Cup $cup)
     {
         $this->authorize('delete', $cup);
 

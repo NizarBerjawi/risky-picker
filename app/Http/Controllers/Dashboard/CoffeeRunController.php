@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Picker\CoffeeRun;
 use Picker\CoffeeRun\Notifications\{VolunteerRequested, UserVolunteered};
 use App\Http\Controllers\Controller;
-use Illuminate\Http\{Response, Request, RedirectResponse};
+use Illuminate\Http\Request;
 
 class CoffeeRunController extends Controller
 {
@@ -13,12 +13,12 @@ class CoffeeRunController extends Controller
      * Display a listing of all coffee runs
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index() : Response
+    public function index()
     {
         $runs = CoffeeRun::latest()
-                         ->with(['user', 'volunteer', 'coffees'])
+                         ->with(['user', 'volunteer', 'userCoffees'])
                          ->paginate(20);
 
         return response()->view('dashboard.runs.index', compact('runs'));
@@ -31,7 +31,7 @@ class CoffeeRunController extends Controller
      *
      * @param Request $request
      * @param CoffeeRun $run
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show(Request $request, CoffeeRun $run)
     {
@@ -44,7 +44,7 @@ class CoffeeRunController extends Controller
      *
      * @param Request $request
      * @param CoffeeRun $run
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function busy(Request $request, CoffeeRun $run)
     {
@@ -65,7 +65,7 @@ class CoffeeRunController extends Controller
      *
      * @param Request $request
      * @param CoffeeRun $run
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function volunteer(Request $request, CoffeeRun $run)
     {
@@ -79,5 +79,4 @@ class CoffeeRunController extends Controller
 
         return back()->withSuccess($this->messages);
     }
-
 }

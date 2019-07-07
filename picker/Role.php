@@ -4,7 +4,6 @@ namespace Picker;
 
 use Picker\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
@@ -34,9 +33,9 @@ class Role extends Model
     /**
      * The roles that belong to the user.
      *
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users() : BelongsToMany
+    public function users()
     {
         return $this->belongsToMany(config('auth.providers.users.model', User::class));
     }

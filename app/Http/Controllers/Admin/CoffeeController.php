@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Picker\Coffee;
 use Picker\Coffee\Requests\{CreateCoffee, UpdateCoffee};
 use App\Http\Controllers\Controller;
-use Illuminate\Http\{Response, Request, RedirectResponse};
+use Illuminate\Http\Request;
 
 class CoffeeController extends Controller
 {
@@ -13,9 +13,9 @@ class CoffeeController extends Controller
      * Display a listing of the available coffee types
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index() : Response
+    public function index()
     {
         $coffees = Coffee::paginate(20);
 
@@ -26,9 +26,9 @@ class CoffeeController extends Controller
      * Show the form for creating a new coffee.
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function create() : Response
+    public function create()
     {
         return response()->view('admin.coffees.create');
     }
@@ -37,9 +37,9 @@ class CoffeeController extends Controller
      * Store a new coffee resource.
      *
      * @param CreateCoffee $request
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateCoffee $request) : RedirectResponse
+    public function store(CreateCoffee $request)
     {
         $coffee = Coffee::create($request->only(['name', 'description']));
 
@@ -53,9 +53,9 @@ class CoffeeController extends Controller
      * Show the form for editing a coffee resource.
      *
      * @param Coffee $coffee
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function edit(Coffee $coffee) : Response
+    public function edit(Coffee $coffee)
     {
         return response()->view('admin.coffees.edit', compact('coffee'));
     }
@@ -65,9 +65,9 @@ class CoffeeController extends Controller
      *
      * @param UpdateCoffee $request
      * @param Coffee $coffee
-     * @return RedirectResponse;
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateCoffee $request, Coffee $coffee) : RedirectResponse
+    public function update(UpdateCoffee $request, Coffee $coffee)
     {
         $coffee->update($request->only(['name', 'description']));
 
@@ -81,10 +81,9 @@ class CoffeeController extends Controller
      * Delete a coffee resource
      *
      * @param Coffee $coffee
-     * @return RedirectResponse;
-
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Coffee $coffee) : RedirectResponse
+    public function destroy(Coffee $coffee)
     {
         $coffee->delete();
 

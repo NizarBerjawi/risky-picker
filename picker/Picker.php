@@ -3,18 +3,16 @@
 namespace Picker;
 
 use Picker\User;
-use Illuminate\Support\Collection;
-use App\Exceptions\UnluckyUserNotFoundException;
 
 class Picker
 {
     /**
      * Attempt to pick a user from a collection of users
      *
-     * @return Collection $user
-     * @throws UnluckyUserNotFoundException
+     * @return User $user
+     * @throws \App\Exceptions\UnluckyUserNotFoundException
      */
-    public static function pick(Collection $users) : User
+    public static function pick(Collection $users)
     {
         $pickableUsers = $users->filter(function($user) {
             return $user->canBePickedForCoffee();

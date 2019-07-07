@@ -6,7 +6,6 @@ use Picker\User;
 use Picker\Cup\CupManager;
 use Picker\Cup\Events\{CupUpdated, CupDeleted};
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasOne};
 
 class Cup extends Model
 {
@@ -74,9 +73,9 @@ class Cup extends Model
     /**
      * The user that owns this cup
      *
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() : BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -86,7 +85,7 @@ class Cup extends Model
      *
      * @return bool
      */
-    public function hasImage() : bool
+    public function hasImage()
     {
         $filename = basename($this->getOriginal('filename'));
 
@@ -98,7 +97,7 @@ class Cup extends Model
      *
      * @return bool
      */
-    public function hasThumbnail() : bool
+    public function hasThumbnail()
     {
         $filename = basename($this->getOriginal('filename'));
 
@@ -110,7 +109,7 @@ class Cup extends Model
      *
      * @return bool
      */
-    public function deleteImage() : bool
+    public function deleteImage()
     {
         if (!$this->hasImage()) { return false; }
 
@@ -124,7 +123,7 @@ class Cup extends Model
      *
      * @return bool
      */
-    public function deleteThumbnail() : bool
+    public function deleteThumbnail()
     {
         if (!$this->hasThumbnail()) { return false; }
 
@@ -139,7 +138,7 @@ class Cup extends Model
      *
      * @return string
      */
-    public function getThumbnailPathAttribute() : string
+    public function getThumbnailPathAttribute()
     {
         $filename = basename($this->getOriginal('filename'));
 
@@ -152,7 +151,7 @@ class Cup extends Model
      *
      * @return string
      */
-    public function getImagePathAttribute() : string
+    public function getImagePathAttribute()
     {
         $filename = basename($this->getOriginal('filename'));
 

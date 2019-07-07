@@ -14,11 +14,10 @@ class CreateCoffeeRunsTable extends Migration
     public function up()
     {
         Schema::create('coffee_runs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->bigInteger('user_id')->unsigned();
             $table->boolean('user_busy')->default(false);
             $table->bigInteger('volunteer_id')->nullable()->unsigned();
-            $table->text('signed_url')->nullable();
             $table->timestamps();
         });
 

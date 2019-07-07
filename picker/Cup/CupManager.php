@@ -76,7 +76,7 @@ class CupManager
      * @param string $filename
      * @return bool
      */
-    public function imageExists($filename) : bool
+    public function imageExists($filename)
     {
         return $this->storage->exists($filename);
     }

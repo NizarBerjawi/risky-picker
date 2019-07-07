@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Picker\User;
 use Picker\User\Requests\UpdateUser;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\{Request, Response, RedirectResponse};
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -14,9 +14,9 @@ class UserController extends Controller
      * details.
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-     public function edit(Request $request) : Response
+     public function edit(Request $request)
      {
          $user = $request->user();
 
@@ -29,9 +29,9 @@ class UserController extends Controller
       * Update the user's personal details
       *
       * @param Request $request
-      * @return RedirectResponse
+      * @return \Illuminate\Http\RedirectResponse
       */
-      public function update(UpdateUser $request) : RedirectResponse
+      public function update(UpdateUser $request)
       {
           $user = $request->user();
 
