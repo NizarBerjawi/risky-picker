@@ -77,9 +77,7 @@ class Coffee extends Model
     public function scopeByRun(Builder $query, CoffeeRun $run)
     {
         return $this->whereHas('userCoffees', function($query) use ($run) {
-            $query->whereHas('runs', function($query) use ($run) {
-                $query->where('id', $run->id);
-            });
+            $query->byRun($run);
         })->distinct();
     }
 

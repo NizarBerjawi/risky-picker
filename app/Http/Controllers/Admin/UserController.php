@@ -78,7 +78,13 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
-        $user->update($request->only(['first_name','last_name']));
+        $user->update($request->only(['first_name','last_name', 'is_vip']));
+
+        if ($request->input('is_admin', 'no') === 'yes') {
+            $admin = Role::where('name', 'admin')->first();
+
+            $this->roles()->attach($admin);
+        }
 
         $this->messages->add('updated', trans('messages.user.updated'));
 

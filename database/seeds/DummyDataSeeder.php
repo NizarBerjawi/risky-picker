@@ -17,7 +17,7 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $totalUsers = 1000;
+    protected $totalUsers = 100;
 
     /**
      * The total number of coffees in the database
