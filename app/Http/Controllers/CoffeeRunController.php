@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Picker\{Coffee, CoffeeRun};
+use Picker\{Coffee, CoffeeRun, UserCoffee};
 use Picker\UserCoffee\Filters\UserCoffeeFilters;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -41,7 +41,7 @@ class CoffeeRunController extends Controller
         if ($run->expired()) { abort(404); }
 
         // Get all the coffee types that are available in this run
-        $coffeeTypes = Coffee::byRun($run)->get();
+        $coffeeTypes = Coffee::withCoffeeTotal($run)->get();
 
         // Get all the coffees in this coffee run and filter
         $userCoffees = $run->userCoffees()

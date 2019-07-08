@@ -3,9 +3,9 @@
         <a href="{{ Auth::check() ? route('dashboard.profile.edit') : route('home') }}" class="brand-logo center">Risky Picker</a>
         {{-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> --}}
         <ul class="right hide-on-med-and-down">
-            @guest
-                <li><a class="waves-effect waves-light btn" href="{{ route('login') }}">Login</a></li>
-            @else
+            {{-- @guest --}}
+                {{-- <li><a class="waves-effect waves-light btn" href="{{ route('login') }}">Login</a></li> --}}
+            @auth
                 <li><a href="{{ route('logout') }}" class="waves-effect waves-light btn" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">Logout
                 </a></li>

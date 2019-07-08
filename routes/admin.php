@@ -17,7 +17,7 @@ Route::group(['prefix' => 'users'], function() {
 
     Route::get('/{user}', 'UserController@show')->name('users.show');
     Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
-    Route::put('{user}', 'UserController@update')->name('users.update');
+    Route::match(['put', 'patch'], '{user}', 'UserController@update')->name('users.update');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
 
 

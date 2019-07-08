@@ -3,6 +3,7 @@
 namespace Picker;
 
 use Picker\User;
+use Illuminate\Support\Collection;
 
 class Picker
 {

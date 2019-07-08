@@ -25,6 +25,16 @@
         </div>
     </div>
 
+    <div class="switch">
+        <span>Is this user an admin?</span>
+    <label>
+      No
+      <input type="checkbox">
+      <span class="lever"></span>
+      Yes
+    </label>
+  </div>
+
     <div class="row">
         <div class="col s12 right-align">
             <a href={{ route('users.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text">Cancel</a>

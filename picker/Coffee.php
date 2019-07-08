@@ -84,6 +84,26 @@ class Coffee extends Model
     }
 
     /**
+     * Append the total number of each coffee type in
+     * a specified coffee run
+     *
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @param CoffeeRun
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithCoffeeTotal(Builder $query, CoffeeRun $run = null)
+    {
+        $sub = UserCoffee::select('coffee_id')
+                         ->selectRaw('COUNT(coffee_id) as total')
+                         ->groupBy('coffee_id')
+                         ->when($run, function($query) use ($run) {
+                            $query->byRun($run);
+                         });
+
+      return $query->joinSub($sub, 'coffee_counts', 'coffee_counts.coffee_id', '=', 'coffees.id');
+    }
+
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array

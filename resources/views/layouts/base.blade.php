@@ -13,21 +13,15 @@
 
     <div class="container">
         <div class="row">
-            <div class="col m8 s12 offset-m2">
-                @yield('title')
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col m2 s12">
+            <div class="col m1 s12">
                 @yield('left')
             </div>
 
-            <div class="col m8 s12">
+            <div class="col m10 s12">
                 @yield('content')
             </div>
 
-            <div class="col m2 s12">
+            <div class="col m1 s12">
                 @yield('right')
             </div>
         </div>

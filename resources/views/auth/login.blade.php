@@ -32,13 +32,13 @@
                     <div class="col s12 right-align">
                         <button class="btn waves-effect waves-light" type="submit">{{ __('Login') }}</button>
                     </div>
-                    <div class="col s12 right-align">
+                    {{-- <div class="col s12 right-align">
                         @if (Route::has('password.request'))
                             <a class="" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
                             </a>
                         @endif
-                    </div>
+                    </div> --}}
                 </div>
             </form>
         </div>

@@ -2,8 +2,6 @@
 
 @section('content')
     <div class="section">
-        <h3>Invite users</h3>
-
         @success
             @alert('success')
         @endsuccess

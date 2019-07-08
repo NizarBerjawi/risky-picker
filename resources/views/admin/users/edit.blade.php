@@ -2,8 +2,6 @@
 
 @section('content')
     <div class="section">
-        <h3>Update User</h3>
-
         @success
             @alert('success')
         @endsuccess

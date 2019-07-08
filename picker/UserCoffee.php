@@ -185,6 +185,16 @@ class UserCoffee extends Pivot
     }
 
     /**
+     *
+     */
+    public function scopeByRun(Builder $query, CoffeeRun $run)
+    {
+        return $query->whereHas('runs', function($query) use ($run) {
+            $query->where('id', $run->id);
+        });
+    }
+
+    /**
      * Get a signed url that allows the user to replace this
      * coffee with another adhoc coffee for a particular coffee run.
      *

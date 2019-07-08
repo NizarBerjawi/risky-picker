@@ -2,8 +2,6 @@
 
 @section('content')
     <div class="section">
-        <h3>Coffee Runs</h3>
-
         @success
             @alert('success')
         @endsuccess

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('slug')->unique();
             $table->string('email')->unique();
+            $table->boolean('is_vip')->default(false);
             $table->string('password');
             $table->timestamps();
             $table->softDeletes();

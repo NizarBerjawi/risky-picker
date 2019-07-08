@@ -17,14 +17,14 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $totalUsers = 100;
+    protected $totalUsers = 1000;
 
     /**
      * The total number of coffees in the database
      *
      * @var integer
      */
-    protected $totalCoffees = 35;
+    protected $totalCoffees = 10;
 
     /**
      * The percentage of users who do no have a reusable

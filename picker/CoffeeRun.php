@@ -3,7 +3,7 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\{User, UserCoffee};
+use Picker\{Coffee, User, UserCoffee};
 use Picker\Support\Filters\Filterable;
 use Picker\Support\Uuid\HasUuid;
 use Illuminate\Database\Eloquent\{Builder, Model};

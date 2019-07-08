@@ -197,6 +197,16 @@ class User extends Authenticatable
          return $this->hasRoles(['admin']);
      }
 
+     /**
+      * Check if a user is to be added to the pool of pickable users
+      *
+      * @return bool
+      */
+     public function isVIP()
+     {
+         return (boolean) $this->is_vip;
+     }
+
     /**
      * Determine if a user can be picked to do a coffee run.
      *
