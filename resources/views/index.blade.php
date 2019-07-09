@@ -10,9 +10,7 @@
 @endsection
 
 @section('content')
-    @success
-        @alert('success')
-    @endsuccess
+    @include('partials.validation')
 
     <div class="section">
         <a href="{{ route('index', $run) }}" class="waves-effect waves-light btn-large{{ !request()->get('coffee_type') ? ' disabled' : '' }}">All</a>

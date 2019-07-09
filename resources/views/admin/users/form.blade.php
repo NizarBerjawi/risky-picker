@@ -6,7 +6,6 @@
         <div class="input-field col s12">
             <input id="first_name" class="{{ $errors->has('first_name') ? 'invalid' : 'validate' }}" type="text" name="first_name" value="{{ $user->first_name ?? old('first_name') }}">
             <label for="first_name">First Name</label>
-            @validation('first_name')
         </div>
     </div>
 
@@ -14,7 +13,6 @@
         <div class="input-field col s12">
             <input id="last_name" class="{{ $errors->has('last_name') ? 'invalid' : 'validate' }}" type="text" name="last_name" value="{{ $user->last_name ?? old('last_name') }}">
             <label for="last_name">Last Name</label>
-            @validation('last_name')
         </div>
     </div>
 
@@ -30,7 +28,7 @@
             <p>Does this user think they're too good to do a coffee run?</p>
             <label>
                 No
-                <input type="checkbox" name="is_vip" value="yes">
+                <input type="checkbox" name="is_vip" value="1" {{ $user->isVIP() ? 'checked' : '' }}>
                 <span class="lever"></span>
                 Yes
             </label>
@@ -42,11 +40,12 @@
             <p>Is this user an admin?</p>
             <label>
                 No
-                <input type="checkbox" name="is_admin" value="yes">
+                <input type="checkbox" name="is_admin" value="1" {{ $user->isAdmin() ? 'checked' : ''}}>
                 <span class="lever"></span>
                 Yes
             </label>
         </div>
+
     </div>
 
     <div class="row">

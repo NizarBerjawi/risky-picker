@@ -2,13 +2,7 @@
 
 @section('content')
     <div class="section">
-        @success
-            @alert('success')
-        @endsuccess
-
-        @errors
-            @alert('errors')
-        @enderrors
+        @include('partials.validation')
 
         @include('dashboard.cups.form', [
             'action' => route('dashboard.cups.update', $cup),

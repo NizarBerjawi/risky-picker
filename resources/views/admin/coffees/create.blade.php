@@ -2,11 +2,7 @@
 
 @section('content')
     <div class="section">
-        <h3>Create Coffee</h3>
-
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         @include('admin.coffees.form', [
             'action' => route('coffees.store'),

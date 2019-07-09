@@ -137,6 +137,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the users that are in the pool of users to be picked
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopeWithoutVip(Builder $query)
+    {
+        return $query->where('is_vip', false);
+    }
+
+    /**
+     * Get the users that are not in the pool of users to be picked
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopeOnlyVip(Builder $query)
+    {
+        return $query->where('is_vip', true);
+    }
+
+    /**
      * Check if a user has a cup attached to their profile.
      *
      * @return bool

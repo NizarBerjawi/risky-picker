@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Picker\{Cup, User, Coffee};
+use Picker\{Coffee, Cup, User, Role};
 use Picker\User\Notifications\UserInvited;
 use Picker\User\Requests\{CreateUser, UpdateUser, InviteUser};
 use App\Http\Controllers\Controller;
@@ -78,13 +78,15 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
-        $user->update($request->only(['first_name','last_name', 'is_vip']));
+        $user->update(
+            array_merge($request->only(['first_name','last_name']), [
+                'is_vip' => (boolean) $request->input('is_vip'),
+            ])
+        );
 
-        if ($request->input('is_admin', 'no') === 'yes') {
-            $admin = Role::where('name', 'admin')->first();
+        $role = $request->input('is_admin') ? 'admin' : 'user';
 
-            $this->roles()->attach($admin);
-        }
+        $user->roles()->sync(Role::where('name', $role)->first());
 
         $this->messages->add('updated', trans('messages.user.updated'));
 

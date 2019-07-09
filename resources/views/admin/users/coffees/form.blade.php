@@ -11,7 +11,6 @@
                         <option value="{{ $coffee->slug }}" {{ ($userCoffee->coffee->slug ?? old('name')) === $coffee->slug ? "selected='selected'" : "" }}>{{ $coffee->name }}</option>
                     @endforeach
                 </select>
-                @validation('name')
             </div>
         </div>
 
@@ -22,21 +21,18 @@
                         <option value="{{ $number }}" {{ ($userCoffee->sugar ?? old('sugar')) === $number ? 'selected="selected"' : '' }}>{{ $sugar }}</option>
                     @endforeach
                 </select>
-                @validation('sugar')
             </div>
         </div>
 
         <div class="col s6">
             <div class="input-field">
                 <input type="text" class="timepicker{{ $errors->has('start_time') ? ' invalid' : ' validate' }}" name="start_time" value="{{ $userCoffee->start_time ?? old('start_time') }}" placeholder="From">
-                @validation('start_time')
             </div>
         </div>
 
         <div class="col s6">
             <div class="input-field">
                 <input type="text" class="timepicker{{ $errors->has('end_time') ? ' invalid' : ' validate' }}" name="end_time" value="{{ $userCoffee->end_time ?? old('end_time') }}" placeholder="To">
-                @validation('end_time')
             </div>
         </div>
 
@@ -47,7 +43,6 @@
                         <option value="{{ $key }}" {{ in_array($key, old('days', $userCoffee->days ?? [])) ? "selected='selected'" : "" }}>{{ $day }}</option>
                     @endforeach
                 </select>
-                @validation('days')
             </div>
         </div>
     </div>

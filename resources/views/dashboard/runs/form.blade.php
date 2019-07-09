@@ -6,7 +6,6 @@
         <div class="input-field col s12">
             <input id="name" class="{{ $errors->has('name') ? 'invalid' : 'validate' }}" type="text" name="name" value="{{ $coffee->name ?? old('name') }}" >
             <label for="name">Name</label>
-            @validation('name')
         </div>
     </div>
 
@@ -14,7 +13,6 @@
         <div class="input-field col s12">
             <textarea id="description" class="materialize-textarea {{ $errors->has('description') ? 'invalid' : 'validate' }}" type="text" name="description" value="{{ $coffee->description ?? old('description') }}">{{ $coffee->description ?? old('description') }}</textarea>
             <label for="description">Description</label>
-            @validation('description')
         </div>
     </div>
 

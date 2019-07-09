@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="section">
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         <div class="right-align">
             <a class="waves-effect waves-light btn-small" href={{ route('dashboard.coffee.create') }}>Add</a>

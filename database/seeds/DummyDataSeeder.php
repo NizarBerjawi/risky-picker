@@ -35,6 +35,14 @@ class DummyDataSeeder extends Seeder
     protected $percentageWithoutCup = 0.1;
 
     /**
+     * The percentage of users who are not in the pool of users
+     * that can be selected to do a coffee run
+     *
+     * @var float
+     */
+    protected $percentageOfVipUsers = 0.3;
+
+    /**
      * The maximum number of coffees allowed per user
      *
      * @var integer
@@ -71,6 +79,9 @@ class DummyDataSeeder extends Seeder
         factory(Picker\User::class, $this->totalUsers)
             ->create()
             ->each(function($user) use ($coffees, $roles, $daysOfWeek, $storage, $faker) {
+                $user->update([
+                    'is_vip' => $faker->boolean($chanceOfGettingTrue = floor($this->percentageOfVipUsers * 100)),
+                ]);
                 // Give the user a role
                 $user->roles()->attach($roles->random());
                 // Give a percentage of the users a reusable cup

@@ -3,10 +3,7 @@
 @section('content')
     <div class="section">
         <h3>View Coffee Run</h3>
-
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         <div class="row">
             @include('dashboard.runs.form')

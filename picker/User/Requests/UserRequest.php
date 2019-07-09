@@ -27,6 +27,8 @@ abstract class UserRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'is_admin' => 'sometimes|nullable|boolean',
+            'is_vip' => 'sometimes|nullable|boolean'
         ];
     }
 }

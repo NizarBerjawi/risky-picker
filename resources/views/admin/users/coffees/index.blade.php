@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="section">
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         <div class="row">
             <div class="right-align">

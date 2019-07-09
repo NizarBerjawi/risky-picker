@@ -30,9 +30,13 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('alert', function ($expression) {
             return "<?php echo
                 '<div class=\"row\">
-                    <div class=\"card-panel '.(".$expression. "=== 'success' ? 'green' : 'red').' lighten-3\">'.
-                        session($expression)->first()
-                    .'</div>
+                    <div class=\"card-panel '.(".$expression. "=== 'success' ? 'green' : 'red').' lighten-3\">
+                        <ul class=\"browser-default white-text\">'?>
+                        <?php
+                         foreach(session($expression)->all() as \$error) { echo '<li><b>'.\$error.'</b></li>'; }
+                         ?>
+                        <?php echo '</ul>
+                    </div>
                 </div>'
             ?>";
         });

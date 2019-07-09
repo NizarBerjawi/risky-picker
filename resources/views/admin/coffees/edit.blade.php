@@ -2,12 +2,8 @@
 
 @section('content')
     <div class="section">
-        <h3>Update Coffee</h3>
+        @include('partials.validation')
 
-        @success
-            @alert('success')
-        @endsuccess
-        
         @include('admin.coffees.form', [
             'action' => route('coffees.update', $coffee),
             'method' => 'PUT',

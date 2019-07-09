@@ -4,9 +4,7 @@
     <div class="section">
         <h3>{{ __('Login') }}</h3>
 
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         <div class="row">
             <form action="{{ route('login') }}" method="POST">
@@ -16,7 +14,6 @@
                     <div class="input-field col s12">
                         <input id="email" type="email" class="{{ $errors->has('email') ? 'invalid' : 'validate' }}" type="text" name="email" value="{{ old('email') }}" required >
                         <label for="email">{{ __('E-Mail Address') }}</label>
-                        @validation('email')
                     </div>
                 </div>
 
@@ -24,7 +21,6 @@
                     <div class="input-field col s12">
                         <input id="password" type="password" class="{{ $errors->has('password') ? 'invalid' : 'validate' }}" name="password" required>
                         <label for="password">{{ __('Password') }}</label>
-                        @validation('password')
                     </div>
                 </div>
 

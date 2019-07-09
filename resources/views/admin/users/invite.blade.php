@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="section">
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         <form action="{{ route('users.invite') }}" method="POST">
             @csrf
@@ -13,7 +11,6 @@
                 <div class="input-field col s12">
                     <input id="email" type="email" class="{{ $errors->has('email') ? 'invalid' : 'validate' }}" name="email" value="{{ old('email') }}">
                     <label for="email">{{ __('E-Mail Address') }}</label>
-                    @validation('email')
                 </div>
             </div>
 

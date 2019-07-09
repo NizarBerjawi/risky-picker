@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="section">
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         @include('dashboard.user.form')
     </div>

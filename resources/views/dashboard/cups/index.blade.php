@@ -2,9 +2,7 @@
 
 @section('content')
     <div class="section">
-        @success
-            @alert('success')
-        @endsuccess
+        @include('partials.validation')
 
         @if (request()->user()->doesnttHaveCup())
             <div class="right-align">

@@ -18,6 +18,7 @@ $factory->define(Picker\User::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
+        'is_vip' => $faker->boolean,
         'password' => bcrypt('secret'),
     ];
 });

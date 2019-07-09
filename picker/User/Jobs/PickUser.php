@@ -26,7 +26,7 @@ class PickUser implements ShouldQueue
     {
         try {
             // Select a user to do the coffee run
-            $user = Picker::pick(User::get());
+            $user = Picker::pick(User::withoutVIP()->get());
 
             // Generate a new empty coffee run and associate it with the user
             $run = CoffeeRun::create(['user_id' => $user->id]);
