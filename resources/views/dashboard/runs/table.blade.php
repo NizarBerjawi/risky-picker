@@ -1,7 +1,6 @@
 <table class="col s12 responsive-table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>User</th>
             <th>Total Coffees
             <th>Date</th>
@@ -12,14 +11,12 @@
     <tbody>
         @forelse($runs as $run)
             <tr>
-                <td>{{ $run->id }}</td>
                 <td>{{ $run->user->full_name }}</td>
                 <td>{{ $run->userCoffees->count() }}</td>
-                <td>{{ $run->created_at }}</td>
+                <td>{{ $run->created_at->format('jS \\of F Y h:i A') }}</td>
                 <td>
-                    {{-- If the user who was selected to do the run sees the his own run,
-                     then we give them the option to ask for volunteers to cover for them
-                     and do the run --}}
+                    {{-- If the user who was selected to do the run sees his own run,
+                     then we give them the option to ask for volunteers to cover for them --}}
                     @if (request()->user()->is($run->user) && $run->notExpired())
 
                         {{-- The user has not asked for volunteers yet, allow them to do so --}}
@@ -55,13 +52,15 @@
                             <span class="badge"><small>{{ $run->volunteer->full_name }}</small></span>
                         @endif
                     @else
-                        {{-- Show nothing --}}
+                        @if ($run->hasVolunteer())
+                            <span class="badge"><small>{{ $run->volunteer->full_name }}</small></span>
+                        @endif
                     @endif
                 </td>
             </tr>
         @empty
             <tr>
-                <td>No coffee runs yet!</td>
+                <td colspan="4">No coffee runs yet!</td>
             </tr>
         @endforelse
     </tbody>

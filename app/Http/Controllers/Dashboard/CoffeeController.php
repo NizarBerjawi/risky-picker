@@ -33,7 +33,9 @@ class CoffeeController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize('create', UserCoffee::class);
+        if ($request->user()->cant('create', UserCoffee::class)) {
+            return back()->withErrors(trans('messages.coffee.auth'));
+        }
 
         $adhoc = $request->get('is_adhoc', false);
 
@@ -50,8 +52,9 @@ class CoffeeController extends Controller
      */
     public function store(CreateUserCoffee $request)
     {
-        $this->authorize('create', UserCoffee::class);
-
+        if ($request->user()->cant('create', UserCoffee::class)) {
+            return back()->withErrors(trans('messages.coffee.auth'));
+        }
         // Find the type of coffee the user is attempting to create
         $coffee = Coffee::findBySlugOrFail($request->input('name'));
 

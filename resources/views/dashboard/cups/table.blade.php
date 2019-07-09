@@ -27,7 +27,7 @@
         </tr>
     @else
         <tr>
-            <td>You don't have any cups!</td>
+            <td colspan="4">You don't have any cups!</td>
         </tr>
     @endif
     </tbody>

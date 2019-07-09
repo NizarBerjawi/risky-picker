@@ -25,7 +25,7 @@
             </tr>
         @empty
             <tr>
-                <td>Oh No! There are no coffees available!</td>
+                <td colspan="3">Oh No! There are no coffees available!</td>
             </tr>
         @endforelse
     </tbody>

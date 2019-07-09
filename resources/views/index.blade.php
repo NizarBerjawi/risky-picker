@@ -1,14 +1,5 @@
 @extends('layouts.base')
 
-@section('left')
-    {{-- <div class="collection">
-        <a href="{{ route('index', $run) }}" class="collection-item"><span class="badge">4</span>All</a>
-        @foreach($coffeeTypes as $type)
-            <a href="{{ route('index', ['uuid' => $run, 'coffee_type' => $type->slug]) }}" class="collection-item"><span class="new badge" data-badge-caption="">4</span>{{ $type->name }}</a>
-        @endforeach
-    </div> --}}
-@endsection
-
 @section('content')
     @include('partials.validation')
 

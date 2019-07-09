@@ -34,11 +34,9 @@ class CoffeeRunController extends Controller
      */
     public function index(Request $request, $uuid)
     {
-        // Get the coffee run
         $run = CoffeeRun::findOrFail($uuid);
 
-        // If the coffee run is expired, abort the request
-        if ($run->expired()) { abort(404); }
+        abort_if($run->expired(), 410, trans('messages.run.expired'));
 
         // Get all the coffee types that are available in this run
         $coffeeTypes = Coffee::withCoffeeTotal($run)->get();

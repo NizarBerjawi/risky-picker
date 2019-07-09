@@ -164,7 +164,7 @@ class UserCoffee extends Pivot
     {
         $now = Carbon::now();
 
-        // The user is not allowed to create coffee that overlap
+        // The user is not allowed to create coffees that overlap
         // in time range. We can safely assume that there will only be
         // a maximum of 1 coffee per user at any given time/day
         // combination

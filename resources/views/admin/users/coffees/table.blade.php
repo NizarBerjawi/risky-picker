@@ -29,7 +29,7 @@
             </tr>
         @empty
             <tr>
-                <td>No coffee for this user!</td>
+                <td colspan="5">No coffee for this user!</td>
             </tr>
         @endforelse
     </tbody>

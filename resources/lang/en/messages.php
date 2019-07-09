@@ -22,9 +22,11 @@
         'duplicate' => 'This coffee is already available',
         'invalid'   => 'The end time should be after the start time.',
         'conflict'  => 'Time range is already taken',
+        'auth'      => 'You are not allowed to change someone else\'s coffee',
     ],
     'run' => [
         'busy'      => 'We have sent a request for volunteers. You lazy ass.',
         'volunteer' => 'Thank you for taking this one.',
+        'expired'   => 'This coffee run is not available any more.'
     ]
 ];
