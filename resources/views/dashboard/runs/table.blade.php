@@ -5,6 +5,9 @@
             <th>Total Coffees
             <th>Date</th>
             <th>Volunteers</th>
+            @if (request()->user()->isAdmin())
+                <th>Actions</th>
+            @endif
         </tr>
     </thead>
 
@@ -57,6 +60,15 @@
                         @endif
                     @endif
                 </td>
+                @can('pick', $run)
+                    <td>
+                        <form action={{ route('dashboard.runs.update', $run) }} method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="waves-effect waves-light btn-small" name="action" value="pick"><i class="tiny material-icons teal-text">refresh</i></button>
+                        </form>
+                    </td>
+                @endcan
             </tr>
         @empty
             <tr>

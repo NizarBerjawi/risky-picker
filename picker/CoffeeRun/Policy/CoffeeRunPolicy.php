@@ -42,4 +42,20 @@ class CoffeeRunPolicy
     {
         return $user->isNot($run->user) && $run->needsVolunteer();
     }
+
+    /**
+     * Determine if the user is allowed to re-select a coffee run
+     * user.
+     *
+     * @param  User  $user
+     * @param  CoffeRun  $run
+     * @return bool
+     */
+    public function pick(User $user, CoffeeRun $run)
+    {
+        return $user->isNot($run->user) &&
+               $user->isAdmin() &&
+               !$run->volunteerRequested() &&
+               $run->notExpired();
+    }
 }

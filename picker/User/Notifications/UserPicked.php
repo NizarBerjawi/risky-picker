@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Support\Facades\URL;
 
-class UserPicked extends Notification
+class UserPicked extends Notification implements ShouldQueue
 {
     use Queueable;
 

@@ -27,6 +27,8 @@
     'run' => [
         'busy'      => 'We have sent a request for volunteers. You lazy ass.',
         'volunteer' => 'Thank you for taking this one.',
-        'expired'   => 'This coffee run is not available any more.'
+        'expired'   => 'This coffee run is not available any more.',
+        'failed'    => 'Failed to select a new user for this coffee run.',
+        'pick'      => 'Successfully selected a new user for this coffee run.',
     ]
 ];

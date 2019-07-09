@@ -191,6 +191,20 @@ class CoffeeRun extends Model
     }
 
     /**
+     * Change the user doing the run and reset any settings
+     *
+     * @return bool
+     */
+    public function changeUser(User $user)
+    {
+        return $this->update([
+            'user_id' => $user->id,
+            'user_busy' => false,
+            'volunteer_id' => null,
+        ]);
+    }
+
+    /**
      * Check if the coffee run has expired
      *
      * @return bool

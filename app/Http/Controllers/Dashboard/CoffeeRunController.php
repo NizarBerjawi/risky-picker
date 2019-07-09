@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\CoffeeRun;
+use Picker\{CoffeeRun, Picker, User};
+use Picker\User\Notifications\UserPicked;
 use Picker\CoffeeRun\Notifications\{VolunteerRequested, UserVolunteered};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,6 +37,37 @@ class CoffeeRunController extends Controller
     public function show(Request $request, CoffeeRun $run)
     {
         return response()->view('dashboard.runs.show', compact('run'));
+    }
+
+    /**
+     * Update a specified coffee run user
+     *
+     * @param Request $request
+     * @param CoffeeRun $run
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, CoffeeRun $run)
+    {
+        $this->authorize('pick', $run);
+
+        // Get the pool of users to select from while excluding the
+        // user that was previously select for this coffee run
+        $pool = User::exclude([$run->user])->withoutVIP()->get();
+
+        // Randomly pick a user who is eligible to take this coffee run
+        $user = Picker::pick($pool);
+
+        // Attempt to update the coffee run's user
+        if (!$run->changeUser($user)) {
+            return back()->withErrors(trans('messages.run.failed'));
+        }
+
+        // Notify everyone in case of success
+        $user->notify(new UserPicked($run));
+
+        $this->messages->add('pick', trans('messages.run.pick'));
+
+        return back()->withSuccess($this->messages);
     }
 
     /**

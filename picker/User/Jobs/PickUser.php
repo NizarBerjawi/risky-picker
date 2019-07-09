@@ -2,7 +2,7 @@
 
 namespace Picker\User\Jobs;
 
-use Picker\{CoffeeRUn, Picker, User};
+use Picker\{CoffeeRun, Picker, User};
 use Picker\User\Notifications\UserPicked;
 
 use Illuminate\Bus\Queueable;

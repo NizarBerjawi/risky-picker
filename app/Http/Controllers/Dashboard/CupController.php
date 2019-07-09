@@ -69,7 +69,7 @@ class CupController extends Controller
         $path = $this->manager->handleFileUpload($request);
 
         if (!$path) {
-            return back()->withError(trans('messages.cup.failed'));
+            return back()->withErrors(trans('messages.cup.failed'));
         }
 
         $user->cup()->create(['filename' => $path]);
@@ -107,7 +107,7 @@ class CupController extends Controller
         $path = $this->manager->handleFileUpload($request);
 
         if (!$path) {
-            return back()->withError(trans('messages.cup.failed'));
+            return back()->withErrors(trans('messages.cup.failed'));
         }
 
         // Delete any old images
