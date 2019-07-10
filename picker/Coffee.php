@@ -96,7 +96,7 @@ class Coffee extends Model
                          ->groupBy('coffee_id')
                          ->when($run, function($query) use ($run) {
                             $query->byRun($run);
-                         });
+                        })->withAdhoc();
 
       return $query->joinSub($sub, 'coffee_counts', 'coffee_counts.coffee_id', '=', 'coffees.id');
     }
