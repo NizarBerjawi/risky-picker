@@ -31,4 +31,6 @@ Route::group(['prefix' => 'coffee-run'], function() {
     Route::post('/{run}/busy', 'CoffeeRunController@busy')->name('dashboard.runs.busy');
     Route::post('/{run}/volunteer', 'CoffeeRunController@volunteer')->name('dashboard.runs.volunteer');
     Route::match(['put', 'patch'], '/{run}', 'CoffeeRunController@update')->name('dashboard.runs.update');
+    Route::get('/{run}/coffee/{coffee}', 'CoffeeRunController@preRemove')->name('dashboard.runs.confirm-remove');
+    Route::match(['put', 'patch'], '/{run}/coffee/{coffee}', 'CoffeeRunController@remove')->name('dashboard.runs.remove');
 });

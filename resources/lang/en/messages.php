@@ -27,8 +27,10 @@
     'run' => [
         'busy'      => 'We have sent a request for volunteers. You lazy ass.',
         'volunteer' => 'Thank you for taking this one.',
+        'remove'    => 'Your coffee was removed from this coffee run successfully',
         'expired'   => 'This coffee run is not available any more.',
         'failed'    => 'Failed to select a new user for this coffee run.',
         'pick'      => 'Successfully selected a new user for this coffee run.',
+        'auth'      => 'You are not allowed to remove someone else\'s coffee',
     ]
 ];

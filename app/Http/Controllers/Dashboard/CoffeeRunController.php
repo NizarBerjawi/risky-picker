@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{CoffeeRun, Picker, User};
+use Picker\{CoffeeRun, Picker, User, UserCoffee};
 use Picker\User\Notifications\UserPicked;
 use Picker\CoffeeRun\Notifications\{VolunteerRequested, UserVolunteered};
 use App\Http\Controllers\Controller;
@@ -51,7 +51,7 @@ class CoffeeRunController extends Controller
         $this->authorize('pick', $run);
 
         // Get the pool of users to select from while excluding the
-        // user that was previously select for this coffee run
+        // user that was previously selected for this coffee run
         $pool = User::exclude([$run->user])->withoutVIP()->get();
 
         // Randomly pick a user who is eligible to take this coffee run
@@ -107,8 +107,46 @@ class CoffeeRunController extends Controller
 
         $request->user()->notify(new UserVolunteered($run));
 
-        $this->messages->add('busy', trans('messages.run.volunteer'));
+        $this->messages->add('volunteer', trans('messages.run.volunteer'));
 
         return back()->withSuccess($this->messages);
+    }
+
+    /**
+     * Delete a user coffee from the coffee run
+     *
+     * @param Request $request
+     * @param CoffeeRun $run
+     * @param UserCoffee $coffee
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function preRemove(Request $request, CoffeeRun $run, UserCoffee $coffee)
+    {
+        if ($request->user()->cant('remove', [$run, $coffee])) {
+            return redirect()->route('index', $run)->withErrors(trans('messages.run.auth'));
+        }
+
+        return response()->view('dashboard.runs.remove', compact('run', 'coffee'));
+    }
+
+    /**
+     * Delete a user coffee from the coffee run
+     *
+     * @param Request $request
+     * @param CoffeeRun $run
+     * @param UserCoffee $coffee
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function remove(Request $request, CoffeeRun $run, UserCoffee $coffee)
+    {
+        if ($request->user()->cant('remove', [$run, $coffee])) {
+            return back()->withErrors(trans('messages.run.auth'));
+        }
+
+        $run->userCoffees()->detach($coffee);
+
+        $this->messages->add('remove', trans('messages.run.remove'));
+
+        return redirect()->route('index', $run)->withSuccess($this->messages);
     }
 }

@@ -19,13 +19,16 @@
                         <a href="{{ $userCoffee->user->cup ? $userCoffee->user->cup->image_path : '/dist/img/no-cup.png' }}" target="_blank">
                             <img class="" src="{{ $userCoffee->user->cup ? $userCoffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.jpg' }}">
                         </a>
-
-                        <a href="{{ $userCoffee->getAdhocUrl($run) }}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a>
                     </div>
                     <div class="card-content">
                         <span class="card-title grey-text text-darken-4 tooltipped" data-position="top" data-tooltip="{{ $userCoffee->user->full_name }}">{{ str_limit($userCoffee->user->full_name, 9) }}</span>
                         <p><strong>Coffee</strong>: {{ $userCoffee->coffee->name }}</p>
                         <p><strong>Sugars</strong>: {{ $userCoffee->sugar }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{{ $userCoffee->getAdhocUrl($run) }}">Change</a>
+
+                        <a href="{{ route('dashboard.runs.confirm-remove', compact('run', 'userCoffee')) }}">Remove</a>
                     </div>
                 </div>
             </div>

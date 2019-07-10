@@ -65,7 +65,7 @@
                         <form action={{ route('dashboard.runs.update', $run) }} method="POST">
                             @csrf
                             @method('PATCH')
-                            <button type="submit" class="waves-effect waves-light btn-small" name="action" value="pick"><i class="tiny material-icons">refresh</i></button>
+                            <button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="top" data-tooltip="Select a new user to do this run" name="action" value="pick"><i class="tiny material-icons">refresh</i></button>
                         </form>
                     </td>
                 @endcan

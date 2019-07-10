@@ -2,7 +2,7 @@
 
 namespace Picker\CoffeeRun\Policy;
 
-use Picker\{CoffeeRun, User};
+use Picker\{CoffeeRun, User, UserCoffee};
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CoffeeRunPolicy
@@ -29,6 +29,18 @@ class CoffeeRunPolicy
     public function busy(User $user, CoffeeRun $run)
     {
         return $user->is($run->user);
+    }
+
+    /**
+     * Determine if the given coffee run can be modified by the user.
+     *
+     * @param  User  $user
+     * @param  CoffeRun  $run
+     * @return bool
+     */
+    public function remove(User $user, CoffeeRun $run, UserCoffee $coffee)
+    {
+        return $user->is($run->user) || $user->is($coffee->user);
     }
 
     /**
