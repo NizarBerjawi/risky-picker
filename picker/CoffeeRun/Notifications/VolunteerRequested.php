@@ -48,9 +48,11 @@ class VolunteerRequested extends Notification implements ShouldQueue
      */
     public function toSlack($notifiable)
     {
+        $tag = config('app.env') === 'production' ? '<!channel> ' : '';
+
         return (new SlackMessage)
                     ->from('Risky Picker')
-                    ->content("{$notifiable->full_name} has requested a volunteer to take this run!")
+                    ->content("{$tag}{$notifiable->full_name} has requested a volunteer to take this run!")
                     ->attachment(function($attachment) {
                         $attachment->content("You can volunteer for this run here:" . route('dashboard.runs.index'));
                     });

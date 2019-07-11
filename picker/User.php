@@ -172,7 +172,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function doesnttHaveCup()
+    public function doesntHaveCup()
     {
         return !$this->hasCup();
     }
