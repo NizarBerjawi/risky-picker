@@ -14,9 +14,9 @@ class UsersTableSeeder extends Seeder
     public function run(\Faker\Generator $faker)
     {
         $user = factory(Picker\User::class)->make([
-            'email'      => 'nizar@weareflip.com',
-            'first_name' => 'Nizar',
-            'last_name'  => 'El Berjawi',
+            'email'      => 'admin@risky-picker.com',
+            'first_name' => 'Test',
+            'last_name'  => 'Account',
         ]);
 
         $user->save();
