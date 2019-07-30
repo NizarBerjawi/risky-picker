@@ -3,7 +3,7 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\{Coffee, User, UserCoffee};
+use Picker\{Coffee, User, UserCoffee, Schedule};
 use Picker\Support\Filters\Filterable;
 use Picker\Support\Uuid\HasUuid;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -96,7 +96,7 @@ class CoffeeRun extends Model
      */
     public function scopeToday(Builder $query)
     {
-        return $query->whereDate('created_at', Carbon::today());
+        return $query->whereDate('created_at', Carbon::today())->latest();
     }
 
     /**
@@ -107,7 +107,7 @@ class CoffeeRun extends Model
      */
     public function scopeYesterday(Builder $query)
     {
-        return $query->whereDate('created_at', Carbon::yesterday());
+        return $query->whereDate('created_at', Carbon::yesterday())->latest();
     }
 
     /**

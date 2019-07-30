@@ -32,5 +32,11 @@
         'failed'    => 'Failed to select a new user for this coffee run.',
         'pick'      => 'Successfully selected a new user for this coffee run.',
         'auth'      => 'You are not allowed to remove someone else\'s coffee',
+    ],
+    'schedule' => [
+        'created'  => 'Schedule successfully created.',
+        'updated'  => 'Schedule successfully updated.',
+        'deleted'  => 'Schedule successfully deleted',
+        'conflict' => 'Time and day conflict',
     ]
 ];

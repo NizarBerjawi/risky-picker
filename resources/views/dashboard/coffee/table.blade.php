@@ -1,3 +1,4 @@
+@if ($coffees->isNotEmpty())
 <table class="responsive-table">
     <thead>
         <tr>
@@ -10,27 +11,29 @@
     </thead>
 
     <tbody>
-    @forelse($coffees as $userCoffee)
-        <tr>
-            <td>{{ $userCoffee->type }}</td>
-            <td>{{ $userCoffee->sugar }}</td>
-            <td>{{ $userCoffee->start_time }} - {{ $userCoffee->end_time }}</td>
-            <td>{{ $userCoffee->getFormattedDays() }}</td>
-            <td>
-                <a href="{{ route('dashboard.coffee.edit', $userCoffee) }}"class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">edit</i></a>
+        @foreach($coffees as $userCoffee)
+            <tr>
+                <td><a href="{{ route('dashboard.coffee.show', $userCoffee) }}">{{ $userCoffee->type }}</a></td>
+                <td>{{ $userCoffee->sugar }}</td>
+                <td>{{ $userCoffee->start_time }} - {{ $userCoffee->end_time }}</td>
+                <td>{{ $userCoffee->getFormattedDays() }}</td>
+                <td>
+                    <a href="{{ route('dashboard.coffee.edit', $userCoffee) }}"class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">edit</i></a>
+                    <form action="{{ route('dashboard.coffee.delete', $userCoffee) }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
 
-                <form action="{{ route('dashboard.coffee.delete', $userCoffee) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-
-                    <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
-                </form>
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="5">You don't have any coffees!</td>
-        </tr>
-    @endforelse
+                        <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
     </tbody>
 </table>
+
+<div class="center-align">
+    {{ $coffees->links() }}
+</div>
+@else
+    <p>You don't have any coffees!</p>
+@endif

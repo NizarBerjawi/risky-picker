@@ -1,14 +1,20 @@
 @extends('layouts.base')
 
-@section('content')
-    <div class="section">
-        @include('partials.validation')
+@section('validation')
+    @include('partials.validation')
+@endsection
 
-        <div class="row">
-            @include('admin.users.form', [
-                'action' => route('users.update', $user),
-                'method' => 'PUT',
-            ])
+@section('content')
+    <div class="row">
+        <div class="card-panel">
+            <div class="card-content">
+                <h4 class="card-title">{{ __('Edit User') }}</h4>
+
+                @include('admin.users.form', [
+                    'action' => route('users.update', $user),
+                    'method' => 'PUT',
+                ])
+            </div>
         </div>
     </div>
 @endsection

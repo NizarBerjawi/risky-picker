@@ -33,19 +33,6 @@ class CupController extends Controller
     }
 
     /**
-     * Show a listing of all the user's cups
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $cup = $request->user()->cup;
-
-        return response()->view('dashboard.cups.index', compact('cup'));
-    }
-
-    /**
      * Display the form for creating a cup
      *
      * @param Request $request
@@ -77,8 +64,19 @@ class CupController extends Controller
         $this->messages->add('updated', trans('messages.cup.created'));
 
         return redirect()
-                ->route('dashboard.cups.index')
+                ->route('dashboard.index')
                 ->withSuccess($this->messages);
+    }
+
+    /**
+     * Display the form for uploading a cup photo
+     *
+     * @param Cup $cup
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Cup $cup)
+    {
+        return response()->view('dashboard.cups.show', compact('cup'));
     }
 
     /**
@@ -117,7 +115,8 @@ class CupController extends Controller
 
         $this->messages->add('updated', trans('messages.cup.updated'));
 
-        return back()
+        return redirect()
+                ->route('dashboard.index')
                 ->withSuccess($this->messages);
     }
 

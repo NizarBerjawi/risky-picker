@@ -1,15 +1,11 @@
-@extends('layouts.base')
+<div class="card-panel">
+    <div class="card-content">
+        <h5 class="card-title">{{ __('Runs') }}</h5>
 
-@section('content')
-    <div class="section">
-        @include('partials.validation')
+        @include('dashboard.runs.table')
 
-        <div class="row">
-            @include('dashboard.runs.table')
-        </div>
-
-        <div class="row center-align">
-            {{ $runs->links() }}
-        </div>
+        @isset($countdown)
+            <div class="right-align"><small>(Next run is {{ $countdown }})</small></div>
+        @endisset
     </div>
-@endsection
+</div>

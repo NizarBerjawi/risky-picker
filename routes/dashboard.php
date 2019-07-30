@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', 'UserController@edit')->name('dashboard.profile.edit');
+Route::get('/', 'DashboardController@index')->name('dashboard.index');
 
 Route::group(['prefix' => 'profile'], function() {
     Route::get('/', 'UserController@edit')->name('dashboard.profile.edit');
@@ -12,6 +12,7 @@ Route::group(['prefix' => 'coffees'], function() {
     Route::get('/create', 'CoffeeController@create')->name('dashboard.coffee.create');
     Route::post('/', 'CoffeeController@store')->name('dashboard.coffee.store');
     Route::get('/{userCoffee}/edit', 'CoffeeController@edit')->name('dashboard.coffee.edit');
+    Route::get('/{userCoffee}', 'CoffeeController@show')->name('dashboard.coffee.show');
     Route::match(['put', 'patch'], '/{userCoffee}', 'CoffeeController@update')->name('dashboard.coffee.update');
     Route::delete('/{userCoffee}', 'CoffeeController@destroy')->name('dashboard.coffee.delete');
 });
@@ -21,6 +22,7 @@ Route::group(['prefix' => 'cups'], function() {
     Route::get('/create', 'CupController@create')->name('dashboard.cups.create');
     Route::post('/', 'CupController@store')->name('dashboard.cups.store');
     Route::get('{cup}/edit', 'CupController@edit')->name('dashboard.cups.edit');
+    Route::get('{cup}', 'CupController@show')->name('dashboard.cups.show');
     Route::match(['put', 'patch'], '/{cup}', 'CupController@update')->name('dashboard.cups.update');
     Route::delete('/{cup}', 'CupController@destroy')->name('dashboard.cups.delete');
 });

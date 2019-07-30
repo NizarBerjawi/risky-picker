@@ -39,7 +39,7 @@
         <div class="col s12">
             <div class="input-field">
                 <select name="days[]" class="{{ $errors->has('days') ? 'invalid' : 'validate' }}" multiple>
-                    @foreach($days as $key => $day)
+                    @foreach(days() as $key => $day)
                         <option value="{{ $key }}" {{ in_array($key, old('days', $userCoffee->days ?? [])) ? "selected='selected'" : "" }}>{{ $day }}</option>
                     @endforeach
                 </select>

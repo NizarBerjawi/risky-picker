@@ -185,7 +185,11 @@ class UserCoffee extends Pivot
     }
 
     /**
+     * Get use coffees that belong to a specified coffee run
      *
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @param CoffeeRun $run
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByRun(Builder $query, CoffeeRun $run)
     {

@@ -42,7 +42,7 @@ class UserController extends Controller
           $this->messages->add('updated', trans('messages.user.updated'));
 
           return redirect()
-                    ->route('dashboard.profile.edit')
+                    ->route('dashboard.index')
                     ->withSuccess($this->messages);
       }
 }

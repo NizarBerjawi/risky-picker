@@ -25,7 +25,6 @@ class CoffeeController extends Controller
     /**
      * Show the form for creating a new coffee.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function create()

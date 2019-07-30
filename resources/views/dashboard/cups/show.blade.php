@@ -4,12 +4,10 @@
     <div class="col s12 m8 offset-m2">
         <div class="card-panel">
             <div class="card-content">
-                <h5 class="card-title">{{ __('Add your cup') }}</h5>
+                <h5 class="card-title">{{ __('View your cup') }}</h5>
 
                 @include('dashboard.cups.form', [
-                    'action'  => route('dashboard.cups.update', $cup),
-                    'method'  => 'PUT',
-                    'enabled' => true,
+                    'enabled' => false,
                 ])
             </div>
         </div>

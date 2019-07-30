@@ -1,8 +1,6 @@
-@extends('layouts.base')
-
-@section('content')
-    <div class="section">
-        @include('partials.validation')
+<div class="card-panel">
+    <div class="card-content">
+        <h5 class="card-title">{{ __('Your cup') }}</h5>
 
         @if (request()->user()->doesntHaveCup())
             <div class="right-align">
@@ -12,4 +10,4 @@
 
         @include('dashboard.cups.table')
     </div>
-@endsection
+</div>

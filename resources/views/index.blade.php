@@ -16,7 +16,7 @@
             <div class="col s12 m6 l4">
                 <div class="card">
                     <div class="card-image">
-                        <a href="{{ $userCoffee->user->cup ? $userCoffee->user->cup->image_path : '/dist/img/no-cup.png' }}" target="_blank">
+                        <a href="{{ $userCoffee->user->cup ? $userCoffee->user->cup->image_path : '/dist/img/no-cup-thumb.jpg' }}" target="_blank">
                             <img class="" src="{{ $userCoffee->user->cup ? $userCoffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.jpg' }}">
                         </a>
                     </div>

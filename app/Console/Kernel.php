@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App;
+use Carbon\Carbon;
+use Picker\Schedule as CoffeeSchedule;
 use Picker\User\Jobs\PickUser;
 use Picker\CoffeeRun\Jobs\CreateCoffeeRun;
 use Illuminate\Console\Scheduling\Schedule;
@@ -26,13 +29,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (config('app.env') === 'local') {
-            $schedule->job(new PickUser)->everyMinute();
-        }
+        // Get the current server time
+        $now = Carbon::now();
 
-        if (config('app.env') === 'production') {
-            $schedule->job(new PickUser)->weekdays()->dailyAt('08:30');
-            $schedule->job(new PickUser)->weekdays()->dailyAt('13:30');
+        // Check if a schedule exists for the current server time
+        $readyToExecute = CoffeeSchedule::query()
+            ->at($now->format('G:i'))
+            ->days([strtolower($now->shortEnglishDayOfWeek)])
+            ->exists();
+
+        // Excute the schedule only when the schedule exists
+        if (App::environment(['local', 'production', 'staging'])) {
+            $schedule->job(new PickUser)->when(function() use ($readyToExecute) {
+                return $readyToExecute;
+            });
         }
     }
 

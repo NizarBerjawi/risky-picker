@@ -2,15 +2,26 @@
 
 if (! function_exists('days')) {
     /**
-     * Get a list of week days to choose from
+     * Get a list of week days to choose from.
+     * Optionally specify what day of the week to start from.
      *
-     * @return Collection
+     * @return array
      */
-    function days()
+    function days($start = 'sun')
     {
-        return collect(\Carbon\Carbon::getDays())->flatMap(function ($day) {
+        $days = collect(\Carbon\Carbon::getDays())->flatMap(function ($day) {
             return [strtolower(\Carbon\Carbon::parse($day)->shortEnglishDayOfWeek) => $day];
         })->all();
+
+        $before = [];
+        foreach($days as $key => $day) {
+            if ($key === $start || $day === $start) { break; }
+
+            $before[$key] = $day;
+            unset($days[$key]);
+        }
+
+        return $days + $before;
     }
 }
 

@@ -1,12 +1,17 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="section">
-        @include('partials.validation')
+    <div class="col s12 m8 offset-m2">
+        <div class="card-panel">
+            <div class="card-content">
+                <h5 class="card-title">{{ __('Add your cup') }}</h5>
 
-        @include('dashboard.cups.form', [
-            'action' => route('dashboard.cups.store'),
-            'method' => 'POST',
-        ])
+                @include('dashboard.cups.form', [
+                    'action'  => route('dashboard.cups.store'),
+                    'method'  => 'POST',
+                    'enabled' => true,
+                ])
+            </div>
+        </div>
     </div>
 @endsection

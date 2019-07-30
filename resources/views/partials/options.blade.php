@@ -3,7 +3,7 @@
     <a href="#modal1" class="btn-floating btn-large red modal-trigger"><i class="large material-icons">local_cafe</i></a>
 
     @onadmin
-    <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('dashboard.profile.edit') }}">
+    <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('dashboard.index') }}">
         <i class="material-icons">home</i>
     </a>
     @endonadmin

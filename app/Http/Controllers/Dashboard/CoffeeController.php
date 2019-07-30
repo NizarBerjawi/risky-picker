@@ -10,22 +10,6 @@ use Illuminate\Http\Request;
 class CoffeeController extends Controller
 {
     /**
-     * Show a listing of all the user's coffees
-     *
-     * @param Request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $coffees = $request->user()
-                           ->userCoffees()
-                           ->with('coffee')
-                           ->paginate(20);
-
-        return response()->view('dashboard.coffee.index', compact('coffees'));
-    }
-
-    /**
      * Show the form for creating a new user coffee.
      *
      * @param Request $request
@@ -85,10 +69,15 @@ class CoffeeController extends Controller
         // the user back to the related coffee run page.
         $route = $request->get('is_adhoc')
             ? route('index', $run)
-            : route('dashboard.coffee.index');
+            : route('dashboard.index');
 
         return redirect($route)
                   ->withSuccess($this->messages);
+    }
+
+    public function show(UserCoffee $userCoffee)
+    {
+        return response()->view('dashboard.coffee.show', compact('userCoffee'));
     }
 
     /**
@@ -130,7 +119,7 @@ class CoffeeController extends Controller
           $this->messages->add('updated', trans('messages.coffee.updated'));
 
           return redirect()
-                    ->route('dashboard.coffee.index')
+                    ->route('dashboard.index')
                     ->withSuccess($this->messages);
       }
 

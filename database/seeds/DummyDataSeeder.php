@@ -47,7 +47,7 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $maxNumberOfCoffeesPerUser = 5;
+    protected $maxNumberOfCoffeesPerUser = 10;
 
     /**
      * The total number of users in the database
@@ -55,6 +55,14 @@ class DummyDataSeeder extends Seeder
      * @var integer
      */
     protected $maxNumberOfSugarsPerCoffee = 3;
+
+    /**
+     * The maximum number of schedules that can
+     * be run
+     *
+     * @var integer
+     */
+    protected $maxNumberOfSchedule = 50;
 
     /**
      * Run the database seeds.
@@ -74,6 +82,8 @@ class DummyDataSeeder extends Seeder
 
         // Get all the available week days
         $daysOfWeek = collect(days())->keys();
+
+        factory(Picker\Schedule::class, $this->maxNumberOfSchedule)->create();
 
         // Create all the users, attach a role to every user, create user coffees
         factory(Picker\User::class, $this->totalUsers)

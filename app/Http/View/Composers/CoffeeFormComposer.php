@@ -25,8 +25,6 @@ class CoffeeFormComposer
             '3' => 'Three sugars',
         ];
 
-        $days = days();
-
-        $view->with(compact('coffees', 'sugars', 'days'));
+        $view->with(compact('coffees', 'sugars'));
     }
 }

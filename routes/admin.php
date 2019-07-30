@@ -41,3 +41,13 @@ Route::group(['prefix' => 'coffee'], function() {
     Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
     Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
 });
+
+Route::group(['prefix' => 'schedules'], function() {
+    Route::get('/', 'ScheduleController@index')->name('schedules.index');
+    Route::get('/create', 'ScheduleController@create')->name('schedules.create');
+    Route::post('/', 'ScheduleController@store')->name('schedules.store');
+    Route::get('/{schedule}', 'ScheduleController@show')->name('schedules.show');
+    Route::get('/{schedule}/edit', 'ScheduleController@edit')->name('schedules.edit');
+    Route::match(['put', 'patch'], '/{schedule}', 'ScheduleController@update')->name('schedules.update');
+    Route::delete('/{schedule}', 'ScheduleController@destroy')->name('schedules.delete');
+});
