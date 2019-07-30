@@ -28,13 +28,13 @@
                             @if (!$run->volunteerRequested())
                                 <form action={{ route('dashboard.runs.busy', $run) }} method="POST">
                                     @csrf
-                                    <button type="submit" class="waves-effect waves-light btn-small">I'm busy</button>
+                                    <button type="submit" class="waves-effect waves-light btn-small">Busy</button>
                                 </form>
                             @endif
 
                             {{-- The user has asked for volunteers but no one has volunteered yet --}}
                             @if ($run->volunteerRequested() && !$run->hasVolunteer())
-                                <span class="waves-effect waves-light btn-small disabled">I'm busy</span><br />
+                                <span class="waves-effect waves-light btn-small disabled">Busy</span><br />
                                 <small>Volunteer requested...</small>
                             @endif
 
