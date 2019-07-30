@@ -62,7 +62,7 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $maxNumberOfSchedule = 50;
+    protected $maxNumberOfSchedule = 10;
 
     /**
      * Run the database seeds.

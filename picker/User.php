@@ -214,7 +214,7 @@ class User extends Authenticatable
       */
      public function isAdmin()
      {
-         return $this->hasRoles(['admin']);
+         return $this->hasRole('admin');
      }
 
      /**

@@ -19,12 +19,11 @@ class DashboardController extends Controller
         // Get an instance of the user
         $user = $request->user();
 
-        $cup = $user->cup;
+        $cup = $user->cup()->first();
 
         $coffees = $user->userCoffees()
                         ->with('coffee')
                         ->paginate(3);
-
 
         // Get the coffee runs that occured today
         $runs = CoffeeRun::today()
