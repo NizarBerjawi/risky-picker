@@ -159,20 +159,22 @@ class Schedule extends Model
         $today = strtolower(Carbon::today()->shortEnglishDayOfWeek);
         // The days available in the schedule. The order of the
         // days is modified to start from today
-        $days = array_keys(
-            array_only(days($start = $today), $schedule->days)
-        );
+        $days = array_keys(array_only(days($start = $today), $schedule->days));
         // If the schedule doesn't have any time or days provided
         if (empty($days) || empty($schedule->time)) { return null; }
 
         while($day = array_shift($days)) {
             $time = Carbon::parse("{$day} {$schedule->time}");
-
-            if ($time->lt(now())) {
-                return $time->addWeeks(1)->diffForHumans();
+            if ($day === $today && $time->lt(now())) {
+                array_push($days, $day);
+                continue;
             }
 
-            return $time->diffForHumans();
+            if ($time->gt(now())) {
+                return $time->diffForHumans();
+            }
+
+            return $time->addWeeks(1)->diffForHumans();
         }
     }
 
