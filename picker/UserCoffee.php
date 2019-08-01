@@ -5,14 +5,14 @@ namespace Picker;
 use Carbon\Carbon;
 use Picker\UserCoffee\Scopes\AdhocScope;
 use Picker\Support\Filters\Filterable;
-use Picker\Support\Traits\ExcludesFromQuery;
+use Picker\Support\Traits\{ExcludesFromQuery, HasDays};
 use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\URL;
 
 class UserCoffee extends Pivot
 {
-    use ExcludesFromQuery, Filterable, SoftDeletes;
+    use ExcludesFromQuery, Filterable, HasDays, SoftDeletes;
 
     /**
       * The table associated with the model.
@@ -31,6 +31,13 @@ class UserCoffee extends Pivot
         'days' => 'array',
         'is_adhoc' => 'boolean',
     ];
+
+    /**
+     * The column that contains the days
+     *
+     * @var string
+     */
+    protected $daysColumn = 'days';
 
     /**
      * The "booting" method of the model.
@@ -114,27 +121,6 @@ class UserCoffee extends Pivot
     public function scopeBetween(Builder $query, string $start, string $end)
     {
       return $query->after($start)->before($end);
-    }
-
-    /**
-     * Get all the user coffees that fall on specific days of the week
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array $days
-     * @param bool $strict
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeDays(Builder $query, array $days, bool $strict = false)
-    {
-        $boolean = $strict ? 'and' : 'or';
-
-        $query->where(function($query) use ($days, $boolean) {
-            foreach($days as $day) {
-                $query->where('days', 'LIKE', "%$day%", $boolean);
-            }
-        });
-
-        return $query;
     }
 
     /**
@@ -291,20 +277,6 @@ class UserCoffee extends Pivot
      {
          return date("h:i A", strtotime($value));
      }
-
-    /**
-     * Get the string representation of the days on which
-     * the user wants this coffee selection.
-     *
-     * @return string
-     */
-    public function getFormattedDays()
-    {
-        // Capitalize the first letter of every day
-        $days = array_map('ucfirst', $this->days);
-
-        return implode(', ', $days);
-    }
 
     /**
      * A function to validate that a user coffee's start and end

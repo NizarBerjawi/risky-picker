@@ -29,20 +29,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Get the current server time
-        $now = Carbon::now();
-
-        // Check if a schedule exists for the current server time
-        $readyToExecute = CoffeeSchedule::query()
-            ->at($now->format('G:i'))
-            ->days([strtolower($now->shortEnglishDayOfWeek)])
-            ->exists();
-
         // Excute the schedule only when the schedule exists
         if (App::environment(['local', 'production', 'staging'])) {
-            $schedule->job(new PickUser)->when(function() use ($readyToExecute) {
-                return $readyToExecute;
-            });
+            $schedule->job(new PickUser)
+                     ->everyMinute()
+                     ->when(function() {
+                         return CoffeeSchedule::query()
+                             ->at(now()->format('G:i'))
+                             ->days([strtolower(now()->shortEnglishDayOfWeek)])
+                             ->exists();
+                     });
         }
     }
 

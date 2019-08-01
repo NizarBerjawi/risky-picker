@@ -3,12 +3,12 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\Support\Traits\ExcludesFromQuery;
+use Picker\Support\Traits\{ExcludesFromQuery, HasDays};
 use Illuminate\Database\Eloquent\{Builder, Model};
 
 class Schedule extends Model
 {
-    use ExcludesFromQuery;
+    use ExcludesFromQuery, HasDays;
 
     /**
       * The table associated with the model.
@@ -41,25 +41,11 @@ class Schedule extends Model
     protected $fillable = ['days', 'time'];
 
     /**
-     * Get all the schedule happening on certain days
+     * The column that contains the days
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array $days
-     * @param bool $strict
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @var string
      */
-    public function scopeDays(Builder $query, array $days, bool $strict = false)
-    {
-        $boolean = $strict ? 'and' : 'or';
-
-        $query->where(function($query) use ($days, $boolean) {
-            foreach($days as $day) {
-                $query->where('days', 'LIKE', "%$day%", $boolean);
-            }
-        });
-
-        return $query;
-    }
+    protected $daysColumn = 'days';
 
     /**
      * Get all user schedules that are scheduled on a
@@ -74,19 +60,6 @@ class Schedule extends Model
         $time = date("G:i", strtotime($time));
 
         return $query->whereRaw("time(time) = time('$time')");
-    }
-
-    /**
-     * Get all the schedules that are due to happen today
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeToday(Builder $query)
-    {
-        $today = Carbon::today();
-
-        return $query->days([strtolower($today->shortEnglishDayOfWeek)]);
     }
 
     /**
@@ -156,15 +129,16 @@ class Schedule extends Model
         // or the user didn't supply one
         if (!$schedule) { return null; }
         // Get the english name of today
-        $today = strtolower(Carbon::today()->shortEnglishDayOfWeek);
+        $today = strtolower(now()->shortEnglishDayOfWeek);
         // The days available in the schedule. The order of the
-        // days is modified to start from today
+        // days is modified to start from tomorrow
         $days = array_keys(array_only(days($start = $today), $schedule->days));
         // If the schedule doesn't have any time or days provided
         if (empty($days) || empty($schedule->time)) { return null; }
 
         while($day = array_shift($days)) {
             $time = Carbon::parse("{$day} {$schedule->time}");
+
             if ($day === $today && $time->lt(now())) {
                 array_push($days, $day);
                 continue;
@@ -196,46 +170,6 @@ class Schedule extends Model
     public function getTimeAttribute($value)
     {
         return date("h:i A", strtotime($value));
-    }
-
-    /**
-     * Check if a schedule gets executed on a specific day
-     *
-     * @param string $day
-     * @return bool
-     */
-    public function hasDay($day)
-    {
-        return in_array($day, $this->days);
-    }
-
-    /**
-     * Check if a schedule gets executed on one or many specified days.
-     * Optionally make the check strict.
-     *
-     * @param array $days
-     * @param bool $strict
-     * @return bool
-     */
-    public function hasDays(array $days, $strict = false)
-    {
-        return $strict
-            ? empty(array_diff($days, $this->days))
-            : !empty(array_intersect($this->days, $days));
-    }
-
-    /**
-     * Get the string representation of the days on which
-     * this schedule occurs
-     *
-     * @return string
-     */
-    public function getFormattedDays()
-    {
-        // Capitalize the first letter of every day
-        $days = array_map('ucfirst', $this->days);
-
-        return implode(', ', $days);
     }
 
     /**
