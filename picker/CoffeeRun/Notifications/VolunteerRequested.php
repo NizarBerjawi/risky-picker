@@ -54,7 +54,7 @@ class VolunteerRequested extends Notification implements ShouldQueue
                     ->from('Risky Picker')
                     ->content("{$tag}{$notifiable->full_name} has requested a volunteer to take this run!")
                     ->attachment(function($attachment) {
-                        $attachment->content("You can volunteer for this run here:" . route('dashboard.runs.index'));
+                        $attachment->content("You can volunteer for this run here:" . route('dashboard.index'));
                     });
     }
 
