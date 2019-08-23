@@ -27,15 +27,16 @@ class UserCoffeePolicy
      */
     public function create(User $user)
     {
-        if (!request()->get('is_adhoc', false)) {
+        // If the user is trying to create a standard coffee,
+        // then let them
+        if (!request()->route('run')) {
             return true;
         }
 
         // Check if the person creating the adhoc coffee, is owner
         // of the original coffee.
         return $user->userCoffees()
-                    ->withAdhoc()
-                    ->where('id', request()->get('id'))
+                    ->where('id', request()->query('coffee_id'))
                     ->exists();
     }
 

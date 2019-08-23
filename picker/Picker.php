@@ -24,6 +24,5 @@ class Picker
         }
 
         return $pickableUsers->random();
-
     }
 }

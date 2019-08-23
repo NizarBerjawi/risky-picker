@@ -6,20 +6,20 @@
 
     <div class="row">
         <div class="input-field col s12">
-            <select name="name" class="{{ $errors->has('end_time') ? 'invalid' : 'validate' }}" {{ ($enabled ?? false) ?: 'disabled' }}>
+            <select name="coffee_id" class="{{ $errors->has('coffee_id') ? 'invalid' : 'validate' }}" {{ ($enabled ?? false) ?: 'disabled' }}>
                 <option value="" disabled selected>{{ ($adhoc ?? false) ? 'Trying something different?' : 'Choose your coffee' }}</option>
                 @foreach($coffees as $coffee)
-                    <option value="{{ $coffee->slug }}" {{ ($userCoffee->coffee->slug ?? old('name')) === $coffee->slug ? "selected='selected'" : "" }}>{{ $coffee->name }}</option>
+                    <option value="{{ $coffee->id }}" {{ ($userCoffee->coffee->id ?? old('name')) === $coffee->id ? "selected='selected'" : "" }}>{{ $coffee->name }}</option>
                 @endforeach
             </select>
         </div>
 
         <div class="input-field col s12">
-                <select name="sugar" class="{{ $errors->has('sugar') ? 'invalid' : 'validate' }}" {{ ($enabled ?? false) ?: 'disabled' }}>
-                    @foreach($sugars as $number => $sugar)
-                        <option value="{{ $number }}" {{ ($userCoffee->sugar ?? old('sugar')) === $number ? 'selected="selected"' : '' }}>{{ $sugar }}</option>
-                    @endforeach
-                </select>
+            <select name="sugar" class="{{ $errors->has('sugar') ? 'invalid' : 'validate' }}" {{ ($enabled ?? false) ?: 'disabled' }}>
+                @foreach($sugars as $number => $sugar)
+                    <option value="{{ $number }}" {{ ($userCoffee->sugar ?? old('sugar')) === $number ? 'selected="selected"' : '' }}>{{ $sugar }}</option>
+                @endforeach
+            </select>
         </div>
 
         @if (!($adhoc ?? false))

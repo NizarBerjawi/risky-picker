@@ -14,13 +14,7 @@
                 <td>{{ $coffee->description }}</td>
                 <td>
                     <a class="btn-floating btn-small grey lighten-4" href="{{ route('coffees.edit', $coffee) }}"><i class="tiny material-icons teal-text">edit</i></a>
-
-                    <form action="{{ route('coffees.destroy', $coffee) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
-                    </form>
+                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('coffees.confirm-destroy', $coffee) }}"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
         @empty

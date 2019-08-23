@@ -78,21 +78,36 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
-        $user->update(
-            array_merge($request->only(['first_name','last_name']), [
-                'is_vip' => (boolean) $request->input('is_vip'),
-            ])
-        );
+        $user->update([
+            'first_name' => $request->input('first_name'),
+            'last_name'  => $request->input('last_name'),
+            'is_vip'     => (boolean) $request->input('is_vip'),
+        ]);
 
         $role = $request->input('is_admin') ? 'admin' : 'user';
 
-        $user->roles()->sync(Role::where('name', $role)->first());
+        $user->roles()->sync(
+            Role::where('name', $role)->first()
+        );
 
         $this->messages->add('updated', trans('messages.user.updated'));
 
         return redirect()
                 ->route('users.index')
                 ->withSuccess($this->messages);
+    }
+
+
+    /**
+     * Confirm that an admin really wants to delete a user
+     *
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function confirmDestroy(Request $request, User $user)
+    {
+        return response()->view('admin.users.delete', compact('user'));
     }
 
     /**

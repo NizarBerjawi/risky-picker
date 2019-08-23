@@ -2,7 +2,7 @@
 
 namespace Picker;
 
-use Picker\{Cup, Coffee, CoffeeRun, Role, UserCoffee};
+use Picker\{AdhocUserCoffee, Cup, Coffee, CoffeeRun, Role, UserCoffee };
 use Picker\Support\Traits\ExcludesFromQuery;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
@@ -92,7 +92,7 @@ class User extends Authenticatable
      */
     public function adhocCoffees()
     {
-        return $this->hasMany(UserCoffee::class)->onlyAdhoc();
+        return $this->hasMany(AdhocUserCoffee::class);
     }
 
     /**
@@ -108,8 +108,7 @@ class User extends Authenticatable
 
         if (empty($next)) { return $this->nextCoffee(); }
 
-        return $this->hasOne(UserCoffee::class)
-                    ->onlyAdhoc()
+        return $this->hasOne(AdhocUserCoffee::class)
                     ->whereDate('created_at', today())
                     ->between(...array_values($next->toArray()))
                     ->latest()

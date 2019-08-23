@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Picker\CoffeeRun\Events\AdhocCoffeeCreated;
+use Picker\CoffeeRun\Listeners\UpdateCoffeeRun;
 use Picker\Cup\Events\CupUpdated;
 use Picker\Cup\Events\CupDeleted;
 use Picker\Cup\Listeners\DeleteCupImage;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         CupDeleted::class => [
             DeleteCupImage::class,
         ],
+        AdhocCoffeeCreated::class => [
+            UpdateCoffeeRun::class,
+        ]
     ];
 
     /**

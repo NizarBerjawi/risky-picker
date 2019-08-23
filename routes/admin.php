@@ -18,6 +18,7 @@ Route::group(['prefix' => 'users'], function() {
     Route::get('/{user}', 'UserController@show')->name('users.show');
     Route::get('{user}/edit', 'UserController@edit')->name('users.edit');
     Route::match(['put', 'patch'], '{user}', 'UserController@update')->name('users.update');
+    Route::get('{user}/delete', 'UserController@confirmDestroy')->name('users.confirm-destroy');
     Route::delete('{user}', 'UserController@destroy')->name('users.destroy');
 
 
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'coffee'], function() {
     Route::get('/{coffee}', 'CoffeeController@show')->name('coffees.show');
     Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
     Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
+    Route::get('/{coffee}/delete', 'CoffeeController@confirmDestroy')->name('coffees.confirm-destroy');
     Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
 });
 
@@ -49,5 +51,6 @@ Route::group(['prefix' => 'schedules'], function() {
     Route::get('/{schedule}', 'ScheduleController@show')->name('schedules.show');
     Route::get('/{schedule}/edit', 'ScheduleController@edit')->name('schedules.edit');
     Route::match(['put', 'patch'], '/{schedule}', 'ScheduleController@update')->name('schedules.update');
+    Route::get('/{schedule}/delete', 'ScheduleController@confirmDestroy')->name('schedules.confirm-destroy');
     Route::delete('/{schedule}', 'ScheduleController@destroy')->name('schedules.delete');
 });

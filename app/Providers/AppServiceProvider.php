@@ -20,23 +20,16 @@ class AppServiceProvider extends ServiceProvider
 
         LengthAwarePaginator::defaultView('partials.pagination');
 
-        Blade::directive('validation', function ($expression) {
-            return
-                '<?php if ($errors->has('.$expression.')): ?>' .
-                    '<span class="helper-text" data-error="<?php echo $errors->first('.$expression.'); ?>"></span>' .
-                '<?php endif; ?>';
-        });
-
         Blade::directive('alert', function ($expression) {
             return "<?php echo
-                '<div class=\"row\">
-                    <div class=\"card-panel '.(".$expression. "=== 'success' ? 'green' : 'red').' lighten-3\">
-                        <ul class=\"browser-default white-text\">'?>
-                        <?php
-                         foreach(session($expression)->all() as \$error) { echo '<li><b>'.\$error.'</b></li>'; }
-                         ?>
-                        <?php echo '</ul>
-                    </div>
+                '<div class=\"card-panel '.(".$expression. "=== 'success' ? 'green' : 'red').' lighten-3\">
+                    <ul class=\"browser-default white-text\">'?>
+                    <?php
+                        foreach(session($expression)->all() as \$error) {
+                            echo '<li><b>'.\$error.'</b></li>';
+                        }
+                    ?>
+                    <?php echo '</ul>
                 </div>'
             ?>";
         });
@@ -51,10 +44,6 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::if('success', function () {
             return session()->has('success');
-        });
-
-        Blade::if('warning', function () {
-            return session()->has('warning');
         });
 
         Blade::if('errors', function () {

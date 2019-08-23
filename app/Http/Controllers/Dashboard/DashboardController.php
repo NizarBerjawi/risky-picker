@@ -23,12 +23,12 @@ class DashboardController extends Controller
 
         $coffees = $user->userCoffees()
                         ->with('coffee')
-                        ->paginate(3);
+                        ->paginate(3, ['*'], 'coffees');
 
         // Get the coffee runs that occured today
         $runs = CoffeeRun::today()
                          ->with(['user', 'volunteer', 'userCoffees'])
-                         ->paginate(3);
+                         ->paginate(3, ['*'], 'runs');
 
         $countdown = Schedule::countdown();
 

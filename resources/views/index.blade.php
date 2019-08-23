@@ -1,8 +1,6 @@
 @extends('layouts.base')
 
 @section('content')
-    @include('partials.validation')
-
     <div class="section">
         <a href="{{ route('index', $run) }}" class="waves-effect waves-light btn-large{{ !request()->get('coffee_type') ? ' disabled' : '' }}">All</a>
 

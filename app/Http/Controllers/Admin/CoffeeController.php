@@ -17,7 +17,7 @@ class CoffeeController extends Controller
      */
     public function index()
     {
-        $coffees = Coffee::paginate(20);
+        $coffees = Coffee::paginate(10);
 
         return response()->view('admin.coffees.index', compact('coffees'));
     }
@@ -40,12 +40,13 @@ class CoffeeController extends Controller
      */
     public function store(CreateCoffee $request)
     {
-        $coffee = Coffee::create($request->only(['name', 'description']));
+        $coffee = Coffee::create($request->all());
 
         $this->messages->add('created', trans('messages.coffee.created'));
 
-        return redirect()->route('coffees.index')
-                         ->withSuccess($this->messages);
+        return redirect()
+                ->route('coffees.index')
+                ->withSuccess($this->messages);
     }
 
     /**
@@ -68,12 +69,25 @@ class CoffeeController extends Controller
      */
     public function update(UpdateCoffee $request, Coffee $coffee)
     {
-        $coffee->update($request->only(['name', 'description']));
+        $coffee->update($request->all());
 
         $this->messages->add('updated', trans('messages.coffee.updated'));
 
-        return redirect()->route('coffees.index')
-                         ->withSuccess($this->messages);
+        return redirect()
+                ->route('coffees.index')
+                ->withSuccess($this->messages);
+    }
+
+    /**
+     * Confirm that an admin really wants to delete a coffee
+     *
+     * @param Request $request
+     * @param Coffee $coffee
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function confirmDestroy(Request $request, Coffee $coffee)
+    {
+        return response()->view('admin.coffees.delete', compact('coffee'));
     }
 
     /**

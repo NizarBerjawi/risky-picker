@@ -13,7 +13,6 @@
 <body>
     @include('partials.navbar')
 
-
     <div class="container">
         <div class="row">
             @include('partials.validation')

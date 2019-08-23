@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{Coffee, CoffeeRun, UserCoffee};
+use Picker\UserCoffee;
 use Picker\UserCoffee\Requests\{CreateUserCoffee, UpdateUserCoffee};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,15 +21,11 @@ class CoffeeController extends Controller
             return back()->withErrors(trans('messages.coffee.auth'));
         }
 
-        $adhoc = $request->get('is_adhoc', false);
-
-        if ($adhoc && !$request->hasValidSignature()) { abort(401); }
-
-        return response()->view('dashboard.coffee.create', compact('adhoc'));
+        return response()->view('dashboard.coffee.create');
     }
 
     /**
-     * Store a new coffee entry for the user.
+     * Store a new user coffee entry.
      *
      * @param CreateUserCoffee $request
      * @return \Illuminate\Http\RedirectResponse
@@ -39,50 +35,31 @@ class CoffeeController extends Controller
         if ($request->user()->cant('create', UserCoffee::class)) {
             return back()->withErrors(trans('messages.coffee.auth'));
         }
-        // Find the type of coffee the user is attempting to create
-        $coffee = Coffee::findBySlugOrFail($request->input('name'));
 
-        // Create a valid user coffee (or adhoc coffee) with all its details
-        $userCoffee = UserCoffee::create([
-            'user_id'    => $request->user()->id,
-            'coffee_id'  => $coffee->id,
-            'sugar'      => $request->input('sugar', 0),
-            'start_time' => $request->input('start_time', now()->format('G:i')),
-            'end_time'   => $request->input('end_time', now()->format('G:i')),
-            'days'       => $request->input('days', [strtolower(now()->shortEnglishDayOfWeek)]),
-            'is_adhoc'   => $request->input('is_adhoc', false),
-        ]);
-
-        // If the user is creating an adhoc coffee, then
-        // the user is replacing one of their default coffees
-        // with an adhoc one in a specific coffee run
-        if ($userCoffee->is_adhoc) {
-            $run = CoffeeRun::findOrFail($request->get('run_id'));
-            $run->userCoffees()->updateExistingPivot($request->get('id'), [
-                'user_coffee_id' => $userCoffee->id
-            ]);
-        }
+        $userCoffee = new UserCoffee($request->all());
+        $userCoffee->user()->associate($request->user());
+        $userCoffee->save();
 
         $this->messages->add('created', trans('messages.coffee.created'));
 
-        // If this is an adhoc coffee being created, we need to redirect
-        // the user back to the related coffee run page.
-        $route = $request->get('is_adhoc')
-            ? route('index', $run)
-            : route('dashboard.index');
-
-        return redirect($route)
+        return redirect()
+                  ->route('dashboard.index')
                   ->withSuccess($this->messages);
     }
 
+    /**
+     * Show a user coffee entry.
+     *
+     * @param UserCoffee $userCoffee
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function show(UserCoffee $userCoffee)
     {
         return response()->view('dashboard.coffee.show', compact('userCoffee'));
     }
 
     /**
-     * Display the form for editing the authenticated user's
-     * details.
+     * Display the form for editing a user coffee entry.
      *
      * @param Request $request
      * @param UserCoffee $userCoffee
@@ -92,13 +69,11 @@ class CoffeeController extends Controller
      {
          $this->authorize('update', $userCoffee);
 
-         $adhoc = $request->get('is_adhoc', false);
-
-         return response()->view('dashboard.coffee.edit', compact('userCoffee', 'adhoc'));
+         return response()->view('dashboard.coffee.edit', compact('userCoffee'));
      }
 
      /**
-      * Update the user's coffee
+      * Update a user's coffee entry
       *
       * @param UpdateUserCoffee $request
       * @param UserCoffee $userCoffee
@@ -106,15 +81,11 @@ class CoffeeController extends Controller
       */
       public function update(UpdateUserCoffee $request, UserCoffee $userCoffee)
       {
-          $this->authorize('update', $userCoffee);
+          if ($request->user()->cant('update', $userCoffee)) {
+              return back()->withErrors(trans('messages.coffee.auth'));
+          }
 
-          $coffee = Coffee::findBySlugOrFail($request->input('name'));
-
-          if ($userCoffee->isNotOfType($coffee)) {
-              $userCoffee->coffee()->associate($coffee);
-          };
-
-          $userCoffee->fill($request->except('name'))->save();
+          $userCoffee->update($request->all());
 
           $this->messages->add('updated', trans('messages.coffee.updated'));
 
@@ -124,21 +95,38 @@ class CoffeeController extends Controller
       }
 
       /**
-       * Delete a user's coffee
+       * Confirm that a user really wants to delete their coffee entry
+       *
+       * @param Request $request
+       * @param UserCoffee $coffee
+       * @return \Illuminate\Http\RedirectResponse
+       */
+      public function confirmDestroy(Request $request, UserCoffee $userCoffee)
+      {
+          if ($request->user()->cant('delete', $userCoffee)) {
+              return back()->withErrors(trans('messages.coffee.auth'));
+          }
+
+          return response()->view('dashboard.coffee.delete', compact('userCoffee'));
+      }
+
+      /**
+       * Delete a user's coffee entry.
        *
        * @param Request $request
        * @param UserCoffee $userCoffee
        * @return \Illuminate\Http\RedirectResponse
-
        */
       public function destroy(Request $request, UserCoffee $userCoffee)
       {
-          $this->authorize('delete', $userCoffee);
+          if ($request->user()->cant('delete', $userCoffee)) {
+              return back()->withErrors(trans('messages.coffee.auth'));
+          }
 
           $userCoffee->delete();
 
           $this->messages->add('deleted', trans('messages.coffee.deleted'));
 
-          return back()->withSuccess($this->messages);
+          return redirect()->route('dashboard.index')->withSuccess($this->messages);
       }
 }

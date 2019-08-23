@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Picker\{Coffee, CoffeeRun, UserCoffee};
+use Picker\{Coffee, CoffeeRun};
 use Picker\UserCoffee\Filters\UserCoffeeFilters;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 class CoffeeRunController extends Controller
 {
     /**
-     * Coffee run filters
+     * User Coffee filters
      *
-     * @var CoffeeRunFilters
+     * @var UserCoffeeFilters
      */
     protected $filters;
 
@@ -27,15 +27,12 @@ class CoffeeRunController extends Controller
     }
 
     /**
-     * Display the page that allows the user to randomly
-     * pick a user to order.
+     * Display the latest coffee run with the user coffees
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $uuid)
+    public function index(Request $request, CoffeeRun $run)
     {
-        $run = CoffeeRun::findOrFail($uuid);
-
         abort_if($run->expired(), 410, trans('messages.run.expired'));
 
         // Get all the coffee types that are available in this run

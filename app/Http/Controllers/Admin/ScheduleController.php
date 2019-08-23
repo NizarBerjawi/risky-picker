@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Picker\{Coffee, Cup, User, Role, Schedule};
-use Picker\User\Notifications\UserInvited;
+use Picker\Schedule;
 use Picker\Schedule\Requests\{CreateSchedule, UpdateSchedule};
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\{Notification, URL};
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -41,9 +39,7 @@ class ScheduleController extends Controller
      */
     public function store(CreateSchedule $request)
     {
-        $schedule = Schedule::create($request->only([
-            'days', 'time'
-        ]));
+        $schedule = Schedule::create($request->all());
 
         $this->messages->add('created', trans('messages.schedule.created'));
 
@@ -82,14 +78,24 @@ class ScheduleController extends Controller
      */
     public function update(UpdateSchedule $request, Schedule $schedule)
     {
-        $schedule->fill($request->only([
-            'days', 'time'
-        ]))->save();
+        $schedule->update($request->all());
 
         $this->messages->add('updated', trans('messages.schedule.updated'));
 
         return redirect()->route('schedules.index')
                          ->withSuccess($this->messages);
+    }
+
+    /**
+     * Confirm that an admin really wants to delete a schedule
+     *
+     * @param Request $request
+     * @param Schedule $schedule
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function confirmDestroy(Request $request, Schedule $schedule)
+    {
+        return response()->view('admin.schedules.delete', compact('schedule'));
     }
 
     /**

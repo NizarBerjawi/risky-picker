@@ -7,9 +7,12 @@
                 <h5 class="card-title">{{ __('Add a Coffee') }}</h5>
 
                 @include('dashboard.coffee.form', [
-                    'action'  => route('dashboard.coffee.store', request()->all()),
+                    'action'  => isset($run)
+                        ? route('dashboard.adhoc.store', array_merge(compact('run'), request()->all()))
+                        : route('dashboard.coffee.store'),
                     'method'  => 'POST',
                     'enabled' => true,
+                    'adhoc'   => isset($run)
                 ])
             </div>
         </div>

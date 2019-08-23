@@ -12,16 +12,21 @@ use Illuminate\Http\Request;
 class UserCoffeeRequest extends FormRequest
 {
     /**
-     * Instantiate the Form Request
+     * Determines whether this is a regular coffee
+     * request or an adhoc coffee request
      *
-     * @param Request $request
-     * @return void
+     * @var boolean
+     */
+    protected $adhoc;
+
+    /**
+     * Initialize
      */
     public function __construct(Request $request)
     {
-        $this->adhoc = $request->get('is_adhoc', false);
+        $this->adhoc = $request->route('run') && $request->query('coffee_id');
     }
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -40,7 +45,7 @@ class UserCoffeeRequest extends FormRequest
     public function rules()
     {
         return array_merge([
-            'name' => 'required|string|max:255',
+            'coffee_id' => 'required|integer|exists:coffees,id',
             'sugar' => 'required|integer',
         ], !$this->adhoc ? [
             'start_time' => 'required|string|date_format:h:i A',

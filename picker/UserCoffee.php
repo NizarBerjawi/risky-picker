@@ -3,7 +3,6 @@
 namespace Picker;
 
 use Carbon\Carbon;
-use Picker\UserCoffee\Scopes\AdhocScope;
 use Picker\Support\Filters\Filterable;
 use Picker\Support\Traits\{ExcludesFromQuery, HasDays};
 use Illuminate\Database\Eloquent\{Builder, SoftDeletes};
@@ -40,16 +39,13 @@ class UserCoffee extends Pivot
     protected $daysColumn = 'days';
 
     /**
-     * The "booting" method of the model.
+     * The attributes that are mass assignable.
      *
-     * @return void
+     * @var array
      */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new AdhocScope);
-    }
+    protected $fillable = [
+        'sugar', 'start_time', 'end_time', 'days', 'user_id', 'coffee_id',
+    ];
 
     /**
      * Get the coffee this user's selection belongs to.
@@ -171,7 +167,7 @@ class UserCoffee extends Pivot
     }
 
     /**
-     * Get use coffees that belong to a specified coffee run
+     * Get user coffees that belong to a specified coffee run
      *
      * @param \Illuminate\Database\Eloquent\Builder
      * @param CoffeeRun $run
@@ -182,6 +178,17 @@ class UserCoffee extends Pivot
         return $query->whereHas('runs', function($query) use ($run) {
             $query->where('id', $run->id);
         });
+    }
+
+    /**
+     * Get user coffees without adhoc ones
+     *
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithoutAdhoc(Builder $query)
+    {
+        return $query->where('is_adhoc', false);
     }
 
     /**
@@ -199,10 +206,9 @@ class UserCoffee extends Pivot
 
         $expires = now()->addHours(1);
 
-        return URL::temporarySignedRoute('dashboard.coffee.create', $expires, [
-            'id' => $this->id,
-            'is_adhoc' => true,
-            'run_id' => $run->id,
+        return URL::temporarySignedRoute('dashboard.adhoc.create', $expires, [
+            'run' => $run->id,
+            'coffee_id' => $this->id,
         ]);
     }
 
@@ -306,6 +312,7 @@ class UserCoffee extends Pivot
     public static function timeslotConflict(User $user, UserCoffee $coffee)
     {
         return $user->userCoffees()
+                    ->withoutAdhoc()
                     ->between($coffee->start_time, $coffee->end_time)
                     ->days($coffee->days)
                     ->when($coffee->exists, function($query) use ($coffee) {

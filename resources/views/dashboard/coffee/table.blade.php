@@ -19,12 +19,7 @@
                 <td>{{ $userCoffee->getFormattedDays() }}</td>
                 <td>
                     <a href="{{ route('dashboard.coffee.edit', $userCoffee) }}"class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">edit</i></a>
-                    <form action="{{ route('dashboard.coffee.delete', $userCoffee) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
-                    </form>
+                    <a href="{{ route('dashboard.coffee.confirm-delete', $userCoffee) }}"class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
         @endforeach
@@ -32,7 +27,7 @@
 </table>
 
 <div class="center-align">
-    {{ $coffees->links() }}
+    {{ $coffees->appends(['runs' => $runs->currentPage()])->links() }}
 </div>
 @else
     <p>You don't have any coffees!</p>

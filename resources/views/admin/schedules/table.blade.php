@@ -17,12 +17,7 @@
                 <td>{{ $schedule->getFormattedDays() }}</td>
                 <td>
                     <a href="{{ route('schedules.edit', $schedule) }}" class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">edit</i></a>
-                    <form action="{{ route('schedules.delete', $schedule) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
-                    </form>
+                    <a href="{{ route('schedules.confirm-destroy', $schedule) }}" class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
         @endforeach

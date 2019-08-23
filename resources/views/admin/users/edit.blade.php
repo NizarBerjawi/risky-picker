@@ -1,11 +1,7 @@
 @extends('layouts.base')
 
-@section('validation')
-    @include('partials.validation')
-@endsection
-
 @section('content')
-    <div class="row">
+    <div class="col s12 m8 offset-m2">
         <div class="card-panel">
             <div class="card-content">
                 <h4 class="card-title">{{ __('Edit User') }}</h4>

@@ -8,12 +8,14 @@
         'updated' => 'User successfully updated.',
         'deleted' => 'User successfully deleted.',
         'invited' => 'User successfully invited.',
+        'auth'    => 'You are not allowed to modify someone else\'s profile',
     ],
     'cup' => [
         'created' => 'Cup successfully created.',
         'updated' => 'Cup successfully updated.',
         'deleted' => 'Cup successfully deleted.',
         'failed'  => 'Could not create cup.',
+        'auth'    => 'You are not allowed to modify someone else\'s cup',
     ],
     'coffee' => [
         'created'   => 'Coffee successfully created.',
@@ -22,7 +24,7 @@
         'duplicate' => 'This coffee is already available',
         'invalid'   => 'The end time should be after the start time.',
         'conflict'  => 'Time range is already taken',
-        'auth'      => 'You are not allowed to change someone else\'s coffee',
+        'auth'      => 'You are not allowed to modify someone else\'s coffee',
     ],
     'run' => [
         'busy'      => 'We have sent a request for volunteers. You lazy ass.',

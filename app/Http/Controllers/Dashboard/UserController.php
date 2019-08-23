@@ -20,7 +20,9 @@ class UserController extends Controller
      {
          $user = $request->user();
 
-         $this->authorize('update', $user);
+         if ($user->cant('update', $user)) {
+             return back()->withErrors(trans('messages.user.auth'));
+         }
 
          return response()->view('dashboard.user.edit', compact('user'));
      }
@@ -35,7 +37,9 @@ class UserController extends Controller
       {
           $user = $request->user();
 
-          $this->authorize('update', $user);
+          if ($user->cant('update', $user)) {
+              return back()->withErrors(trans('messages.user.auth'));
+          }
 
           $user->update($request->only(['first_name', 'last_name']));
 

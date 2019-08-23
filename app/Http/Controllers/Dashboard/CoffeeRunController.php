@@ -11,21 +11,6 @@ use Illuminate\Http\Request;
 class CoffeeRunController extends Controller
 {
     /**
-     * Display a listing of all coffee runs
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $runs = CoffeeRun::latest()
-                         ->with(['user', 'volunteer', 'userCoffees'])
-                         ->paginate(20);
-
-        return response()->view('dashboard.runs.index', compact('runs'));
-    }
-
-    /**
      * Show a specified coffee run
      *
      * @NOTE: Not implemented yet
@@ -62,7 +47,6 @@ class CoffeeRunController extends Controller
             return back()->withErrors(trans('messages.run.failed'));
         }
 
-        // Notify everyone in case of success
         $user->notify(new UserPicked($run));
 
         $this->messages->add('pick', trans('messages.run.pick'));
@@ -113,7 +97,7 @@ class CoffeeRunController extends Controller
     }
 
     /**
-     * Delete a user coffee from the coffee run
+     * Confirm that the user wants to remove their coffee from the run
      *
      * @param Request $request
      * @param CoffeeRun $run
@@ -123,7 +107,7 @@ class CoffeeRunController extends Controller
     public function preRemove(Request $request, CoffeeRun $run, UserCoffee $coffee)
     {
         if ($request->user()->cant('remove', [$run, $coffee])) {
-            return redirect()->route('index', $run)->withErrors(trans('messages.run.auth'));
+            return back()->withErrors(trans('messages.run.auth'));
         }
 
         return response()->view('dashboard.runs.remove', compact('run', 'coffee'));

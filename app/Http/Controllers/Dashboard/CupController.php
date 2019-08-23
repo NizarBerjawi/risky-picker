@@ -44,22 +44,20 @@ class CupController extends Controller
     }
 
     /**
-     * Store or update a user's cup.
+     * Store a user's cup.
      *
-     * @param Request $request
+     * @param CupRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CupRequest $request)
     {
-        $user = $request->user();
-
         $path = $this->manager->handleFileUpload($request);
 
         if (!$path) {
             return back()->withErrors(trans('messages.cup.failed'));
         }
 
-        $user->cup()->create(['filename' => $path]);
+        $request->user()->cup()->create(['filename' => $path]);
 
         $this->messages->add('updated', trans('messages.cup.created'));
 
@@ -69,7 +67,7 @@ class CupController extends Controller
     }
 
     /**
-     * Display the form for uploading a cup photo
+     * Display the cup photo
      *
      * @param Cup $cup
      * @return \Illuminate\Http\Response
@@ -80,14 +78,17 @@ class CupController extends Controller
     }
 
     /**
-     * Display the form for uploading a cup photo
+     * Display the form for updating a cup photo
      *
      * @param Request $request
+     * @param Cup $cup
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, Cup $cup)
     {
-        $this->authorize('update', $cup);
+        if ($request->user()->cant('update', $cup)) {
+            return back()->withErrors(trans('messages.cup.auth'));
+        }
 
         return response()->view('dashboard.cups.edit', compact('cup'));
     }
@@ -95,12 +96,15 @@ class CupController extends Controller
     /**
      * Store or update a user's cup.
      *
-     * @param Request $request
+     * @param CupRequest $request
+     * @param Cup $cup
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CupRequest $request, Cup $cup)
     {
-        $this->authorize('update', $cup);
+        if ($request->user()->cant('update', $cup)) {
+            return back()->withErrors(trans('messages.cup.auth'));
+        }
 
         $path = $this->manager->handleFileUpload($request);
 
@@ -121,6 +125,22 @@ class CupController extends Controller
     }
 
     /**
+     * Confirm that a user really wants to delete their cup
+     *
+     * @param Request $request
+     * @param Cup $cup
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function confirmDestroy(Request $request, Cup $cup)
+    {
+        if ($request->user()->cant('delete', $cup)) {
+            return back()->withErrors(trans('messages.cup.auth'));
+        }
+
+        return response()->view('dashboard.cups.delete', compact('cup'));
+    }
+
+    /**
      * Delete a user's cup
      *
      * @param Request $request
@@ -129,13 +149,16 @@ class CupController extends Controller
      */
     public function destroy(Request $request, Cup $cup)
     {
-        $this->authorize('delete', $cup);
+        if ($request->user()->cant('delete', $cup)) {
+            return back()->withErrors(trans('messages.cup.auth'));
+        }
 
         $cup->delete();
 
-        $this->messages->add('updated', trans('messages.cup.deleted'));
+        $this->messages->add('deleted', trans('messages.cup.deleted'));
 
-        return back()
+        return redirect()
+                ->route('dashboard.index')
                 ->withSuccess($this->messages);
     }
 }

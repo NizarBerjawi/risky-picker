@@ -17,7 +17,7 @@ class CoffeeRun extends Model
      *
      * @var int
      */
-    const EXPIRY = 60; // Minutes;
+    const EXPIRY = 6000; // Minutes;
 
     /**
       * The table associated with the model.
@@ -84,8 +84,7 @@ class CoffeeRun extends Model
      */
     public function userCoffees()
     {
-        return $this->belongsToMany(UserCoffee::class, 'coffee_run_user_coffee', 'coffee_run_id', 'user_coffee_id')
-                    ->withAdhoc();
+        return $this->belongsToMany(UserCoffee::class, 'coffee_run_user_coffee', 'coffee_run_id', 'user_coffee_id');
     }
 
     /**
@@ -133,6 +132,19 @@ class CoffeeRun extends Model
         return $query->whereHas('user', function(Builder $query) use ($user) {
             $query->where('id', $user->id);
         });
+    }
+
+    /**
+     * Get the coffee of a specific user from this ru
+     *
+     * @param User $user
+     * @return UserCoffee
+     */
+    public function getUserCoffee(User $user)
+    {
+        return $this->userCoffees()
+                    ->where('user_id', $user->id)
+                    ->first();
     }
 
     /**

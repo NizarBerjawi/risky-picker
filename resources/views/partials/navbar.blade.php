@@ -13,6 +13,7 @@
             @endguest
         </ul>
     </div>
+
     @auth
         @onadmin
         <div class="nav-content white">
