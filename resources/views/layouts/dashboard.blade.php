@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="row">
-        <div class="col s12 m6">
-            @yield('runs')
+        <div class="col s12 m12 l6">
             @yield('user')
+            @yield('cups')
         </div>
 
-        <div class="col s12 m6">
+        <div class="col s12 m12 l6">
             @yield('coffees')
-            @yield('cups')
+            @yield('runs')
         </div>
     </div>
 @endsection

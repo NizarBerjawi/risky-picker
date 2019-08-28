@@ -1,7 +1,8 @@
 <?php
 
-use Picker\{User, UserCoffee, Role};
-use Picker\Cup\CupManager;
+use App\Models\{Coffee, User, UserCoffee, Role, Schedule};
+use App\Support\CupManager;
+use App\Rules\{CoffeeTimeConflict, ValidTimeRange};
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -58,11 +59,11 @@ class DummyDataSeeder extends Seeder
 
     /**
      * The maximum number of schedules that can
-     * be run
+     * be run in a week
      *
      * @var integer
      */
-    protected $maxNumberOfSchedule = 10;
+    protected $maxNumberOfSchedule = 50;
 
     /**
      * Run the database seeds.
@@ -78,15 +79,15 @@ class DummyDataSeeder extends Seeder
         $roles = Role::get();
 
         // Create a bunch of random coffee types
-        $coffees = factory(Picker\Coffee::class, $this->totalCoffees)->create();
+        $coffees = factory(Coffee::class, $this->totalCoffees)->create();
 
         // Get all the available week days
         $daysOfWeek = collect(days())->keys();
 
-        factory(Picker\Schedule::class, $this->maxNumberOfSchedule)->create();
+        factory(Schedule::class, $this->maxNumberOfSchedule)->create();
 
         // Create all the users, attach a role to every user, create user coffees
-        factory(Picker\User::class, $this->totalUsers)
+        factory(User::class, $this->totalUsers)
             ->create()
             ->each(function($user) use ($coffees, $roles, $daysOfWeek, $storage, $faker) {
                 $user->update([
@@ -112,19 +113,19 @@ class DummyDataSeeder extends Seeder
                             'end_time'   => $faker->time('G:i', null),
                             'days'       => $daysOfWeek->random(mt_rand(1, count($daysOfWeek))),
                         ]);
+                        $userCoffee->user()->associate($user);
                         // Make sure every user coffee has a start time that
                         // falls before its end time
-                        $validRange = UserCoffee::validateTimeRange(
+                        $validRange = (new ValidTimeRange(
                             $userCoffee->start_time, $userCoffee->end_time
-                        );
+                        ))->passes();
                         // Make sure a user does not have more than one coffee
                         // at any one point of time
-                        $conflict =  UserCoffee::timeslotConflict($user, $userCoffee);
+                        $conflict = !(new CoffeeTimeConflict($userCoffee))->passes();
                     } while (!$validRange || $conflict);
 
                     // If we got to this point, then the coffee is valid
                     $userCoffee->fill([
-                      'user_id' => $user->id,
                       'coffee_id' => $coffees->random()->id,
                     ])->save();
                 }

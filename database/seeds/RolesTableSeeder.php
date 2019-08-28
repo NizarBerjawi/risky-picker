@@ -1,6 +1,6 @@
 <?php
 
-use Picker\Role;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 

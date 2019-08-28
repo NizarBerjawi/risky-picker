@@ -24,9 +24,6 @@
     </tbody>
 </table>
 
-<div class="center-align">
-    {{ $schedules->links() }}
-</div>
 @else
     <p>You don't have any schedules!</p>
 @endif

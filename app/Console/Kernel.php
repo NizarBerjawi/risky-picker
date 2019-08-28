@@ -4,9 +4,8 @@ namespace App\Console;
 
 use App;
 use Carbon\Carbon;
-use Picker\Schedule as CoffeeSchedule;
-use Picker\User\Jobs\PickUser;
-use Picker\CoffeeRun\Jobs\CreateCoffeeRun;
+use App\Models\Schedule as CoffeeSchedule;
+use App\Jobs\PickUser;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Picker\{Coffee, CoffeeRun};
-use Picker\UserCoffee\Filters\UserCoffeeFilters;
+use App\Models\{Coffee, CoffeeRun};
+use App\Filters\UserCoffeeFilters;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -29,9 +29,9 @@ class CoffeeRunController extends Controller
     /**
      * Display the latest coffee run with the user coffees
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function index(Request $request, CoffeeRun $run)
+    public function index(CoffeeRun $run)
     {
         abort_if($run->expired(), 410, trans('messages.run.expired'));
 
@@ -44,6 +44,6 @@ class CoffeeRunController extends Controller
                            ->with(['coffee', 'user.cup'])
                            ->get();
 
-        return response()->view('index', compact('run', 'coffeeTypes', 'userCoffees'));
+        return view('index', compact('run', 'coffeeTypes', 'userCoffees'));
     }
 }

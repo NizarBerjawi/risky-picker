@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{CoffeeRun, Schedule};
+use App\Models\{CoffeeRun, Schedule};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 

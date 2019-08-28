@@ -12,6 +12,10 @@
 
                 @include('admin.schedules.table')
             </div>
+
+            <div class="row center-align">
+                {{ $schedules->links() }}
+            </div>
         </div>
     </div>
 @endsection

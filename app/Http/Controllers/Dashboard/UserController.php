@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\User;
-use Picker\User\Requests\UpdateUser;
+use App\Models\User;
+use App\Http\Requests\User\UpdateUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class UserController extends Controller
      * details.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
      public function edit(Request $request)
      {
@@ -24,13 +24,13 @@ class UserController extends Controller
              return back()->withErrors(trans('messages.user.auth'));
          }
 
-         return response()->view('dashboard.user.edit', compact('user'));
+         return view('dashboard.user.edit', compact('user'));
      }
 
      /**
       * Update the user's personal details
       *
-      * @param Request $request
+      * @param UpdateUser $request
       * @return \Illuminate\Http\RedirectResponse
       */
       public function update(UpdateUser $request)

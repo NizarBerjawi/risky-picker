@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Picker\Coffee::class, function (Faker $faker) {
+$factory->define(App\Models\Coffee::class, function (Faker $faker) {
     return [
         'name' => ucfirst($faker->word),
         'description' => $faker->sentence($nbWords = 20, $variableNbWords = true),

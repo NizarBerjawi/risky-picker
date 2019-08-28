@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{CoffeeRun, AdhocUserCoffee, UserCoffee};
-use Picker\CoffeeRun\Events\AdhocCoffeeCreated;
-use Picker\UserCoffee\Requests\CreateUserCoffee;
+use App\Events\AdhocCoffeeCreated;
+use App\Models\{CoffeeRun, AdhocUserCoffee, UserCoffee};
+use App\Http\Requests\UserCoffee\CreateUserCoffee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class AdhocCoffeeController extends Controller
      *
      * @param Request $request
      * @param CoffeeRun $run
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create(Request $request, CoffeeRun $run)
     {
@@ -25,7 +25,7 @@ class AdhocCoffeeController extends Controller
             return back()->withErrors(trans('messages.coffee.auth'));
         }
 
-        return response()->view('dashboard.coffee.create', compact('run'));
+        return view('dashboard.coffee.create', compact('run'));
     }
 
     /**
@@ -49,7 +49,7 @@ class AdhocCoffeeController extends Controller
         $this->messages->add('created', trans('messages.coffee.created'));
 
         return redirect()
-                  ->route('index', $run)
-                  ->withSuccess($this->messages);
+                ->route('index', $run)
+                ->withSuccess($this->messages);
     }
 }

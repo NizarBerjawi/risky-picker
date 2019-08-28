@@ -1,4 +1,6 @@
-<table class="col s12 responsive-table">
+@if ($coffees->isNotEmpty())
+
+<table class="responsive-table">
     <thead>
         <tr>
             <th>Title</th>
@@ -8,7 +10,7 @@
     </thead>
 
     <tbody>
-        @forelse($coffees as $coffee)
+        @foreach($coffees as $coffee)
             <tr>
                 <td>{{ $coffee->name }}</td>
                 <td>{{ $coffee->description }}</td>
@@ -17,10 +19,10 @@
                     <a class="btn-floating btn-small grey lighten-4" href="{{ route('coffees.confirm-destroy', $coffee) }}"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="3">Oh No! There are no coffees available!</td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>
+
+@else
+    <p>Oh No! There are no coffees available!</p>
+@endif

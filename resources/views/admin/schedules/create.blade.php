@@ -4,7 +4,7 @@
     <div class="col s12 m8 offset-m2">
         <div class="card-panel">
             <div class="card-content">
-                <h5 class="card-title">{{ __('Create a new schedule') }}</h5>
+                <h5 class="card-title">{{ __('Create a schedule') }}</h5>
 
                 <div class="row">
                     @include('admin.schedules.form', [

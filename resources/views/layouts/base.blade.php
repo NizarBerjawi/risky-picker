@@ -8,24 +8,29 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ webpack('common', 'css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ webpack('app', 'css') }}" type="text/css">
 </head>
 
 <body>
-    @include('partials.navbar')
+    <header>
+        @include('partials.navbar')
+    </header>
 
-    <div class="container">
-        <div class="row">
-            @include('partials.validation')
+    <main>
+        <div class="container">
+            <div class="row">
+                @include('partials.validation')
+            </div>
+
+            <div class="row">
+                @yield('content')
+            </div>
+
+            @includeWhen(Auth::check(), 'partials.options')
         </div>
 
-        <div class="row">
-            @yield('content')
-        </div>
-
-        @includeWhen(Auth::check(), 'partials.options')
-    </div>
-
-    @yield('modals')
+        @yield('modals')
+    </main>
 
     <script type="text/javascript" src="{{ webpack('vendor') }}"></script>
     <script type="text/javascript" src="{{ webpack('common') }}"></script>

@@ -4,7 +4,8 @@
     <div class="col s12 m8 offset-m2">
         <div class="card-panel">
             <div class="card-content">
-                <h5 class="card-title">{{ __('Create a Coffee') }}</h5>
+                <h5 class="card-title">{{ __('Add a coffee') }}</h5>
+
                 @include('admin.coffees.form', [
                     'action' => route('coffees.store'),
                     'method' => 'POST',

@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Picker\Schedule::class, function (Faker $faker) {
+$factory->define(App\Models\Schedule::class, function (Faker $faker) {
     return [
         'time' => $faker->unique()->time($format = 'G:i', null),
         'days' => function () {

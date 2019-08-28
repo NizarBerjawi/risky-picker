@@ -14,10 +14,10 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Picker\UserCoffee::class, function (Faker $faker) {
+$factory->define(App\Models\UserCoffee::class, function (Faker $faker) {
     return [
-        'user_id' => $faker->numberBetween(1, Picker\User::count()),
-        'coffee_id' => $faker->numberBetween(1, Picker\Coffee::count()),
+        'user_id' => $faker->numberBetween(1, App\Models\User::count()),
+        'coffee_id' => $faker->numberBetween(1, App\Models\Coffee::count()),
         'sugar' => $faker->numberBetween($min = 0, $max = 3),
         'start_time' => $faker->time($format = 'G:i', null),
         'end_time' => $faker->time($format = 'G:i', null),

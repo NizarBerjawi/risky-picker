@@ -1,4 +1,5 @@
-<table class="col s12 responsive-table">
+@if ($coffees->isNotEmpty())
+<table class="responsive-table">
     <thead>
         <tr>
             <th>Coffee</th>
@@ -10,7 +11,7 @@
     </thead>
 
     <tbody>
-        @forelse($coffees as $coffee)
+        @foreach($coffees as $coffee)
             <tr>
                 <td>{{ $coffee->type }}</td>
                 <td>{{ $coffee->sugar }}</td>
@@ -18,19 +19,12 @@
                 <td>{{ $coffee->getFormattedDays() }}</td>
                 <td>
                     <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.coffees.edit', ['user' => $user, 'coffee' => $coffee->id]) }}"><i class="tiny material-icons teal-text">edit</i></a>
-
-                    <form action="{{ route('users.coffees.destroy', ['user' => $user, 'coffee' => $coffee->id]) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="btn-floating btn-small grey lighten-4"><i class="tiny material-icons teal-text">delete</i></button>
-                    </form>
+                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.coffees.confirm-destroy', ['user' => $user, 'coffee' => $coffee->id]) }}"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="5">No coffee for this user!</td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>
+@else
+    <p>No coffee for this user!</p>
+@endif

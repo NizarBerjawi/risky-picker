@@ -1,6 +1,6 @@
 <?php
 
-use Picker\{User, Role};
+use App\Models\{User, Role};
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -13,8 +13,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run(\Faker\Generator $faker)
     {
-        $user = factory(Picker\User::class)->make([
-            'email'      => 'admin@risky-picker.com',
+        $user = factory(User::class)->make([
+            'email'      => 'admin@picker.com',
             'first_name' => 'Test',
             'last_name'  => 'Account',
         ]);

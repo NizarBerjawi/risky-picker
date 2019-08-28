@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Picker\Coffee;
-use Picker\Coffee\Requests\{CreateCoffee, UpdateCoffee};
+use App\Models\Coffee;
+use App\Http\Requests\Coffee\{CreateCoffee, UpdateCoffee};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,24 +12,23 @@ class CoffeeController extends Controller
     /**
      * Display a listing of the available coffee types
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        $coffees = Coffee::paginate(10);
+        $coffees = Coffee::query()->paginate(10);
 
-        return response()->view('admin.coffees.index', compact('coffees'));
+        return view('admin.coffees.index', compact('coffees'));
     }
 
     /**
      * Show the form for creating a new coffee.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        return response()->view('admin.coffees.create');
+        return view('admin.coffees.create');
     }
 
     /**
@@ -53,11 +52,11 @@ class CoffeeController extends Controller
      * Show the form for editing a coffee resource.
      *
      * @param Coffee $coffee
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit(Coffee $coffee)
     {
-        return response()->view('admin.coffees.edit', compact('coffee'));
+        return view('admin.coffees.edit', compact('coffee'));
     }
 
     /**
@@ -81,13 +80,12 @@ class CoffeeController extends Controller
     /**
      * Confirm that an admin really wants to delete a coffee
      *
-     * @param Request $request
      * @param Coffee $coffee
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
-    public function confirmDestroy(Request $request, Coffee $coffee)
+    public function confirmDestroy(Coffee $coffee)
     {
-        return response()->view('admin.coffees.delete', compact('coffee'));
+        return view('admin.coffees.delete', compact('coffee'));
     }
 
     /**

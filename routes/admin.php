@@ -28,7 +28,8 @@ Route::group(['prefix' => 'users'], function() {
         Route::post('/', 'UserCoffeeController@store')->name('users.coffees.store');
         Route::get('/{userCoffee}', 'UserCoffeeController@show')->name('users.coffees.show');
         Route::get('/{userCoffee}/edit', 'UserCoffeeController@edit')->name('users.coffees.edit');
-        Route::put('/{userCoffee}', 'UserCoffeeController@update')->name('users.coffees.update');
+        Route::match(['put', 'patch'], '/{userCoffee}', 'UserCoffeeController@update')->name('users.coffees.update');
+        Route::get('{userCoffee}/delete', 'UserCoffeeController@confirmDestroy')->name('users.coffees.confirm-destroy');
         Route::delete('/{userCoffee}', 'UserCoffeeController@destroy')->name('users.coffees.destroy');
     });
 });
@@ -39,7 +40,7 @@ Route::group(['prefix' => 'coffee'], function() {
     Route::post('/', 'CoffeeController@store')->name('coffees.store');
     Route::get('/{coffee}', 'CoffeeController@show')->name('coffees.show');
     Route::get('/{coffee}/edit', 'CoffeeController@edit')->name('coffees.edit');
-    Route::put('/{coffee}', 'CoffeeController@update')->name('coffees.update');
+    Route::match(['put', 'patch'], '/{coffee}', 'CoffeeController@update')->name('coffees.update');
     Route::get('/{coffee}/delete', 'CoffeeController@confirmDestroy')->name('coffees.confirm-destroy');
     Route::delete('/{coffee}', 'CoffeeController@destroy')->name('coffees.destroy');
 });

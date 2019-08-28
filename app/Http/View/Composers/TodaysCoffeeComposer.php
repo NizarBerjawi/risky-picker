@@ -2,7 +2,7 @@
 
 namespace App\Http\View\Composers;
 
-use Picker\User;
+use App\Models\User;
 use Illuminate\View\View;
 
 class TodaysCoffeeComposer

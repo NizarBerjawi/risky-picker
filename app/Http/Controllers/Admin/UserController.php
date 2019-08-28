@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Picker\{Coffee, Cup, User, Role};
-use Picker\User\Notifications\UserInvited;
-use Picker\User\Requests\{CreateUser, UpdateUser, InviteUser};
+use App\Models\{Coffee, Cup, User, Role};
+use App\Notifications\UserInvited;
+use App\Http\Requests\User\{UpdateUser, InviteUser};
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\{Notification, URL};
 use Illuminate\Http\Request;
@@ -14,23 +14,25 @@ class UserController extends Controller
     /**
      * Display a listing of the users
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
-        $users = User::exclude([$request->user()])->paginate(20);
+        $users = User::query()
+                     ->exclude([$request->user()])
+                     ->paginate(20);
 
-        return response()->view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     /**
      * Display the form to invite users to the application.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function invitation()
     {
-        return response()->view('admin.users.invite');
+        return view('admin.users.invite');
     }
 
     /**
@@ -62,11 +64,11 @@ class UserController extends Controller
      * Display the form for editing a user resource.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit(User $user)
     {
-        return response()->view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -97,17 +99,15 @@ class UserController extends Controller
                 ->withSuccess($this->messages);
     }
 
-
     /**
      * Confirm that an admin really wants to delete a user
      *
-     * @param Request $request
      * @param User $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
-    public function confirmDestroy(Request $request, User $user)
+    public function confirmDestroy(User $user)
     {
-        return response()->view('admin.users.delete', compact('user'));
+        return view('admin.users.delete', compact('user'));
     }
 
     /**

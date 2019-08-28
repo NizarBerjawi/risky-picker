@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use Picker\CoffeeRun\Events\AdhocCoffeeCreated;
-use Picker\CoffeeRun\Listeners\UpdateCoffeeRun;
-use Picker\Cup\Events\CupUpdated;
-use Picker\Cup\Events\CupDeleted;
-use Picker\Cup\Listeners\DeleteCupImage;
+use App\Events\{AdhocCoffeeCreated, CupUpdated, CupDeleted};
+use App\Listeners\{DeleteCupImage, UpdateCoffeeRun};
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

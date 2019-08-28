@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\{CoffeeRun, Picker, User, UserCoffee};
-use Picker\User\Notifications\UserPicked;
-use Picker\CoffeeRun\Notifications\{VolunteerRequested, UserVolunteered};
+use App\Models\{CoffeeRun, Picker, User, UserCoffee};
+use App\Notifications\{VolunteerRequested, UserVolunteered, UserPicked};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -15,13 +14,12 @@ class CoffeeRunController extends Controller
      *
      * @NOTE: Not implemented yet
      *
-     * @param Request $request
      * @param CoffeeRun $run
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function show(Request $request, CoffeeRun $run)
+    public function show(CoffeeRun $run)
     {
-        return response()->view('dashboard.runs.show', compact('run'));
+        return view('dashboard.runs.show', compact('run'));
     }
 
     /**
@@ -43,7 +41,7 @@ class CoffeeRunController extends Controller
         $user = Picker::pick($pool);
 
         // Attempt to update the coffee run's user
-        if (!$run->changeUser($user)) {
+        if (!$run->setUser($user)) {
             return back()->withErrors(trans('messages.run.failed'));
         }
 
@@ -102,7 +100,7 @@ class CoffeeRunController extends Controller
      * @param Request $request
      * @param CoffeeRun $run
      * @param UserCoffee $coffee
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function preRemove(Request $request, CoffeeRun $run, UserCoffee $coffee)
     {
@@ -110,7 +108,7 @@ class CoffeeRunController extends Controller
             return back()->withErrors(trans('messages.run.auth'));
         }
 
-        return response()->view('dashboard.runs.remove', compact('run', 'coffee'));
+        return view('dashboard.runs.remove', compact('run', 'coffee'));
     }
 
     /**

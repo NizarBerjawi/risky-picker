@@ -1,3 +1,4 @@
+@if ($users->isNotEmpty())
 <table class="responsive-table">
     <thead>
         <tr>
@@ -9,7 +10,7 @@
     </thead>
 
     <tbody>
-        @forelse($users as $user)
+        @foreach($users as $user)
             <tr>
                 <td>{{ $user->first_name }}</td>
                 <td>{{ $user->last_name }}</td>
@@ -21,10 +22,10 @@
                     <a class="btn-floating btn-small grey lighten-4" href="{{ route('users.confirm-destroy', $user) }}"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="4">No one wants coffee!</td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>
+
+@else
+    <p>No one wants coffee!</p>
+@endif

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Picker\Cup;
-use Picker\Cup\CupManager;
-use Picker\Cup\Requests\CupRequest;
+use App\Models\Cup;
+use App\Support\CupManager;
+use App\Http\Requests\Cup\CupRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
@@ -35,12 +35,11 @@ class CupController extends Controller
     /**
      * Display the form for creating a cup
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function create(Request $request)
+    public function create()
     {
-        return response()->view('dashboard.cups.create');
+        return view('dashboard.cups.create');
     }
 
     /**
@@ -70,11 +69,11 @@ class CupController extends Controller
      * Display the cup photo
      *
      * @param Cup $cup
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show(Cup $cup)
     {
-        return response()->view('dashboard.cups.show', compact('cup'));
+        return view('dashboard.cups.show', compact('cup'));
     }
 
     /**
@@ -82,7 +81,7 @@ class CupController extends Controller
      *
      * @param Request $request
      * @param Cup $cup
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit(Request $request, Cup $cup)
     {
@@ -90,7 +89,7 @@ class CupController extends Controller
             return back()->withErrors(trans('messages.cup.auth'));
         }
 
-        return response()->view('dashboard.cups.edit', compact('cup'));
+        return view('dashboard.cups.edit', compact('cup'));
     }
 
     /**
@@ -129,7 +128,7 @@ class CupController extends Controller
      *
      * @param Request $request
      * @param Cup $cup
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function confirmDestroy(Request $request, Cup $cup)
     {
@@ -137,7 +136,7 @@ class CupController extends Controller
             return back()->withErrors(trans('messages.cup.auth'));
         }
 
-        return response()->view('dashboard.cups.delete', compact('cup'));
+        return view('dashboard.cups.delete', compact('cup'));
     }
 
     /**
