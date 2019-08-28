@@ -16,7 +16,7 @@ class CoffeeRun extends Model
      *
      * @var int
      */
-    const EXPIRY = 60; // Minutes;
+    const EXPIRY = 1440; // Minutes;
 
     /**
       * The table associated with the model.

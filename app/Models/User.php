@@ -13,6 +13,13 @@ class User extends Authenticatable
     use ExcludesFromQuery, Notifiable, Sluggable, SoftDeletes;
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['roles'];
+
+    /**
      * The column name of the "remember me" token.
      *
      * @var string
@@ -184,7 +191,8 @@ class User extends Authenticatable
      */
     public function hasRole(string $role)
     {
-        return $this->roles()->where('name', $role)->exists();
+        return $this->roles->contains('name', $role);
+
     }
 
     /**

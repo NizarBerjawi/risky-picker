@@ -11,6 +11,11 @@ use Illuminate\Http\File;
 
 class DummyDataSeeder extends Seeder
 {
+    /**
+     * The storage disk
+     *
+     * @var string
+     */
     protected $disk = 'cups';
 
     /**
@@ -63,7 +68,7 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $maxNumberOfSchedule = 50;
+    protected $maxNumberOfSchedules = 1000;
 
     /**
      * Run the database seeds.
@@ -84,7 +89,7 @@ class DummyDataSeeder extends Seeder
         // Get all the available week days
         $daysOfWeek = collect(days())->keys();
 
-        factory(Schedule::class, $this->maxNumberOfSchedule)->create();
+        factory(Schedule::class, $this->maxNumberOfSchedules)->create();
 
         // Create all the users, attach a role to every user, create user coffees
         factory(User::class, $this->totalUsers)

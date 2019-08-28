@@ -53,7 +53,6 @@ class CoffeeRunPolicy
     public function volunteer(User $user, CoffeeRun $run)
     {
         return true;
-        // return $user->isNot($run->user); // && $run->needsVolunteer();
     }
 
     /**

@@ -20,7 +20,6 @@
                     <td>{{ $run->user->full_name }}</td>
                     <td>{{ $run->userCoffees->count() }}</td>
                     <td>
-
                         @if ($run->notExpired() && request()->user()->is($run->user))
                             @if (!$run->hasVolunteer())
                                 <form action={{ route('dashboard.runs.busy', $run) }} method="POST">
@@ -58,15 +57,15 @@
                             @endif
                         @endif
                     </td>
-                    @can('pick', $run)
-                        <td>
+                    <td>
+                        @can('pick', $run)
                             <form action={{ route('dashboard.runs.update', $run) }} method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="top" data-tooltip="Randomly select a new user to do this run" name="action" value="pick"><i class="tiny material-icons">refresh</i></button>
                             </form>
-                        </td>
-                    @endcan
+                        @endcan
+                    </td>
                 </tr>
             @endforeach
         </tbody>
