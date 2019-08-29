@@ -32,14 +32,11 @@ class CoffeeRunController extends Controller
     public function update(Request $request, CoffeeRun $run)
     {
         $this->authorize('pick', $run);
-
         // Get the pool of users to select from while excluding the
         // user that was previously selected for this coffee run
         $pool = User::canBePicked()->get();
-
         // Randomly pick a user who is eligible to take this coffee run
         $user = Picker::pick($pool);
-
         // Attempt to update the coffee run's user
         if (!$run->setUser($user)) {
             return back()->withErrors(trans('messages.run.failed'));
