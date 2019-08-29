@@ -57,6 +57,7 @@ class CoffeeRunController extends Controller
 
         $users = User::query()
                      ->withCount('coffeeRuns')
+                     ->orderBy('coffee_runs_count', 'desc')
                      ->paginate(20);
 
         return view('statistics', compact('users', 'monthlyData'));
