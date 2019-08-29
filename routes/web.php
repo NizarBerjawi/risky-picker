@@ -16,5 +16,6 @@ Auth::routes();
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('home');
 
 Route::group(['prefix' => 'coffee-run'], function() {
-  Route::get('/{run}', 'CoffeeRunController@index')->name('index');
+    Route::get('/stats', 'CoffeeRunController@statistics')->name('statistics');
+    Route::get('/{run}', 'CoffeeRunController@index')->name('index');
 });

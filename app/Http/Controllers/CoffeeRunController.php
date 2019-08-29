@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Coffee, CoffeeRun};
+use App\Models\{Coffee, CoffeeRun, User};
 use App\Filters\UserCoffeeFilters;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -45,5 +45,20 @@ class CoffeeRunController extends Controller
                            ->get();
 
         return view('index', compact('run', 'coffeeTypes', 'userCoffees'));
+    }
+
+    public function statistics(Request $request)
+    {
+        $monthlyData = CoffeeRun::query()
+            ->selectRaw("user_id, count(user_id) as total")
+            ->thisMonth()
+            ->groupBy('user_id')
+            ->get();
+
+        $users = User::query()
+                     ->withCount('coffeeRuns')
+                     ->paginate(20);
+
+        return view('statistics', compact('users', 'monthlyData'));
     }
 }

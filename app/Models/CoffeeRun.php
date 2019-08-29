@@ -109,7 +109,35 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Scope the last order that was made
+     * Scope the runs that were made this week
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeThisWeek(Builder $query)
+    {
+        $time = Carbon::now()->subWeeks(1);
+
+        return $query->whereDate('created_at', '>', $time);
+    }
+
+    /**
+     * Scope the runs that were made this month
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeThisMonth(Builder $query)
+    {
+        $start = Carbon::now()->startOfMonth();
+        $end = Carbon::now()->endOfMonth();
+
+        return $query->whereDate('coffee_runs.created_at', '>=', $start)
+                     ->whereDate('coffee_runs.created_at', '<=', $end);
+    }
+
+    /**
+     * Scope the last run that was made
      *
      * @param \Illuminate\Database\Eloquent\Builder
      * @return \Illuminate\Database\Eloquent\Builder
