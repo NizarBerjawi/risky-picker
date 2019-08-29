@@ -27,6 +27,7 @@ class DashboardController extends Controller
 
         // Get the coffee runs that occured today
         $runs = CoffeeRun::thisWeek()
+                         ->latest('created_at')
                          ->with(['user', 'volunteer', 'userCoffees'])
                          ->paginate(3, ['*'], 'runs');
 
