@@ -14,16 +14,12 @@ class Picker
      */
     public static function pick(Collection $users)
     {
-        while($users->isNotEmpty()) {
-            $user = $users->random();
+        $user = $users->random();
 
-            if ($user->canBePickedForCoffee()) {
-                return $user;
-            }
-
-            $users->pull($users->search($user));
+        if ($users->isEmpty() || !$user) {
+            throw new UnluckyUserNotFoundException('Could not pick a user');
         }
 
-        throw new UnluckyUserNotFoundException('Could not pick a user');
+        return $user;
     }
 }

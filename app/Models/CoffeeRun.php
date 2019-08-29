@@ -116,7 +116,8 @@ class CoffeeRun extends Model
      */
     public function scopeLastRun(Builder $query)
     {
-        return $query->latest()->limit(1);
+        return $query->where('created_at', static::query()->max('created_at'))
+                     ->limit(1);
     }
 
     /**

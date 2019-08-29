@@ -162,6 +162,70 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the users that were picked for a coffee run yesterday
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopePickedYesterday(Builder $query)
+    {
+        return $query->whereHas('coffeeRuns', function(Builder $query) {
+            return $query->yesterday();
+        });
+    }
+
+    /**
+     * Get the users that were picked for a coffee run today
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopePickedToday(Builder $query)
+    {
+        return $query->whereHas('coffeeRuns', function(Builder $query) {
+            return $query->today();
+        });
+    }
+
+    /**
+     * Get the users that were picked for a coffee run last time
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopePickedLastTime(Builder $query)
+    {
+        return $query->whereHas('coffeeRuns', function(Builder $query) {
+            return $query->lastRun();
+        });
+    }
+
+    /**
+     * Get users who can not picked to do a coffee run.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopeCanNotBePicked(Builder $query)
+    {
+        return $query->where(function(Builder $query) {
+            return $query->pickedLastTime();
+        })->orWhere(function(Builder $query) {
+            return $query->pickedToday();
+        })->orWhere(function(Builder $query) {
+            return $query->pickedYesterday();
+        })->orWhere(function(Builder $query) {
+            return $query->onlyVip();
+        });
+    }
+
+    /**
+     * Get users who can not picked to do a coffee run.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    public function scopeCanBePicked(Builder $query)
+    {
+        return $query->exclude(static::canNotBePicked()->get()->all());
+    }
+
+    /**
      * Check if a user has a cup attached to their profile.
      *
      * @return bool
@@ -252,59 +316,6 @@ class User extends Authenticatable
      {
          return $run->user_id == $this->id;
      }
-
-    /**
-     * Determine if a user can be picked to do a coffee run.
-     *
-     * @return bool
-     */
-    public function canBePickedForCoffee()
-    {
-        return !$this->pickedLastTime() &&
-               !$this->pickedToday() &&
-               !$this->pickedYesterday();
-    }
-
-    /**
-     * Detrmine if the user was picked last time to do a
-     * coffee run. i.e this could be after a public holiday
-     * or a weekend
-     *
-     * @return bool
-     */
-    public function pickedLastTime()
-    {
-        // Get the last coffee run and the user who made it
-        $run = CoffeeRun::lastRun()
-                        ->with('user')
-                        ->first();
-
-        return $run && $this->is($run->user);
-    }
-
-    /**
-     * Determine if the user did a coffee run today
-     *
-     * @return bool
-     */
-    public function pickedToday()
-    {
-        return $this->coffeeRuns()
-                    ->today()
-                    ->exists();
-    }
-
-    /**
-     * Determine if the user did a coffee run yesterday
-     *
-     * @return bool
-     */
-    public function pickedYesterday()
-    {
-        return $this->coffeeRuns()
-                    ->yesterday()
-                    ->exists();
-    }
 
     /**
      * Get the full name of the user

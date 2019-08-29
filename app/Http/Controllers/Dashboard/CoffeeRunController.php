@@ -35,7 +35,7 @@ class CoffeeRunController extends Controller
 
         // Get the pool of users to select from while excluding the
         // user that was previously selected for this coffee run
-        $pool = User::exclude([$run->user])->withoutVIP()->get();
+        $pool = User::canBePicked()->get();
 
         // Randomly pick a user who is eligible to take this coffee run
         $user = Picker::pick($pool);
