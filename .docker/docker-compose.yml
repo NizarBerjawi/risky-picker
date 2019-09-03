@@ -13,7 +13,7 @@ services:
       SERVICE_TAGS: dev
     volumes:
       - ../:/var/www
-      - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+      - ./php-fpm/php7.3.ini:/usr/local/etc/php/php.ini
     expose:
       - "9000"
     working_dir: /var/www
@@ -25,9 +25,9 @@ services:
     build:
       context: ./php-worker
       args:
-        - PHP_VERSION=${PHP_VERSION}
+        - PHP_VERSION=7.3
     volumes:
-        - ./php-worker/supervisord.d:/etc/supervisord.d
+        - ./php-worker/supervisor.d:/etc/supervisor.d
     networks:
       - app-network
 

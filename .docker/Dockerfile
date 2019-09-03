@@ -1,4 +1,4 @@
-FROM php:{PHP_VERSION}-fpm
+FROM php:7.3-fpm
 
 LABEL maintainer="Nizar El Berjawi <nizarberjawi12@gmail.com>"
 
