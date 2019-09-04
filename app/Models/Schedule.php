@@ -76,6 +76,16 @@ class Schedule extends Model
         return $query->whereRaw("time(time) > time('$time')");
     }
 
+    public function scopeNextDueScheduleToday(Builder $query)
+    {
+        // Get the english day of today
+        $today = strtolower(now()->shortEnglishDayOfWeek);
+        // Check if there is any schedule today that could be executed
+        return $query->days([$today])
+                     ->after(now()->format('G:i'))
+                     ->orderByRaw('time(time) ASC')
+                     ->limit(1);
+    }
     /**
      * Get the schedule that will be executed next.
      *
@@ -84,18 +94,12 @@ class Schedule extends Model
      */
     public function scopeNextDueSchedule(Builder $query)
     {
-        // Get the english day of today
-        $today = strtolower(now()->shortEnglishDayOfWeek);
+        if ($query->nextDueScheduleToday()->exists()) {
+            return $query->nextDueScheduleToday();
+        }
+
         // Get the english day of tomorrow
         $tomorrow = strtolower(now()->addDays(1)->shortEnglishDayOfWeek);
-        // Check if there is any schedule today that could be executed
-        $schedule = (clone $query)->days([$today])
-                          ->after(now()->format('G:i'))
-                          ->orderByRaw('time(time) ASC');
-        // If a schedule is found, then that will be the next schedule
-        if ($schedule->exists()) {
-            return $schedule->limit(1);
-        }
 
         // If a schedule could not be found on the same day,
         // then get the first schedule expected to be run.

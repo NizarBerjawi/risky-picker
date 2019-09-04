@@ -66,7 +66,7 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Get the user that made the coffee run.
+     * Get the user that volunteered to do the coffee run
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -106,6 +106,25 @@ class CoffeeRun extends Model
     public function scopeYesterday(Builder $query)
     {
         return $query->whereDate('created_at', Carbon::yesterday())->latest();
+    }
+
+    /**
+     * Get the coffee runs that have happened recently. Recent
+     * coffee runs are defined as runs that have happened today,
+     * yesterday, or on the last run
+     *
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRecent(Builder $query)
+    {
+        return $query->where(function(Builder $query) {
+            $query->today();
+        })->orWhere(function(Builder $query) {
+            $query->yesterday();
+        })->orWhere(function(Builder $query) {
+            $query->lastRun();
+        });
     }
 
     /**
@@ -160,6 +179,17 @@ class CoffeeRun extends Model
         return $query->whereHas('user', function(Builder $query) use ($user) {
             $query->where('id', $user->id);
         });
+    }
+
+    /** 
+     * Scope the coffee runs that have a volunteer
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasVolunteer(Builder $query)
+    {
+        return $query->whereNotNull('volunteer_id');
     }
 
     /**

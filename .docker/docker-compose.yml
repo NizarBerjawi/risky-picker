@@ -13,7 +13,7 @@ services:
       SERVICE_TAGS: dev
     volumes:
       - ../:/var/www
-      - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+      - ./php-fpm/php7.3.ini:/usr/local/etc/php/php.ini
     expose:
       - "9000"
     working_dir: /var/www
@@ -24,8 +24,8 @@ services:
   php-worker:
     build:
       context: ./php-worker
-      args:
-        - PHP_VERSION=${PHP_VERSION}
+    environment:
+      PHP_VERSION: 7.3
     volumes:
         - ./php-worker/supervisord.d:/etc/supervisord.d
     networks:
@@ -55,8 +55,6 @@ services:
       MYSQL_USER: coffee_picker
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf

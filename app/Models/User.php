@@ -46,6 +46,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all coffee runs the user has volunteered for.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function volunteeredCoffeeRuns()
+    {
+        return $this->hasMany(CoffeeRun::class, 'volunteer_id');
+    }
+
+    /**
      * Get the coffees
      *
      * @param \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -194,6 +204,19 @@ class User extends Authenticatable
     {
         return $query->whereHas('coffeeRuns', function(Builder $query) {
             return $query->lastRun();
+        });
+    }
+
+    /**
+     * Get the users who have recently volunteered to do a coffee run
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeVolunteeredRecently(Builder $query)
+    {
+        return $query->whereHas('coffeeRuns', function(Builder $query) {
+            $query->hasVolunteer();
         });
     }
 

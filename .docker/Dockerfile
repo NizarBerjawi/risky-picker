@@ -1,4 +1,4 @@
-FROM php:{PHP_VERSION}-fpm
+FROM php:7.3-fpm
 
 LABEL maintainer="Nizar El Berjawi <nizarberjawi12@gmail.com>"
 
@@ -43,9 +43,16 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
 
-# Set working directory
-WORKDIR /var/www
+COPY . /var/www
+
+RUN chown -R www-data:www-data \
+  /var/www/storage \
+  /var/www/bootstrap/cache
+
+RUN chgrp -R www-data /var/www/storage /var/www/bootstrap/cache && \
+  chmod -R ug+rwx /var/www/storage /var/www/bootstrap/cache
 
 # Expose port 9000 and start php-fpm server
 CMD ["php-fpm"]
