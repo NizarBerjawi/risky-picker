@@ -26,16 +26,16 @@ RUN docker-php-ext-install pdo_mysql \
     docker-php-ext-install gd
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN set -xe; \
-    apt-get update -yqq && \
-    pecl channel-update pecl.php.net && \
-    apt-get install -yqq \
-      apt-utils \
-      libzip-dev zip unzip && \
-      docker-php-ext-configure zip --with-libzip && \
-      # Install the zip extension
-      docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
+# RUN set -xe; \
+#     apt-get update -yqq && \
+#     pecl channel-update pecl.php.net && \
+#     apt-get install -yqq \
+#       apt-utils \
+#       libzip-dev zip unzip && \
+#       docker-php-ext-configure zip --with-libzip && \
+#       # Install the zip extension
+#       docker-php-ext-install zip && \
+#       php -m | grep -q 'zip'
 
 # Clean up
 RUN apt-get clean && \
@@ -47,12 +47,12 @@ RUN groupmod -g 1000 www-data
 
 COPY . /var/www
 
-RUN chown -R www-data:www-data \
-  /var/www/storage \
-  /var/www/bootstrap/cache
+# RUN chown -R www-data:www-data \
+#   /var/www/storage \
+#   /var/www/bootstrap/cache
 
-RUN chgrp -R www-data /var/www/storage /var/www/bootstrap/cache && \
-  chmod -R ug+rwx /var/www/storage /var/www/bootstrap/cache
+# RUN chgrp -R www-data /var/www/storage /var/www/bootstrap/cache && \
+#   chmod -R ug+rwx /var/www/storage /var/www/bootstrap/cache
 
 # Expose port 9000 and start php-fpm server
 CMD ["php-fpm"]
