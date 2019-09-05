@@ -87,7 +87,7 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Scope the orders that were made today
+     * Get the coffee runs that were made today
      *
      * @param \Illuminate\Database\Eloquent\Builder
      * @return \Illuminate\Database\Eloquent\Builder
@@ -98,7 +98,7 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Scope the orders that were made yesterday
+     * Get the coffee runs that were made yesterday
      *
      * @param \Illuminate\Database\Eloquent\Builder
      * @return \Illuminate\Database\Eloquent\Builder
@@ -106,6 +106,18 @@ class CoffeeRun extends Model
     public function scopeYesterday(Builder $query)
     {
         return $query->whereDate('created_at', Carbon::yesterday())->latest();
+    }
+
+    /**
+     * Get the last coffee run that was made
+     *
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeLastRun(Builder $query)
+    {
+        return $query->where('created_at', static::query()->max('created_at'))
+                     ->limit(1);
     }
 
     /**
@@ -128,7 +140,7 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Scope the runs that were made this week
+     * Get the coffee runs that were made this week
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -141,7 +153,7 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Scope the runs that were made this month
+     * Get the coffee runs that were made this month
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -153,18 +165,6 @@ class CoffeeRun extends Model
 
         return $query->whereDate('coffee_runs.created_at', '>=', $start)
                      ->whereDate('coffee_runs.created_at', '<=', $end);
-    }
-
-    /**
-     * Scope the last run that was made
-     *
-     * @param \Illuminate\Database\Eloquent\Builder
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeLastRun(Builder $query)
-    {
-        return $query->where('created_at', static::query()->max('created_at'))
-                     ->limit(1);
     }
 
     /**

@@ -152,9 +152,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the users that are in the pool of users to be picked
+     * Get the users that are not set as VIP users
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithoutVip(Builder $query)
     {
@@ -162,9 +163,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the users that are not in the pool of users to be picked
+     * Get the users that are set as VIP users
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOnlyVip(Builder $query)
     {
@@ -174,7 +176,8 @@ class User extends Authenticatable
     /**
      * Get the users that were picked for a coffee run yesterday
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePickedYesterday(Builder $query)
     {
@@ -186,7 +189,8 @@ class User extends Authenticatable
     /**
      * Get the users that were picked for a coffee run today
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePickedToday(Builder $query)
     {
@@ -198,7 +202,8 @@ class User extends Authenticatable
     /**
      * Get the users that were picked for a coffee run last time
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePickedLastTime(Builder $query)
     {
@@ -215,15 +220,16 @@ class User extends Authenticatable
      */
     public function scopeVolunteeredRecently(Builder $query)
     {
-        return $query->whereHas('coffeeRuns', function(Builder $query) {
-            $query->hasVolunteer();
+        return $query->whereHas('volunteeredCoffeeRuns', function(Builder $query) {
+            $query->recent();
         });
     }
 
     /**
      * Get users who can not picked to do a coffee run.
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCanNotBePicked(Builder $query)
     {
@@ -235,13 +241,16 @@ class User extends Authenticatable
             return $query->pickedYesterday();
         })->orWhere(function(Builder $query) {
             return $query->onlyVip();
+        })->orWhere(function(Builder $query) {
+            return $query->volunteeredRecently();
         });
     }
 
     /**
-     * Get users who can not picked to do a coffee run.
+     * Get users who can be picked to do a coffee run.
      *
-     * @return \Illuminate\Database\Eloquent\Builder;
+     * @param \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCanBePicked(Builder $query)
     {
@@ -333,6 +342,7 @@ class User extends Authenticatable
      /**
       * Check if a user has been picked for a specified coffee run
       *
+      * @param \App\Models\CoffeeRun
       * @return bool
       */
      public function hasBeenPickedFor(CoffeeRun $run)

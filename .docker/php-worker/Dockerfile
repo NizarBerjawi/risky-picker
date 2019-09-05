@@ -34,6 +34,7 @@ COPY supervisord.conf /etc/supervisord.conf
 
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 
+# Check the PHP version
 RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 
 WORKDIR /etc/supervisor/conf.d/
