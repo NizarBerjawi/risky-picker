@@ -18,20 +18,22 @@ class AdhocCoffeeCreated
     /**
      * The user coffee model
      *
-     * @var UserCoffee
+     * @var \App\Models\UserCoffee
      */
     public $userCoffee;
 
     /**
      * The coffee run
      *
-     * @var CoffeeRun
+     * @var \App\Models\CoffeeRun
      */
     public $run;
 
     /**
      * Create a new event instance.
      *
+     * @param \App\Models\CoffeeRun  $run
+     * @param \App\Models\UserCoffee  $userCoffee
      * @return void
      */
     public function __construct(CoffeeRun $run, UserCoffee $userCoffee)

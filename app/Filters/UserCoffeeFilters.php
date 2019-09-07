@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Builder;
 class UserCoffeeFilters extends Filter
 {
     /**
-     * Filter by archived entries.
+     * Filter by  coffee types.
      *
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function coffeeType()
     {

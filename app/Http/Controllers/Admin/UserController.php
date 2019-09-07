@@ -14,13 +14,14 @@ class UserController extends Controller
     /**
      * Display a listing of the users
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
         $users = User::query()
                      ->exclude([$request->user()])
-                     ->paginate(20);
+                     ->paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
@@ -38,7 +39,7 @@ class UserController extends Controller
     /**
      * Send an invitation email to the specified email
      *
-     * @param InviteUser  $request
+     * @param  \App\Http\Requests\User\InviteUser  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function invite(InviteUser $request)
@@ -63,7 +64,7 @@ class UserController extends Controller
     /**
      * Display the form for editing a user resource.
      *
-     * @param User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function edit(User $user)
@@ -74,8 +75,8 @@ class UserController extends Controller
     /**
      * Update a user account.
      *
-     * @param UpdateUser $request
-     * @param User $user
+     * @param  \App\Http\Requests\User\UpdateUser  $request
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUser $request, User $user)
@@ -102,7 +103,7 @@ class UserController extends Controller
     /**
      * Confirm that an admin really wants to delete a user
      *
-     * @param User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function confirmDestroy(User $user)
@@ -113,7 +114,7 @@ class UserController extends Controller
     /**
      * Delete a specfied user resource
      *
-     * @param User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)

@@ -18,6 +18,14 @@ class CoffeeRun extends Model
      */
     const EXPIRY = 1440; // Minutes;
 
+    /** 
+     * The number of minutes before a particular coffee run 
+     * becomes locked
+     *
+     * @var int
+     */
+    const LOCK_AFTER = 60; // Minutes;
+
     /**
       * The table associated with the model.
       *
@@ -296,5 +304,25 @@ class CoffeeRun extends Model
     public function notExpired()
     {
         return !$this->expired();
+    }
+
+    /**
+     * Check if the coffee run is locked
+     * 
+     * @return boolean
+     */
+    public function locked()
+    {
+        return now()->diffInMinutes($this->created_at) > self::LOCK_AFTER;
+    }
+
+    /**
+     * Check if the coffee run is not locked
+     * 
+     * @return boolean
+     */
+    public function notLocked()
+    {
+        return !$this->locked();
     }
 }

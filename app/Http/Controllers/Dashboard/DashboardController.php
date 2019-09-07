@@ -11,7 +11,7 @@ class DashboardController extends Controller
     /**
      * Show the user's dashboard
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -26,7 +26,7 @@ class DashboardController extends Controller
                         ->paginate(3, ['*'], 'coffees');
 
         // Get the coffee runs that occured today
-        $runs = CoffeeRun::thisWeek()
+        $runs = CoffeeRun::recent()
                          ->latest('created_at')
                          ->with(['user', 'volunteer', 'userCoffees'])
                          ->paginate(3, ['*'], 'runs');

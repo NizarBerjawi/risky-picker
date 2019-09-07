@@ -6,7 +6,7 @@
         @include('partials.validation')
 
         <div class="row">
-            @include('dashboard.runs.form')
+            @include('partials.coffees')
         </div>
     </div>
 @endsection

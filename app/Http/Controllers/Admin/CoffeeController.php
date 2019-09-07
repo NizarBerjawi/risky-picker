@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Coffee;
 use App\Http\Requests\Coffee\{CreateCoffee, UpdateCoffee};
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class CoffeeController extends Controller
 {
@@ -34,7 +33,7 @@ class CoffeeController extends Controller
     /**
      * Store a new coffee resource.
      *
-     * @param CreateCoffee $request
+     * @param  \App\Http\Requests\Coffee\CreateCoffee  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateCoffee $request)
@@ -51,7 +50,7 @@ class CoffeeController extends Controller
     /**
      * Show the form for editing a coffee resource.
      *
-     * @param Coffee $coffee
+     * @param \App\Models\Coffee  $coffee
      * @return \Illuminate\View\View
      */
     public function edit(Coffee $coffee)
@@ -62,8 +61,8 @@ class CoffeeController extends Controller
     /**
      * Update a coffee resource.
      *
-     * @param UpdateCoffee $request
-     * @param Coffee $coffee
+     * @param  \App\Http\Requests\Coffee\UpdateCoffee  $request
+     * @param  \App\Models\Coffee  $coffee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateCoffee $request, Coffee $coffee)
@@ -80,7 +79,7 @@ class CoffeeController extends Controller
     /**
      * Confirm that an admin really wants to delete a coffee
      *
-     * @param Coffee $coffee
+     * @param  \App\Models\Coffee  $coffee
      * @return \Illuminate\View\View
      */
     public function confirmDestroy(Coffee $coffee)
@@ -91,7 +90,7 @@ class CoffeeController extends Controller
     /**
      * Delete a coffee resource
      *
-     * @param Coffee $coffee
+     * @param  \App\Models\Coffee  $coffee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Coffee $coffee)

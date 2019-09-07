@@ -11,7 +11,7 @@ class UserCoffeeController extends Controller
     /**
      * Display a listing of the user's coffee choices
      *
-     * @param User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function index(User $user)
@@ -26,7 +26,7 @@ class UserCoffeeController extends Controller
     /**
      * Show the form for creating a new user coffee.
      *
-     * @param User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
     public function create(User $user)
@@ -37,8 +37,8 @@ class UserCoffeeController extends Controller
     /**
      * Store a new coffee entry for the user.
      *
-     * @param CreateUserCoffee $request
-     * @param User $user
+     * @param  \App\Http\Requests\UserCoffee\CreateUserCoffee  $request
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateUserCoffee $request, User $user)
@@ -57,8 +57,8 @@ class UserCoffeeController extends Controller
     /**
      * Show the form for editing a user coffee.
      *
-     * @param User $user
-     * @param UserCoffee $userCoffee
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return \Illuminate\View\View
      */
     public function edit(User $user, UserCoffee $userCoffee)
@@ -69,9 +69,9 @@ class UserCoffeeController extends Controller
     /**
      * Update a user's coffee selection.
      *
-     * @param UpdateUserCoffee $request
-     * @param User $user
-     * @param UserCoffee $userCoffee
+     * @param  \App\Http\Requests\UserCoffee\UpdateUserCoffee  $request
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUserCoffee $request, User $user, UserCoffee $userCoffee)
@@ -88,8 +88,8 @@ class UserCoffeeController extends Controller
     /**
      * Confirm that an admin really wants to delete a user coffee
      *
-     * @param Request $request
-     * @param Coffee $coffee
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Coffee  $coffee
      * @return \Illuminate\View\View
      */
     public function confirmDestroy(User $user, UserCoffee $userCoffee)
@@ -100,8 +100,8 @@ class UserCoffeeController extends Controller
     /**
      * Delete a user's coffee selection
      *
-     * @param User $user
-     * @param UserCoffee $userCoffee
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user, UserCoffee $userCoffee)

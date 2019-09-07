@@ -12,7 +12,7 @@ class CoffeeController extends Controller
     /**
      * Show the form for creating a new user coffee.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request\Request  $request
      * @return \Illuminate\View\View
      */
     public function create(Request $request)
@@ -27,7 +27,7 @@ class CoffeeController extends Controller
     /**
      * Store a new user coffee entry.
      *
-     * @param CreateUserCoffee $request
+     * @param  \App\Http\Requests\UserCoffee\CreateUserCoffee  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateUserCoffee $request)
@@ -50,7 +50,7 @@ class CoffeeController extends Controller
     /**
      * Show a user coffee entry.
      *
-     * @param UserCoffee $userCoffee
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return \Illuminate\View\View
      */
     public function show(UserCoffee $userCoffee)
@@ -61,7 +61,7 @@ class CoffeeController extends Controller
     /**
      * Display the form for editing a user coffee entry.
      *
-     * @param UserCoffee $userCoffee
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return \Illuminate\View\View
      */
      public function edit(UserCoffee $userCoffee)
@@ -74,8 +74,8 @@ class CoffeeController extends Controller
      /**
       * Update a user's coffee entry
       *
-      * @param UpdateUserCoffee $request
-      * @param UserCoffee $userCoffee
+      * @param  \App\Http\Requests\UserCoffee\UpdateUserCoffee  $request
+      * @param  \App\Models\UserCoffee  $userCoffee
       * @return \Illuminate\Http\RedirectResponse
       */
       public function update(UpdateUserCoffee $request, UserCoffee $userCoffee)
@@ -96,8 +96,8 @@ class CoffeeController extends Controller
       /**
        * Confirm that a user really wants to delete their coffee entry
        *
-       * @param Request $request
-       * @param UserCoffee $coffee
+       * @param  \Illuminate\Http\Request  $request
+       * @param  \App\Models\UserCoffee  $coffee
        * @return \Illuminate\View\View
        */
       public function confirmDestroy(Request $request, UserCoffee $userCoffee)
@@ -112,8 +112,8 @@ class CoffeeController extends Controller
       /**
        * Delete a user's coffee entry.
        *
-       * @param Request $request
-       * @param UserCoffee $userCoffee
+       * @param  \Illuminate\Http\Request  $request
+       * @param  \App\Models\UserCoffee  $userCoffee
        * @return \Illuminate\Http\RedirectResponse
        */
       public function destroy(Request $request, UserCoffee $userCoffee)

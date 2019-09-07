@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Schedule;
 use App\Http\Requests\Schedule\{CreateSchedule, UpdateSchedule};
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
@@ -34,7 +33,7 @@ class ScheduleController extends Controller
     /**
      * Store a new schedule resource.
      *
-     * @param CreateSchedule $request
+     * @param  \App\Http\Requests\Schedule\CreateSchedule  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateSchedule $request)
@@ -51,7 +50,7 @@ class ScheduleController extends Controller
     /**
      * Show the details of a schedule resource.
      *
-     * @param Schedule $schedule
+     * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\View\View
      */
     public function show(Schedule $schedule)
@@ -62,7 +61,7 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing a schedule resource.
      *
-     * @param Schedule $schedule
+     * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\View\View
      */
     public function edit(Schedule $schedule)
@@ -73,8 +72,8 @@ class ScheduleController extends Controller
     /**
      * Update a coffee resource.
      *
-     * @param UpdateSchedule $request
-     * @param Schedule $schedule
+     * @param  \App\Http\Requests\Schedule\UpdateSchedule  $request
+     * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateSchedule $request, Schedule $schedule)
@@ -91,7 +90,7 @@ class ScheduleController extends Controller
     /**
      * Confirm that an admin really wants to delete a schedule
      *
-     * @param Schedule $schedule
+     * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\View\View
      */
     public function confirmDestroy(Schedule $schedule)
@@ -102,7 +101,7 @@ class ScheduleController extends Controller
     /**
      * Delete a schedule resource
      *
-     * @param Schedule $schedule
+     * @param  \App\Models\Schedule  $schedule
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Schedule $schedule)

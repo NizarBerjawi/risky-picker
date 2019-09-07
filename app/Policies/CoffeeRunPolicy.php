@@ -68,6 +68,7 @@ class CoffeeRunPolicy
         return $user->isNot($run->user) &&
                $user->isAdmin() &&
                !$run->volunteerRequested() &&
-               $run->notExpired();
+               $run->notExpired() &&
+               $run->notLocked();
     }
 }

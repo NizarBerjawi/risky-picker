@@ -16,7 +16,7 @@
             @forelse($runs as $run)
                 <tr>
                     {{-- <td>{{ $run->id}}</td> --}}
-                    <td>{{ $run->created_at->format('h:i A') }}</td>
+                    <td><a href="{{ route('dashboard.runs.show', $run) }}">{{ $run->created_at->format('h:i A') }}</a></td>
                     <td>{{ $run->user->full_name }}</td>
                     <td>{{ $run->userCoffees->count() }}</td>
                     <td>

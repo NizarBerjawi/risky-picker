@@ -13,8 +13,8 @@ class AdhocCoffeeController extends Controller
     /**
      * Show the form for creating an adhoc user coffee.
      *
-     * @param Request $request
-     * @param CoffeeRun $run
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\CoffeeRun  $run
      * @return \Illuminate\View\View
      */
     public function create(Request $request, CoffeeRun $run)
@@ -31,7 +31,7 @@ class AdhocCoffeeController extends Controller
     /**
      * Store a new adhoc coffee entry for the user.
      *
-     * @param CreateUserCoffee $request
+     * @param  \App\Http\Requests\UserCoffee\CreateUserCoffee  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateUserCoffee $request, CoffeeRun $run)

@@ -18,13 +18,14 @@ class CupDeleted
     /**
      * The cup model
      *
-     * @var Cup
+     * @var \App\Models\Cup
      */
     public $cup;
 
     /**
      * Create a new event instance.
      *
+     * @param \App\Models\Cup  $cup
      * @return void
      */
     public function __construct(Cup $cup)

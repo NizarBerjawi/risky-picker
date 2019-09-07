@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App;
-use Carbon\Carbon;
 use App\Models\Schedule as CoffeeSchedule;
 use App\Jobs\PickUser;
 use Illuminate\Console\Scheduling\Schedule;
@@ -29,16 +28,17 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Excute the schedule only when the schedule exists
-        if (App::environment(['local', 'production', 'staging'])) {
+        // if (App::environment(['local', 'production', 'staging'])) {
             $schedule->job(new PickUser)
                      ->everyMinute()
                      ->when(function() {
+                         return true;
                          return CoffeeSchedule::query()
                              ->at(now()->format('G:i'))
                              ->days([strtolower(now()->shortEnglishDayOfWeek)])
                              ->exists();
                      });
-        }
+        // }
     }
 
     /**
