@@ -13,7 +13,7 @@ class UserController extends Controller
      * Display the form for editing the authenticated user's
      * details.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
      public function edit(Request $request)
@@ -30,7 +30,7 @@ class UserController extends Controller
      /**
       * Update the user's personal details
       *
-      * @param UpdateUser $request
+      * @param  \App\Http\Requests\User\UpdateUser  $request
       * @return \Illuminate\Http\RedirectResponse
       */
       public function update(UpdateUser $request)

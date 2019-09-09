@@ -24,7 +24,9 @@ class UserPolicy
     /**
      * Determine if the given account can be updated by the user.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $authUser
+     * @param  \App\Models\User  $requestUser
+     * 
      * @return bool
      */
     public function update(User $authUser, User $requestUser)

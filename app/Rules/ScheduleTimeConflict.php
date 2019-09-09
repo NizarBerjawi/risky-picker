@@ -10,14 +10,14 @@ class ScheduleTimeConflict implements Rule
     /**
      * The schedule that we are testing against the rule
      *
-     * @var Schedule
+     * @var  \App\Models\Schedule  $schedule
      */
     protected $schedule;
 
     /**
      * Create a new rule instance.
      *
-     * @param Schedule $schedule
+     * @param  \App\Models\Schedule  $schedule
      * @return void
      */
     public function __construct(Schedule $schedule)

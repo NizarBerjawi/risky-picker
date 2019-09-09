@@ -22,8 +22,8 @@ class CoffeeRunPolicy
     /**
      * Determine if the given coffee run can be modified by the user.
      *
-     * @param  User  $user
-     * @param  CoffeRun  $run
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\CoffeeRun  $run
      * @return bool
      */
     public function busy(User $user, CoffeeRun $run)
@@ -34,8 +34,9 @@ class CoffeeRunPolicy
     /**
      * Determine if the given coffee run can be modified by the user.
      *
-     * @param  User  $user
-     * @param  CoffeRun  $run
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\CoffeeRun  $run
+     * @param  \App\Models\UserCoffee  $coffee
      * @return bool
      */
     public function remove(User $user, CoffeeRun $run, UserCoffee $coffee)
@@ -46,8 +47,8 @@ class CoffeeRunPolicy
     /**
      * Determine if the user is allowed to volunteer for a given coffee run.
      *
-     * @param  User  $user
-     * @param  CoffeRun  $run
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\CoffeeRun  $run
      * @return bool
      */
     public function volunteer(User $user, CoffeeRun $run)
@@ -59,8 +60,8 @@ class CoffeeRunPolicy
      * Determine if the user is allowed to re-select a coffee run
      * user.
      *
-     * @param  User  $user
-     * @param  CoffeRun  $run
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\CoffeeRun  $run
      * @return bool
      */
     public function pick(User $user, CoffeeRun $run)

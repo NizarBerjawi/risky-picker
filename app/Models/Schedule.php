@@ -76,6 +76,12 @@ class Schedule extends Model
         return $query->whereRaw("time(time) > time('$time')");
     }
 
+    /**
+     * Get the next schedule that is due today
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeNextDueScheduleToday(Builder $query)
     {
         // Get the english day of today
@@ -86,17 +92,18 @@ class Schedule extends Model
                      ->orderByRaw('time(time) ASC')
                      ->limit(1);
     }
+
     /**
      * Get the schedule that will be executed next.
      *
-     * @param Builder $query
-     * @return Builder $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNextDueSchedule(Builder $query)
     {
-        if ($query->nextDueScheduleToday()->exists()) {
-            return $query->nextDueScheduleToday();
-        }
+        $schedule = (clone $query)->nextDueScheduleToday();
+
+        if ($schedule->exists()) { return $schedule; }
 
         // Get the english day of tomorrow
         $tomorrow = strtolower(now()->addDays(1)->shortEnglishDayOfWeek);

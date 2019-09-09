@@ -17,7 +17,7 @@ class CoffeeTimeConflict implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param UserCoffee $userCoffee
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return void
      */
     public function __construct(UserCoffee $userCoffee)

@@ -16,7 +16,7 @@ class UserPicked extends Notification implements ShouldQueue
     /**
      * The coffee run that the user was picked for
      *
-     * @var CoffeeRun $run
+     * @var \App\Models\CoffeeRun $run
      */
     protected $run;
 
@@ -43,7 +43,7 @@ class UserPicked extends Notification implements ShouldQueue
      * Get the Slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return SlackMessage
+     * @return \Illuminate\Notifications\Messages\SlackMessage
      */
     public function toSlack($notifiable)
     {

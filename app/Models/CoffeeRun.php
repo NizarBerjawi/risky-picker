@@ -203,8 +203,8 @@ class CoffeeRun extends Model
     /**
      * Get the coffee of a specific user from this ru
      *
-     * @param \App\Models\User
-     * @return UserCoffee
+     * @param  \App\Models\User
+     * @return \App\Models\UserCoffee
      */
     public function getUserCoffee(User $user)
     {

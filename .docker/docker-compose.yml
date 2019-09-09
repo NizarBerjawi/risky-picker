@@ -8,7 +8,6 @@ services:
     container_name: app
     environment:
       PHP_VERSION: 7.3
-      DB_HOST: db
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     volumes:

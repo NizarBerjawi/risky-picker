@@ -11,7 +11,7 @@ class CupManager
     /**
      * The storage driver for cups
      *
-     * @var Storage
+     * @var \Illuminate\Contracts\Filesystem\Filesystem
      */
     protected $storage;
 
@@ -28,7 +28,7 @@ class CupManager
     /**
      * Handle a coffee cup image upload for the user
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function handleFileUpload(Request $request)
@@ -62,7 +62,7 @@ class CupManager
     /**
      * Get the storage disk for cup images
      *
-     * @return Storage
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function getStorage()
     {

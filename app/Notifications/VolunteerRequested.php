@@ -22,7 +22,7 @@ class VolunteerRequested extends Notification implements ShouldQueue
     /**
      * Instantiate the Notification
      *
-     * @param CoffeeRun $run
+     * @param \App\Models\CoffeeRun  $run
      */
     public function __construct(CoffeeRun $run)
     {
@@ -44,7 +44,7 @@ class VolunteerRequested extends Notification implements ShouldQueue
      * Get the Slack representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return SlackMessage
+     * @return \Illuminate\Notifications\Messages\SlackMessage
      */
     public function toSlack($notifiable)
     {

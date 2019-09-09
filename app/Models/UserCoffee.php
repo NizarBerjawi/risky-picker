@@ -83,8 +83,8 @@ class UserCoffee extends Pivot
      * Get all user coffees that are scheduled before a
      * certain time.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $time  "G:i"  or "h:i A" time format
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  string $time  "G:i"  or "h:i A" time format
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBefore(Builder $query, string $time)
@@ -98,8 +98,8 @@ class UserCoffee extends Pivot
      * Get all user coffees that are scheduled after a
      * certain time.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $time  "G:i"  or "h:i A" time format
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  string $time  "G:i"  or "h:i A" time format
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeAfter(Builder $query, string $time)
@@ -112,8 +112,8 @@ class UserCoffee extends Pivot
     /**
      * Get all user coffees that fall within a certain time slot
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $time  "G:i"  or "h:i A" time format
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  string $time  "G:i"  or "h:i A" time format
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBetween(Builder $query, string $start, string $end)
@@ -124,7 +124,7 @@ class UserCoffee extends Pivot
     /**
      * Get all the user coffees that are on today's order
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeToday(Builder $query)
@@ -141,7 +141,7 @@ class UserCoffee extends Pivot
      * Get all the user coffees that could be part of the next
      * coffee run.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNextRun(Builder $query)
@@ -171,8 +171,8 @@ class UserCoffee extends Pivot
     /**
      * Get user coffees that belong to a specified coffee run
      *
-     * @param \Illuminate\Database\Eloquent\Builder
-     * @param CoffeeRun $run
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\Models\CoffeeRun  $run
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByRun(Builder $query, CoffeeRun $run)
@@ -185,7 +185,7 @@ class UserCoffee extends Pivot
     /**
      * Get user coffees without adhoc ones
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithoutAdhoc(Builder $query)
@@ -197,7 +197,7 @@ class UserCoffee extends Pivot
      * Get a signed url that allows the user to replace this
      * coffee with another adhoc coffee for a particular coffee run.
      *
-     * @param CoffeeRun $run
+     * @param  \App\Models\CoffeeRun  $run
      * @return string
      */
     public function getAdhocUrl(CoffeeRun $run = null)
@@ -217,7 +217,7 @@ class UserCoffee extends Pivot
     /**
      * Check if this coffee is of a certain coffee type.
      *
-     * @param Coffee $coffee
+     * @param  \App\Models\Coffee  $coffee
      * @return bool
      */
     public function isOfType(Coffee $coffee)
@@ -228,7 +228,7 @@ class UserCoffee extends Pivot
     /**
      * Check if this coffee is not of a certain coffee type.
      *
-     * @param Coffee $coffee
+     * @param  \App\Models\Coffee  $coffee
      * @return bool
      */
      public function isNotOfType(Coffee $coffee)

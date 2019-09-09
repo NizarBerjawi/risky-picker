@@ -12,6 +12,7 @@ class CupPolicy
     /**
      * Create a new policy instance.
      *
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function before(User $user)
@@ -24,8 +25,9 @@ class CupPolicy
     /**
      * Determine if the given cup can be updated by the user.
      *
-     * @param  User  $user
-     * @param  Cup  $cup
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Cup  $cup
+     * 
      * @return bool
      */
     public function update(User $user, Cup $cup)
@@ -36,8 +38,9 @@ class CupPolicy
     /**
      * Determine if the given cup can be deleted by the user.
      *
-     * @param  User  $user
-     * @param  Cup  $cup
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Cup  $cup
+     * 
      * @return bool
      */
     public function delete(User $user, Cup $cup)

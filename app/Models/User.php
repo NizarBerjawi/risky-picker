@@ -58,7 +58,7 @@ class User extends Authenticatable
     /**
      * Get the coffees
      *
-     * @param \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function coffees()
     {
@@ -154,7 +154,7 @@ class User extends Authenticatable
     /**
      * Get the users that are not set as VIP users
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithoutVip(Builder $query)
@@ -165,7 +165,7 @@ class User extends Authenticatable
     /**
      * Get the users that are set as VIP users
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOnlyVip(Builder $query)
@@ -176,7 +176,7 @@ class User extends Authenticatable
     /**
      * Get the users that were picked for a coffee run yesterday
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePickedYesterday(Builder $query)
@@ -189,7 +189,7 @@ class User extends Authenticatable
     /**
      * Get the users that were picked for a coffee run today
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePickedToday(Builder $query)
@@ -202,7 +202,7 @@ class User extends Authenticatable
     /**
      * Get the users that were picked for a coffee run last time
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePickedLastTime(Builder $query)
@@ -215,7 +215,7 @@ class User extends Authenticatable
     /**
      * Get the users who have recently volunteered to do a coffee run
      * 
-     * @param \Illuminate\Database\Eloquent\Builder 
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeVolunteeredRecently(Builder $query)
@@ -228,7 +228,7 @@ class User extends Authenticatable
     /**
      * Get users who can not picked to do a coffee run.
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCanNotBePicked(Builder $query)
@@ -249,7 +249,7 @@ class User extends Authenticatable
     /**
      * Get users who can be picked to do a coffee run.
      *
-     * @param \Illuminate\Database\Eloquent\Builder
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeCanBePicked(Builder $query)
@@ -332,6 +332,7 @@ class User extends Authenticatable
      /**
       * Check if a user has volunteered for a specified coffee run
       *
+      * @param  \App\Models\CoffeeRun  $run
       * @return bool
       */
      public function hasVolunteeredFor(CoffeeRun $run)
@@ -342,7 +343,7 @@ class User extends Authenticatable
      /**
       * Check if a user has been picked for a specified coffee run
       *
-      * @param \App\Models\CoffeeRun
+      * @param  \App\Models\CoffeeRun  $run
       * @return bool
       */
      public function hasBeenPickedFor(CoffeeRun $run)
@@ -388,7 +389,7 @@ class User extends Authenticatable
     /**
      * Route notifications for the Slack channel.
      *
-     * @param  Notification  $notification
+     * @param  \Illuminate\Notifications\Notification  $notification
      * @return string
      */
     public function routeNotificationForSlack(Notification $notification)

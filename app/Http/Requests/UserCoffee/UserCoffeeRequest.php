@@ -22,6 +22,8 @@ class UserCoffeeRequest extends FormRequest
 
     /**
      * Initialize
+     * 
+     * @param  \Illuminate\Http\Request  $request
      */
     public function __construct(Request $request)
     {
@@ -59,7 +61,7 @@ class UserCoffeeRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  Validator  $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
     public function withValidator(Validator $validator)
@@ -83,7 +85,7 @@ class UserCoffeeRequest extends FormRequest
     /**
      * Check that the start time is always before the end time
      *
-     * @return ValidTimeRange
+     * @return  \App\Rues\ValidTimeRange
      */
     public function validTimeRange()
     {

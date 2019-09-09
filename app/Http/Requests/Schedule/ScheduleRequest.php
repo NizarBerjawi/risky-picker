@@ -36,7 +36,7 @@ class ScheduleRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  Validator  $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
     public function withValidator(Validator $validator)
@@ -52,7 +52,7 @@ class ScheduleRequest extends FormRequest
     /**
      * Check if there is schedule occupying this time slot
      *
-     * @return ScheduleTimeConflict
+     * @return  \App\Rules\ScheduleTimeConflict
      */
     public function timeslotConflict()
     {

@@ -12,13 +12,14 @@ class CoffeeRunController extends Controller
     /**
      * User Coffee filters
      *
-     * @var UserCoffeeFilters
+     * @var  \App\Filters\UserCoffeeFilters
      */
     protected $filters;
 
     /**
      * Instantiate the controller
      *
+     * @param  \App\Filters\UserCoffeeFilters
      * @return void
      */
     public function __construct(UserCoffeeFilters $filters)
@@ -29,6 +30,7 @@ class CoffeeRunController extends Controller
     /**
      * Display the latest coffee run with the user coffees
      *
+     * @param  \App\Models\CoffeeRun  $run
      * @return \Illuminate\View\View
      */
     public function index(CoffeeRun $run)
@@ -47,6 +49,12 @@ class CoffeeRunController extends Controller
         return view('index', compact('run', 'coffeeTypes', 'userCoffees'));
     }
 
+    /**
+     * Display the latest coffee run statistics
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function statistics(Request $request)
     {
         $monthlyData = CoffeeRun::query()

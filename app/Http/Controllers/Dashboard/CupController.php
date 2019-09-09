@@ -14,15 +14,15 @@ class CupController extends Controller
     /**
      * Cup Manager responsible for uploading photos
      *
-     * @var CupManager
+     * @var  \App\Support\CupManager
      */
     protected $manager;
 
     /**
      * Instantiate the controller
      *
-     * @param CupManager
-     * @param MessageBag
+     * @param  \App\Support\CupManager
+     * @param  \Illuminate\Support\MessageBag
      * @return void
      */
     public function __construct(CupManager $manager, MessageBag $messages)
@@ -45,7 +45,7 @@ class CupController extends Controller
     /**
      * Store a user's cup.
      *
-     * @param CupRequest $request
+     * @param  \App\Http\Requests\Cup\CupRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CupRequest $request)
@@ -68,7 +68,7 @@ class CupController extends Controller
     /**
      * Display the cup photo
      *
-     * @param Cup $cup
+     * @param  \App\Models\Cup  $cup
      * @return \Illuminate\View\View
      */
     public function show(Cup $cup)
@@ -79,8 +79,8 @@ class CupController extends Controller
     /**
      * Display the form for updating a cup photo
      *
-     * @param Request $request
-     * @param Cup $cup
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Cup $cup
      * @return \Illuminate\View\View
      */
     public function edit(Request $request, Cup $cup)
@@ -95,8 +95,8 @@ class CupController extends Controller
     /**
      * Store or update a user's cup.
      *
-     * @param CupRequest $request
-     * @param Cup $cup
+     * @param  \App\Http\Requests\Cup\CupRequest  $request
+     * @param  \App\Models\Cup  $cup
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CupRequest $request, Cup $cup)
@@ -126,8 +126,8 @@ class CupController extends Controller
     /**
      * Confirm that a user really wants to delete their cup
      *
-     * @param Request $request
-     * @param Cup $cup
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Cup  $cup
      * @return \Illuminate\View\View
      */
     public function confirmDestroy(Request $request, Cup $cup)
@@ -142,8 +142,8 @@ class CupController extends Controller
     /**
      * Delete a user's cup
      *
-     * @param Request $request
-     * @param Cup $cup
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Cup  $cup
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Cup $cup)

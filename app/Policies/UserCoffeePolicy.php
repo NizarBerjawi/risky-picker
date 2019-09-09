@@ -22,7 +22,7 @@ class UserCoffeePolicy
     /**
      * Determine if user can create a coffee.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function create(User $user)
@@ -43,8 +43,8 @@ class UserCoffeePolicy
     /**
      * Determine if the given coffee can be updated by the user.
      *
-     * @param  User  $user
-     * @param  UserCoffee  $userCoffee
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return bool
      */
     public function update(User $user, UserCoffee $userCoffee)
@@ -55,8 +55,8 @@ class UserCoffeePolicy
     /**
      * Determine if the given coffee can be deleted by the user.
      *
-     * @param  User  $user
-     * @param  UserCoffee  $userCoffee
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\UserCoffee  $userCoffee
      * @return bool
      */
     public function delete(User $user, UserCoffee $userCoffee)
