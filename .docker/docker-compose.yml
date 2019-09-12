@@ -1,69 +1,61 @@
 version: '3.3'
 services:
-  #PHP Service
-  php-fpm:
+  app:
     build:
       context: ..
       dockerfile: .docker/Dockerfile
-    container_name: app
-    environment:
-      PHP_VERSION: 7.3
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
     volumes:
       - ../:/var/www
-      - ./php-fpm/php7.3.ini:/usr/local/etc/php/php.ini
+      # - ./php-fpm/php7.3.ini:/usr/local/etc/php/php.ini
+    tty: true
     expose:
       - "9000"
-    working_dir: /var/www
-    networks:
-      - app-network
 
   # PHP Worker
-  php-worker:
-    build:
-      context: ./php-worker
-    environment:
-      PHP_VERSION: 7.3
-    volumes:
-        - ./php-worker/supervisord.d:/etc/supervisord.d
-    networks:
-      - app-network
+  # php-worker:
+  #   build:
+  #     context: ./php-worker
+  #   environment:
+  #     PHP_VERSION: 7.3
+  #   volumes:
+  #       - ./php-worker/supervisord.d:/etc/supervisord.d
+  #   networks:
+  #     - app-network
 
-  #Nginx Service
-  nginx:
-    image: nginx:alpine
-    container_name: webserver
-    ports:
-      - "8080:80"
-      - "443:443"
-    volumes:
-      - ../:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d
-    networks:
-      - app-network
+  # #Nginx Service
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: webserver
+  #   ports:
+  #     - "8080:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ../:/var/www
+  #     - ./nginx/conf.d/:/etc/nginx/conf.d
+  #   networks:
+  #     - app-network
 
-  #MySQL Service
-  db:
-    image: mysql:5.7.22
-    container_name: db
-    ports:
-      - "33061:3306"
-    environment:
-      MYSQL_DATABASE: coffee_picker_db
-      MYSQL_USER: coffee_picker
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-    volumes:
-      - ./mysql/data:/var/lib/mysql
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
-    networks:
-      - app-network
+  # #MySQL Service
+  # db:
+  #   image: mysql:5.7.22
+  #   container_name: db
+  #   ports:
+  #     - "33061:3306"
+  #   environment:
+  #     MYSQL_DATABASE: coffee_picker_db
+  #     MYSQL_USER: coffee_picker
+  #     MYSQL_PASSWORD: secret
+  #     MYSQL_ROOT_PASSWORD: secret
+  #   volumes:
+  #     - ./mysql/data:/var/lib/mysql
+  #     - ./mysql/my.cnf:/etc/mysql/my.cnf
+  #   networks:
+  #     - app-network
 
 #Docker Networks
-networks:
-  app-network:
-    driver: bridge
+# networks:
+#   app-network:
+#     driver: bridge
 #Volumes
 volumes:
   data:
