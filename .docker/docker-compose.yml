@@ -1,17 +1,22 @@
 version: '3.3'
 services:
-  app:
+  # PHP FPM Service
+  php:
     build:
       context: ..
       dockerfile: .docker/Dockerfile
     volumes:
-      - ../:/var/www
-      # - ./php-fpm/php7.3.ini:/usr/local/etc/php/php.ini
+      - ../:/var/www/html
+      - ./php-fpm/php.ini:/etc/php/7.3/fpm/php.ini
+      # - ./php-fpm/www.conf:/etc/php/7.3/fpm/pool.d/www.conf
+      - ./php-fpm/php-fpm.conf:/etc/php/7.3/fpm/php-fpm.conf
     tty: true
     expose:
       - "9000"
+    networks:
+      - app-network
 
-  # PHP Worker
+  # # PHP Worker
   # php-worker:
   #   build:
   #     context: ./php-worker
@@ -22,41 +27,40 @@ services:
   #   networks:
   #     - app-network
 
-  # #Nginx Service
-  # nginx:
-  #   image: nginx:alpine
-  #   container_name: webserver
-  #   ports:
-  #     - "8080:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ../:/var/www
-  #     - ./nginx/conf.d/:/etc/nginx/conf.d
-  #   networks:
-  #     - app-network
+  # Nginx Service
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - php
+      # - db
+    networks:
+      - app-network
 
-  # #MySQL Service
+  # MySQL Service
   # db:
-  #   image: mysql:5.7.22
-  #   container_name: db
-  #   ports:
-  #     - "33061:3306"
-  #   environment:
-  #     MYSQL_DATABASE: coffee_picker_db
-  #     MYSQL_USER: coffee_picker
-  #     MYSQL_PASSWORD: secret
-  #     MYSQL_ROOT_PASSWORD: secret
-  #   volumes:
-  #     - ./mysql/data:/var/lib/mysql
-  #     - ./mysql/my.cnf:/etc/mysql/my.cnf
-  #   networks:
-  #     - app-network
-
-#Docker Networks
-# networks:
-#   app-network:
-#     driver: bridge
-#Volumes
+    # image: mariadb:latest
+    # ports:
+    #   - "33061:3306"
+    # environment:
+    #   MYSQL_DATABASE: coffee_picker_db
+    #   MYSQL_USER: coffee_picker
+    #   MYSQL_PASSWORD: secret
+    #   MYSQL_ROOT_PASSWORD: secret
+    # volumes:
+    #   - ./mysql/data:/var/lib/mysql
+    #   - ./mysql/my.cnf:/etc/mysql/my.cnf
+    # networks:
+    #   - app-network
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge
+# Volumes
 volumes:
   data:
     driver: local
