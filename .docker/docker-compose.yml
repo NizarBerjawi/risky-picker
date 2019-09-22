@@ -8,25 +8,24 @@ services:
     volumes:
       - ../:/var/www/html
       - ./php-fpm/php.ini:/etc/php/7.3/fpm/php.ini
-      # - ./php-fpm/www.conf:/etc/php/7.3/fpm/pool.d/www.conf
+      - ./php-fpm/www.conf:/etc/php/7.3/fpm/pool.d/www.conf
       - ./php-fpm/php-fpm.conf:/etc/php/7.3/fpm/php-fpm.conf
     tty: true
     expose:
       - "9000"
     networks:
       - app-network
-
-  # # PHP Worker
-  # php-worker:
-  #   build:
-  #     context: ./php-worker
-  #   environment:
-  #     PHP_VERSION: 7.3
-  #   volumes:
-  #       - ./php-worker/supervisord.d:/etc/supervisord.d
-  #   networks:
-  #     - app-network
-
+  # PHP Worker
+  php-worker:
+    build:
+      context: ./php-worker
+    environment:
+      PHP_VERSION: 7.3
+    volumes:
+        - ../:/var/www/html
+        - ./php-worker/supervisord.d:/etc/supervisord.d
+    networks:
+      - app-network
   # Nginx Service
   nginx:
     image: nginx:alpine
@@ -34,28 +33,28 @@ services:
       - "8080:80"
       - "443:443"
     volumes:
+      - ../:/var/www/html
       - ./nginx/conf.d/:/etc/nginx/conf.d
     depends_on:
       - php
-      # - db
+      - db
     networks:
       - app-network
-
   # MySQL Service
-  # db:
-    # image: mariadb:latest
-    # ports:
-    #   - "33061:3306"
-    # environment:
-    #   MYSQL_DATABASE: coffee_picker_db
-    #   MYSQL_USER: coffee_picker
-    #   MYSQL_PASSWORD: secret
-    #   MYSQL_ROOT_PASSWORD: secret
-    # volumes:
-    #   - ./mysql/data:/var/lib/mysql
-    #   - ./mysql/my.cnf:/etc/mysql/my.cnf
-    # networks:
-    #   - app-network
+  db:
+    image: mariadb:latest
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_DATABASE: coffee_picker_db
+      MYSQL_USER: coffee_picker
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
 # Docker Networks
 networks:
   app-network:
