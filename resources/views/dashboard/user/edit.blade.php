@@ -8,6 +8,7 @@
 
                 @include('dashboard.user.form', [
                     'enabled' => true,
+                    'action' => route('dashboard.profile.update'),
                     'method' => 'PUT',
                 ])
             </div>

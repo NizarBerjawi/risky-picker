@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::query()
-                     ->exclude([$request->user()])
+                    //  ->exclude([$request->user()])
                      ->paginate(10);
 
         return view('admin.users.index', compact('users'));

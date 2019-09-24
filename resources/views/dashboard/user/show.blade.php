@@ -8,7 +8,7 @@
 
         @include('dashboard.user.form', [
             'enabled' => false,
-            'action' => ''
+            'action' => null
         ])
     </div>
 </div>

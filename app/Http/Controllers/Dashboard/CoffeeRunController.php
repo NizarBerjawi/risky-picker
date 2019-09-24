@@ -6,7 +6,9 @@ use App\Models\{Coffee, CoffeeRun, Picker, User, UserCoffee};
 use App\Filters\UserCoffeeFilters;
 use App\Notifications\{VolunteerRequested, UserVolunteered, UserPicked};
 use App\Http\Controllers\Controller;
+use App\Exceptions\UnluckyUserNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 class CoffeeRunController extends Controller
 {
@@ -22,8 +24,10 @@ class CoffeeRunController extends Controller
      *
      * @return void
      */
-    public function __construct(UserCoffeeFilters $filters)
+    public function __construct(UserCoffeeFilters $filters, MessageBag $messages)
     {
+        parent::__construct($messages);
+
         $this->filters = $filters;
     }
 
@@ -60,12 +64,14 @@ class CoffeeRunController extends Controller
         // Get the pool of users to select from while excluding the
         // user that was previously selected for this coffee run
         $pool = User::canBePicked()->get();
-        // Randomly pick a user who is eligible to take this coffee run
-        $user = Picker::pick($pool);
-        // Attempt to update the coffee run's user
-        if (!$run->setUser($user)) {
+        // Randomly pick a user who is eligible to take this coffee run        
+        try {
+            $user = Picker::pick($pool);
+        } catch (UnluckyUserNotFoundException $exception) {
             return back()->withErrors(trans('messages.run.failed'));
         }
+        
+        $run->setUser($user);
 
         $user->notify(new UserPicked($run));
 

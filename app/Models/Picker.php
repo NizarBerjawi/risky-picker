@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Collection;
+use App\Exceptions\UnluckyUserNotFoundException;
 
 class Picker
 {
@@ -14,9 +15,7 @@ class Picker
      */
     public static function pick(Collection $users)
     {
-        $user = $users->random();
-
-        if ($users->isEmpty() || !$user) {
+        if ($users->isEmpty() || !($user = $users->random())) {
             throw new UnluckyUserNotFoundException('Could not pick a user');
         }
 

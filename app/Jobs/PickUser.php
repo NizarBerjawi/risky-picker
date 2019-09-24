@@ -4,10 +4,10 @@ namespace App\Jobs;
 
 use App\Models\{CoffeeRun, Picker, User};
 use App\Notifications\UserPicked;
+use App\Exceptions\UnluckyUserNotFoundException;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\{Collection, Str};
-use Illuminate\Support\Facades\URL;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,10 +41,13 @@ class PickUser implements ShouldQueue
             $userCoffees = $users->pluck('nextCoffee.id');
             // Attach all the coffees to the coffee run
             $run->userCoffees()->attach($userCoffees->all());
+            // Send a notification about the user selection
+            $user->notify(new UserPicked($run));
         } catch (UnluckyUserNotFoundException $exception) {
-            logger('warning', trans('messages.picker.fail'));
+            logger(trans('messages.picker.fail'), [
+                self::class
+            ]);
         }
 
-        $user->notify(new UserPicked($run));
     }
 }

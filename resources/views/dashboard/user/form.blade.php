@@ -21,15 +21,15 @@
     <div class="row">
         <div class="input-field col s12">
             <input type="email" name="email" value="{{ $user->email }}" disabled>
-            <label>Email</label>
+            <label>{{ __('Email') }}</label>
         </div>
     </div>
 
     <div class="row">
         <div class="col s12 right-align">
             @if ($enabled ?? false)
-                <a href="{{ route('dashboard.index') }}" class="btn blue-grey lighten-5 waves-effect waves-light black-text">Back</a>
-                <button class="btn waves-effect waves-light" type="submit">Save</button>
+                <a href="{{ route('dashboard.index') }}" class="btn blue-grey lighten-5 waves-effect waves-light black-text">{{ __('Back') }}</a>
+                <button class="btn waves-effect waves-light" type="submit">{{ __('Save') }}</button>
             @endif
         </div>
     </div>
