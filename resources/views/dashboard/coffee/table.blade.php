@@ -27,7 +27,7 @@
 </table>
 
 <div class="center-align">
-    {{ $coffees->appends(['runs' => $runs->currentPage()])->links() }}
+    {{ $coffees->links() }}
 </div>
 @else
     <p>You don't have any coffees!</p>

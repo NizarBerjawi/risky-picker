@@ -10,6 +10,19 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
+     * Display the details of the user's profile
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function show(Request $request)
+    {
+        $user = $request->user();
+
+        return view('dashboard.user.show', compact('user'));
+    }
+
+    /**
      * Display the form for editing the authenticated user's
      * details.
      *
@@ -46,7 +59,7 @@ class UserController extends Controller
           $this->messages->add('updated', trans('messages.user.updated'));
 
           return redirect()
-                    ->route('dashboard.index')
+                    ->route('dashboard.profile.show')
                     ->withSuccess($this->messages);
       }
 }

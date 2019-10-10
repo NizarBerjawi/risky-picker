@@ -23,6 +23,9 @@
     </tbody>
 </table>
 
+<div class="row center-align">
+    {{ $coffees->links() }}
+</div>
 @else
     <p>Oh No! There are no coffees available!</p>
 @endif

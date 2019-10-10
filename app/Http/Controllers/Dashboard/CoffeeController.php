@@ -10,6 +10,22 @@ use Illuminate\Http\Request;
 class CoffeeController extends Controller
 {
     /**
+     * Show a listing of the user's coffee selections.
+     *
+     * @param  \Illuminate\Http\Request\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $coffees = $request->user()
+            ->userCoffees()
+            ->with('coffee')
+            ->paginate(3);
+
+        return view('dashboard.coffee.index', compact('coffees'));
+    }
+
+    /**
      * Show the form for creating a new user coffee.
      *
      * @param  \Illuminate\Http\Request\Request  $request
@@ -43,7 +59,7 @@ class CoffeeController extends Controller
         $this->messages->add('created', trans('messages.coffee.created'));
 
         return redirect()
-                ->route('dashboard.index')
+                ->route('dashboard.coffee.index')
                 ->withSuccess($this->messages);
     }
 
@@ -89,7 +105,7 @@ class CoffeeController extends Controller
           $this->messages->add('updated', trans('messages.coffee.updated'));
 
           return redirect()
-                    ->route('dashboard.index')
+                    ->route('dashboard.coffee.index')
                     ->withSuccess($this->messages);
       }
 
@@ -126,6 +142,6 @@ class CoffeeController extends Controller
 
           $this->messages->add('deleted', trans('messages.coffee.deleted'));
 
-          return redirect()->route('dashboard.index')->withSuccess($this->messages);
+          return redirect()->route('dashboard.coffee.index')->withSuccess($this->messages);
       }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\{Coffee, CoffeeRun, Picker, User, UserCoffee};
+use App\Models\{Coffee, CoffeeRun, Picker, Schedule, User, UserCoffee};
 use App\Filters\UserCoffeeFilters;
 use App\Notifications\{VolunteerRequested, UserVolunteered, UserPicked};
 use App\Http\Controllers\Controller;
@@ -29,6 +29,25 @@ class CoffeeRunController extends Controller
         parent::__construct($messages);
 
         $this->filters = $filters;
+    }
+
+    /**
+     * Show a listing of all the recent coffee runs
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        // Get the coffee runs that occured recently
+        $runs = CoffeeRun::recent()
+                         ->latest('created_at')
+                         ->with(['user', 'volunteer', 'userCoffees'])
+                         ->paginate(3);
+
+        $countdown = Schedule::countdown();
+
+        return response()->view('dashboard.runs.index', compact('runs', 'countdown'));
     }
 
     /**
@@ -64,13 +83,13 @@ class CoffeeRunController extends Controller
         // Get the pool of users to select from while excluding the
         // user that was previously selected for this coffee run
         $pool = User::canBePicked()->get();
-        // Randomly pick a user who is eligible to take this coffee run        
+        // Randomly pick a user who is eligible to take this coffee run
         try {
             $user = Picker::pick($pool);
         } catch (UnluckyUserNotFoundException $exception) {
             return back()->withErrors(trans('messages.run.failed'));
         }
-        
+
         $run->setUser($user);
 
         $user->notify(new UserPicked($run));
@@ -82,7 +101,6 @@ class CoffeeRunController extends Controller
 
     /**
      * Set the user who was selected to do the coffee run as busy
-     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\CoffeeRun  $run

@@ -1,21 +1,11 @@
-@extends('layouts.base')
+@extends('layouts.dashboard')
+
+@section('title', 'Coffees')
 
 @section('content')
-    <div class="col s12 m8 offset-m2">
-        <div class="card-panel">
-            <div class="card-content">
-                <h5 class="card-title">{{ __('Coffees') }}</h5>
-
-                <div class="right-align">
-                    <a href={{ route('coffees.create') }} class="btn-small waves-effect waves-light">Add</a>
-                </div>
-
-                @include('admin.coffees.table')
-            </div>
-
-            <div class="row center-align">
-                {{ $coffees->links() }}
-            </div>
-        </div>
+    <div class="right-align">
+        <a href={{ route('coffees.create') }} class="btn-small waves-effect waves-light">Add</a>
     </div>
+
+    @include('admin.coffees.table')
 @endsection

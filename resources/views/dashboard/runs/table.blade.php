@@ -15,7 +15,6 @@
         <tbody>
             @forelse($runs as $run)
                 <tr>
-                    {{-- <td>{{ $run->id}}</td> --}}
                     <td><a href="{{ route('dashboard.runs.show', $run) }}">{{ $run->created_at->format('h:i A') }}</a></td>
                     <td>{{ $run->user->full_name }}</td>
                     <td>{{ $run->userCoffees->count() }}</td>
@@ -72,7 +71,7 @@
     </table>
 
     <div class="row center-align">
-        {{ $runs->appends(['coffees' => $coffees->currentPage()])->links() }}
+        {{ $runs->links() }}
     </div>
 @else
     <p>There are no coffee runs coming up!</p>

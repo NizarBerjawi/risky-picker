@@ -1,14 +1,10 @@
-<div class="card-panel">
-    <div class="card-content">
-        <h5 class="card-title">{{ __('Your details') }}</h5>
+@extends('layouts.dashboard')
 
-        <div class="right-align">
-            <a class="waves-effect waves-light btn-small" href={{ route('dashboard.profile.edit') }}>Edit</a>
-        </div>
+@section('title', 'Profile')
 
-        @include('dashboard.user.form', [
-            'enabled' => false,
-            'action' => null
-        ])
-    </div>
-</div>
+@section('content')
+    @include('dashboard.user.form', [
+        'enabled' => false,
+        'action' => null,
+    ])
+@endsection

@@ -62,7 +62,7 @@ class CoffeeRequest extends FormRequest
         $separator = array_get('separator', $service->getConfiguration());
         $slug = $engine->slugify($this->input('name'), $separator);
 
-        return Coffee::whereSlug($slug)
+        return Coffee::where((new Coffee)->getSlugKeyName(), 'LIKE', "%$slug%")
                      ->when(!$this->isMethod('POST'), function($query) {
                         $query->where('id', '!=', $this->coffee->id);
                      })

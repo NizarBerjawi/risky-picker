@@ -8,7 +8,8 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ webpack('common', 'css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ webpack('app', 'css') }}" type="text/css">
+
+    @yield('styles')
 </head>
 
 <body>
@@ -16,14 +17,20 @@
         @include('partials.navbar')
     </header>
 
+    @includeWhen(Auth::check(), 'partials.sidebar')
+
     <main>
         <div class="container">
             <div class="row">
-                @include('partials.validation')
+                <div class="col s12">
+                    @include('partials.validation')
+                </div>
             </div>
 
             <div class="row">
-                @yield('content')
+                <div class="col s12">
+                    @yield('content')
+                </div>
             </div>
 
             @includeWhen(Auth::check(), 'partials.options')
@@ -34,7 +41,6 @@
 
     <script type="text/javascript" src="{{ webpack('vendor') }}"></script>
     <script type="text/javascript" src="{{ webpack('common') }}"></script>
-    <script type="text/javascript" src="{{ webpack('app') }}"></script>
 
     @yield('scripts')
 </body>

@@ -1,13 +1,13 @@
-<div class="card-panel">
-    <div class="card-content">
-        <h5 class="card-title">{{ __('Your cup') }}</h5>
+@extends('layouts.dashboard')
 
-        @if (request()->user()->doesntHaveCup())
-            <div class="right-align">
-                <a class="waves-effect waves-light btn-small" href={{ route('dashboard.cups.create') }}>Add</a>
-            </div>
-        @endif
+@section('title', 'Cups')
 
-        @include('dashboard.cups.table')
-    </div>
-</div>
+@section('content')
+    @if (request()->user()->doesntHaveCup())
+        <div class="right-align">
+            <a class="waves-effect waves-light btn-small" href={{ route('dashboard.cups.create') }}>Add</a>
+        </div>
+    @endif
+
+    @include('dashboard.cups.table')
+@endsection

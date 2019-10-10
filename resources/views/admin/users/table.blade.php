@@ -26,6 +26,9 @@
     </tbody>
 </table>
 
+<div class="row center-align">
+    {{ $users->links() }}
+</div>
 @else
     <p>No one wants coffee!</p>
 @endif

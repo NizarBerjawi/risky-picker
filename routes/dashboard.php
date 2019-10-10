@@ -1,13 +1,13 @@
 <?php
 
-Route::get('/', 'DashboardController@index')->name('dashboard.index');
-
 Route::group(['prefix' => 'profile'], function() {
-    Route::get('/', 'UserController@edit')->name('dashboard.profile.edit');
+    Route::get('/', 'UserController@show')->name('dashboard.profile.show');
+    Route::get('/edit', 'UserController@edit')->name('dashboard.profile.edit');
     Route::match(['put', 'patch'], '/', 'UserController@update')->name('dashboard.profile.update');
 });
 
 Route::group(['prefix' => 'coffees'], function() {
+    Route::get('/', 'CoffeeController@index')->name('dashboard.coffee.index');
     Route::get('/create', 'CoffeeController@create')->name('dashboard.coffee.create');
     Route::post('/', 'CoffeeController@store')->name('dashboard.coffee.store');
     Route::get('/{userCoffee}/edit', 'CoffeeController@edit')->name('dashboard.coffee.edit');

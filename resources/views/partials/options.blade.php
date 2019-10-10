@@ -1,20 +1,6 @@
 <div class="fixed-action-btn">
     <!-- Modal Trigger -->
     <a href="#modal1" class="btn-floating btn-large red modal-trigger"><i class="large material-icons">local_cafe</i></a>
-
-    @onadmin
-    <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('dashboard.index') }}">
-        <i class="material-icons">home</i>
-    </a>
-    @endonadmin
-
-    @ondashboard
-    @if(Auth::user()->isAdmin())
-        <a class="btn-floating btn-large waves-effect waves-light" href="{{ route('users.index') }}">
-            <i class="material-icons">dashboard</i>
-        </a>
-    @endif
-    @endondashboard
 </div>
 
 <!-- Modal Structure -->

@@ -1,19 +1,35 @@
-<nav class="nav-extended">
+
+<div class="container">
+    <a href="#" data-target="slide-out" class="top-nav sidenav-trigger full hide-on-large-only"><i class="material-icons">menu</i></a>
+</div>
+
+<nav class="top-nav">
     <div class="nav-wrapper">
-        <a href="{{ Auth::check() ? route('dashboard.index') : route('home') }}" class="brand-logo center">Risky Picker</a>
-        <ul class="right hide-on-med-and-down">
-            @auth
-                <li><a href="{{ route('logout') }}" class="waves-effect waves-light btn" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">Logout
-                </a></li>
+        @auth
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="row">
+                        <div class="col s12">
+                        <h1 class="header">@yield('title', 'Picker')</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endauth
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            @endguest
-        </ul>
+        @guest
+            <div class="nav-wrapper">
+                <div class="row">
+                    <div class="col s12 m10 offset-m1">
+                        <a href="{{ Auth::check() ? route('dashboard.profile.index') : route('home') }}" class="brand-logo center">Risky Picker</a>
+                    </div>
+                </div>
+            </div>
+        @endguest
     </div>
+</nav>
 
+{{--
     @auth
         @onadmin
         <div class="nav-content white">
@@ -26,5 +42,4 @@
             </div>
         </div>
         @endonadmin
-    @endauth
-</nav>
+    @endauth --}}

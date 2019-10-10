@@ -24,6 +24,10 @@
     </tbody>
 </table>
 
+<div class="row center-align">
+    {{ $schedules->links() }}
+</div>
+
 @else
     <p>You don't have any schedules!</p>
 @endif

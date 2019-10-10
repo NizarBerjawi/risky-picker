@@ -1,11 +1,11 @@
-<div class="card-panel">
-    <div class="card-content">
-        <h5 class="card-title">{{ __('Your coffees') }}</h5>
+@extends('layouts.dashboard')
 
-        <div class="right-align">
-            <a class="waves-effect waves-light btn-small" href={{ route('dashboard.coffee.create') }}>Add</a>
-        </div>
+@section('title', 'Coffees')
 
-        @include('dashboard.coffee.table')
+@section('content')
+    <div class="right-align">
+        <a class="waves-effect waves-light btn-small" href={{ route('dashboard.coffee.create') }}>Add</a>
     </div>
-</div>
+
+    @include('dashboard.coffee.table')
+@endsection

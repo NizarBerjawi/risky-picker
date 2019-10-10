@@ -1,16 +1,10 @@
-@extends('layouts.base')
+@extends('layouts.dashboard')
+
+@section('title', 'Coffees')
 
 @section('content')
-    <div class="col s12 m8 offset-m2">
-        <div class="card-panel">
-            <div class="card-content">
-                <h5 class="card-title">{{ __('Add a coffee') }}</h5>
-
-                @include('admin.coffees.form', [
-                    'action' => route('coffees.store'),
-                    'method' => 'POST',
-                ])
-            </div>
-        </div>
-    </div>
+    @include('admin.coffees.form', [
+        'action' => route('coffees.store'),
+        'method' => 'POST',
+    ])
 @endsection

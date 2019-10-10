@@ -33,6 +33,22 @@ class CupController extends Controller
     }
 
     /**
+     * Show a listing of the user's cup(s)
+     *
+     * @param  \Illuminate\Http\Request\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $cup = $request->user()
+            ->cup()
+            ->first();
+
+        return view('dashboard.cups.index', compact('cup'));
+    }
+
+
+    /**
      * Display the form for creating a cup
      *
      * @return \Illuminate\View\View
@@ -61,7 +77,7 @@ class CupController extends Controller
         $this->messages->add('updated', trans('messages.cup.created'));
 
         return redirect()
-                ->route('dashboard.index')
+                ->route('dashboard.cups.index')
                 ->withSuccess($this->messages);
     }
 
@@ -119,7 +135,7 @@ class CupController extends Controller
         $this->messages->add('updated', trans('messages.cup.updated'));
 
         return redirect()
-                ->route('dashboard.index')
+                ->route('dashboard.cups.index')
                 ->withSuccess($this->messages);
     }
 
@@ -157,7 +173,7 @@ class CupController extends Controller
         $this->messages->add('deleted', trans('messages.cup.deleted'));
 
         return redirect()
-                ->route('dashboard.index')
+                ->route('dashboard.cups.index')
                 ->withSuccess($this->messages);
     }
 }

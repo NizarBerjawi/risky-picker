@@ -1,10 +1,12 @@
-<div class="section">
-    <a href="{{ route('index', $run) }}" class="waves-effect waves-light btn-large{{ !request()->get('coffee_type') ? ' disabled' : '' }}">All</a>
+@if ($userCoffees->isNotEmpty())
+    <div class="section">
+        <a href="{{ route('dashboard.runs.show', $run) }}" class="waves-effect waves-light btn-large{{ !request()->get('coffee_type') ? ' disabled' : '' }}">All</a>
 
-    @foreach($coffeeTypes as $type)
-        <a href="{{ route('index', ['uuid' => $run, 'coffee_type' => $type->slug]) }}" class="waves-effect waves-light btn-small{{ request()->get('coffee_type') === $type->slug ? ' disabled' : '' }}"><span>{{ $type->name }} (<b>{{ $type->total }}</b>)</span></a>
-    @endforeach
-</div>
+        @foreach($coffeeTypes as $type)
+            <a href="{{ route('dashboard.runs.show', ['run' => $run, 'coffee_type' => $type->slug]) }}" class="waves-effect waves-light btn-small{{ request()->get('coffee_type') === $type->slug ? ' disabled' : '' }}"><span>{{ $type->name }} (<b>{{ $type->total }}</b>)</span></a>
+        @endforeach
+    </div>
+@endif
 
 <div class="section">
     @forelse($userCoffees as $userCoffee)

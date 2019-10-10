@@ -38,6 +38,6 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        return route('dashboard.index');
+        return route('dashboard.runs.index');
     }
 }
