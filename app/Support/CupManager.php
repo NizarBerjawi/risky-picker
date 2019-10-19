@@ -124,8 +124,8 @@ class CupManager
         $manager = new ImageManager();
 
         $image = $manager->make($this->storage->path($path))
-                         ->resize(250, null)
-                         ->resize(null, 250);
+            ->resize(250, null)
+            ->resize(null, 250);
 
         $filename = $this->getFilenameFromPath($path);
 

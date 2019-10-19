@@ -34,9 +34,9 @@ class PickUser implements ShouldQueue
             $run = CoffeeRun::create(['user_id' => $user->id]);
             // Get all the users who have a coffee in the next run
             $users = User::query()
-                         ->whereHas('nextCoffee')
-                         ->with('nextCoffee.coffee')
-                         ->get();
+                ->whereHas('nextCoffee')
+                ->with('nextCoffee.coffee')
+                ->get();
             // Get all the ids of the users' next coffees
             $userCoffees = $users->pluck('nextCoffee.id');
             // Attach all the coffees to the coffee run

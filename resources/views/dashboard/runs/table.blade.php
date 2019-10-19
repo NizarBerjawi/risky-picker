@@ -34,7 +34,7 @@
                             @if ($run->hasVolunteer() && !request()->user()->hasVolunteeredFor($run))
                                 <form action={{ route('dashboard.runs.volunteer', $run) }} method="POST">
                                     @csrf
-                                    <button type="submit" class="waves-effect waves-light btn-small">Volunteer</button>
+                                    <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons left">directions_run</i>Volunteer</button>
                                 </form>
                             @endif
 
@@ -47,7 +47,7 @@
                             @if (!request()->user()->hasVolunteeredFor($run))
                                 <form action={{ route('dashboard.runs.volunteer', $run) }} method="POST">
                                     @csrf
-                                    <button type="submit" class="waves-effect waves-light btn-small">Volunteer</button>
+                                    <button type="submit" class="waves-effect waves-light btn-small"><i class="material-icons left">directions_run</i>Volunteer</button>
                                 </form>
                             @endif
 
@@ -74,5 +74,5 @@
         {{ $runs->links() }}
     </div>
 @else
-    <p>There are no coffee runs coming up!</p>
+    <p>There are no coffee runs available yet!</p>
 @endif

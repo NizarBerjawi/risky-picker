@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\AdhocScope;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class AdhocUserCoffee extends UserCoffee
 {
@@ -27,7 +27,7 @@ class AdhocUserCoffee extends UserCoffee
 
         static::addGlobalScope(new AdhocScope);
 
-        static::creating(function($model) {
+        static::creating(function(Model $model) {
             $model->forceFill([
                 'start_time' => now()->format('G:i'),
                 'end_time'   => now()->format('G:i'),

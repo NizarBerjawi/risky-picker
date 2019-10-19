@@ -24,9 +24,9 @@
 
     <div class="row">
         <div class="col s12 right-align">
-            <a href={{ route('schedules.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text">Back</a>
+            <a href={{ route('admin.schedules.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text"><i class="material-icons left">keyboard_backspace</i>Back</a>
             @if ($enabled ?? false)
-            <button class="btn waves-effect waves-light" type="submit">Save</button>
+            <button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">save</i>Save</button>
             @endif
         </div>
     </div>

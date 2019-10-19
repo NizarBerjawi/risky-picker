@@ -4,7 +4,7 @@
 
 @section('content')
     @include('admin.schedules.form', [
-        'action'  => route('schedules.store'),
+        'action'  => route('admin.schedules.store'),
         'method'  => 'POST',
         'enabled' => true,
     ])

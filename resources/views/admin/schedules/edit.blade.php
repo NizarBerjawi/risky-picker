@@ -4,7 +4,7 @@
 
 @section('content')
     @include('admin.schedules.form', [
-        'action'  => route('schedules.update', $schedule),
+        'action'  => route('admin.schedules.update', $schedule),
         'method'  => 'PUT',
         'enabled' => true,
     ])

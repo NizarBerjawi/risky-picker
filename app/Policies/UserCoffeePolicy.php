@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\{User, Coffee, UserCoffee};
+use App\Models\{User, UserCoffee};
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserCoffeePolicy
@@ -36,8 +36,8 @@ class UserCoffeePolicy
         // Check if the person creating the adhoc coffee, is owner
         // of the original coffee.
         return $user->userCoffees()
-                    ->where('id', request()->query('coffee_id'))
-                    ->exists();
+            ->where('id', request()->query('coffee_id'))
+            ->exists();
     }
 
     /**

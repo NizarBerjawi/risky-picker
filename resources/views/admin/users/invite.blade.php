@@ -1,7 +1,9 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Users')
+
 @section('content')
-    <form action="{{ route('users.invite') }}" method="POST">
+    <form action="{{ route('admin.users.invite') }}" method="POST">
         @csrf
 
         <div class="row">
@@ -12,8 +14,8 @@
         </div>
 
         <div class="right-align">
-            <a href={{ route('users.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text">Cancel</a>
-            <button class="btn waves-effect waves-light" type="submit">{{ __('Invite') }}</button>
+            <a href={{ route('admin.users.index') }} class="btn blue-grey lighten-5 waves-effect waves-light black-text"><i class="material-icons left">keyboard_backspace</i>Back</a>
+            <button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">mail</i>{{ __('Invite') }}</button>
         </div>
     </form>
 @endsection

@@ -2,7 +2,6 @@
 
 namespace App\Http\View\Composers;
 
-use Carbon\Carbon;
 use App\Models\Coffee;
 use Illuminate\View\View;
 

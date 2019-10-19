@@ -19,11 +19,9 @@ class Uuid
      */
     public static function create(Model $model, string $field) : string
     {
-        /** @var int **/
         $attempts = 0;
 
         while($attempts <= static::ATTEMPTS) {
-            /** @var string **/
             $uuid = (string) Str::uuid();
 
             // Check if the Uuid already exists

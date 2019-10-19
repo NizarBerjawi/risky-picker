@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 abstract class UserRequest extends FormRequest

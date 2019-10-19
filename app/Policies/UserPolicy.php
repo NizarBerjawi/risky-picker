@@ -16,9 +16,9 @@ class UserPolicy
      */
     public function before(User $user)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+        // if ($user->isAdmin()) {
+        //     return true;
+        // }
     }
 
     /**
@@ -26,11 +26,23 @@ class UserPolicy
      *
      * @param  \App\Models\User  $authUser
      * @param  \App\Models\User  $requestUser
-     * 
+     *
      * @return bool
      */
     public function update(User $authUser, User $requestUser)
     {
         return $authUser->is($requestUser);
+    }
+
+    /**
+     * Check if a user is allowed to update their own account
+     * on the admin dashboard.
+     *
+     * @param \App\Models\User  $authUser
+     * @param \App\Models\User  $requestUser
+     */
+    public function updateSelf(User $authUser, User $requestUser)
+    {
+        return !$authUser->is($requestUser);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\{User, UserCoffee};
+use App\Models\UserCoffee;
 use Illuminate\Contracts\Validation\Rule;
 
 class CoffeeTimeConflict implements Rule
@@ -38,13 +38,13 @@ class CoffeeTimeConflict implements Rule
         $user = $this->userCoffee->user;
 
         return $user->userCoffees()
-                    ->withoutAdhoc()
-                    ->between($coffee->start_time, $coffee->end_time)
-                    ->days($coffee->days ?? [])
-                    ->when($coffee->exists, function($query) use ($coffee){
-                        $query->exclude([$coffee]);
-                    })
-                    ->doesntExist();
+            ->withoutAdhoc()
+            ->between($coffee->start_time, $coffee->end_time)
+            ->days($coffee->days ?? [])
+            ->when($coffee->exists, function($query) use ($coffee){
+                $query->exclude([$coffee]);
+            })
+            ->doesntExist();
     }
 
     /**

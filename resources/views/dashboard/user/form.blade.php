@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col s12 right-align">
             @if ($enabled ?? false)
-                <a href="{{ route('dashboard.profile.show') }}" class="btn blue-grey lighten-5 waves-effect waves-light black-text">{{ __('Back') }}</a>
+                <a href="{{ route('dashboard.profile.show') }}" class="btn blue-grey lighten-5 waves-effect waves-light black-text"><i class="material-icons left">keyboard_backspace</i>{{ __('Back') }}</a>
                 <button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">save</i>{{ __('Save') }}</button>
             @else
                 <a class="waves-effect waves-light btn" href={{ route('dashboard.profile.edit') }}><i class="material-icons left">edit</i>{{ __('Edit') }}</a>

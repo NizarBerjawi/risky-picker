@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\UserCoffee;
 
-use Carbon\Carbon;
 use App\Models\UserCoffee;
 use App\Rules\{CoffeeTimeConflict, ValidTimeRange};
 use Illuminate\Validation\Rule;
@@ -22,7 +21,7 @@ class UserCoffeeRequest extends FormRequest
 
     /**
      * Initialize
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      */
     public function __construct(Request $request)

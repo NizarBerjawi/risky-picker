@@ -28,6 +28,10 @@ a.sidenav-trigger.top-nav {
     z-index: 2;
 }
 
+.sidenav .collapsible-body > ul:not(.collapsible) > li.active, .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
+    background-color: #2bbbad;
+}
+
 .header {
     color: #2bbbad;
     font-weight: 300px;

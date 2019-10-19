@@ -76,7 +76,7 @@ class Coffee extends Model
      */
     public function scopeByRun(Builder $query, CoffeeRun $run)
     {
-        return $this->whereHas('userCoffees', function($query) use ($run) {
+        return $this->whereHas('userCoffees', function(Builder $query) use ($run) {
             $query->byRun($run);
         })->distinct();
     }
@@ -92,13 +92,15 @@ class Coffee extends Model
     public function scopeWithCoffeeTotal(Builder $query, CoffeeRun $run = null)
     {
         $sub = UserCoffee::select('coffee_id')
-                         ->selectRaw('COUNT(coffee_id) as total')
-                         ->groupBy('coffee_id')
-                         ->when($run, function($query) use ($run) {
-                            $query->byRun($run);
-                        });
+            ->selectRaw('COUNT(coffee_id) as total')
+            ->withTrashed()
+            ->groupBy('coffee_id')
+            ->when($run, function($query) use ($run) {
+                $query->byRun($run);
+            });
 
-        return $query->joinSub($sub, 'coffee_counts', 'coffee_counts.coffee_id', '=', 'coffees.id');
+        return $query->withTrashed()
+                     ->joinSub($sub, 'coffee_counts', 'coffee_counts.coffee_id', '=', 'coffees.id');
     }
 
     /**

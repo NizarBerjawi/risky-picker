@@ -1,7 +1,7 @@
 @component('mail::message')
 # Hi there!
 
-You've been invited to join Flip's Risky Picker.
+You've been invited to join the Coffee Picker.
 
 @component('mail::button', ['url' => $url])
 Coffee... Now!

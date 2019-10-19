@@ -1,9 +1,5 @@
 @extends('layouts.base')
 
-@section('validation')
-    @include('partials.validation')
-@endsection
-
 @section('content')
     <div class="section">
         <div class="col s12 m10 l8  offset-m1 offset-l2">

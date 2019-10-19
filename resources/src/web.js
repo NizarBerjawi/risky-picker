@@ -1,2 +1,2 @@
 import './js/init';
-import './sass/app.scss';
+import './sass/web.scss';

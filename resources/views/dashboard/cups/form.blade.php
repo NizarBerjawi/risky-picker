@@ -8,7 +8,7 @@
         <div class="row">
             <div class="file-field input-field col s12">
                 <div class="btn">
-                    <span>Browse</span>
+                    <span><i class="material-icons left">folder_open</i>Browse</span>
                     <input type="file" name="cup_photo">
                 </div>
                 <div class="file-path-wrapper">
@@ -28,7 +28,7 @@
 
     <div class="row">
         <div class="col s12 right-align">
-            <a href="{{ route('dashboard.cups.index') }}" class="btn blue-grey lighten-5 waves-effect waves-light black-text">Back</a>
+            <a href="{{ route('dashboard.cups.index') }}" class="btn blue-grey lighten-5 waves-effect waves-light black-text"><i class="material-icons left">keyboard_backspace</i>Back</a>
             @if ($enabled ?? false)
                 <button class="btn waves-effect waves-light" type="submit"><i class="material-icons left">save</i>Save</button>
             @endif

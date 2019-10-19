@@ -4,11 +4,12 @@
         'success' => 'Awesome! Your order is on its way!',
     ],
     'user' => [
-        'created' => 'User successfully created.',
-        'updated' => 'User successfully updated.',
-        'deleted' => 'User successfully deleted.',
-        'invited' => 'User successfully invited.',
-        'auth'    => 'You are not allowed to modify someone else\'s profile',
+        'created'    => 'User successfully created.',
+        'updated'    => 'User successfully updated.',
+        'deleted'    => 'User successfully deleted.',
+        'invited'    => 'User successfully invited.',
+        'auth'       => 'You are not allowed to modify someone else\'s profile',
+        'selfUpdate' => 'You are not allowed to modify you own profile',
     ],
     'cup' => [
         'created' => 'Cup successfully created.',

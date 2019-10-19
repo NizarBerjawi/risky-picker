@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\{Coffee, Cup, User, Role};
+use App\Models\{User, Role};
 use App\Notifications\UserInvited;
 use App\Http\Requests\User\{UpdateUser, InviteUser};
 use App\Http\Controllers\Controller;
@@ -20,9 +20,21 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::query()
+                     ->exclude([$request->user()])
                      ->paginate(10);
 
         return view('admin.users.index', compact('users'));
+    }
+
+    /**
+     * Display the details of a specific user resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\View\View
+     */
+    public function show(Request $request, User $user)
+    {
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -49,7 +61,7 @@ class UserController extends Controller
         $expires = now()->addDays(2);
 
         // Generate a signed URL
-        $url = URL::temporarySignedRoute('register', $expires, [
+        $url = URL::temporarySignedroute('register', $expires, [
             'email' => $email
         ]);
 
@@ -66,8 +78,12 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
-    public function edit(User $user)
+    public function edit(Request $request, User $user)
     {
+        if ($request->user()->cant('updateSelf', $user)) {
+            return back()->withErrors(trans('messages.user.selfUpdate'));
+        }
+
         return view('admin.users.edit', compact('user'));
     }
 
@@ -80,6 +96,10 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
+        if ($request->user()->cant('updateSelf', $user)) {
+            return back()->withErrors(trans('messages.user.selfUpdate'));
+        }
+
         $user->update([
             'first_name' => $request->input('first_name'),
             'last_name'  => $request->input('last_name'),
@@ -95,7 +115,7 @@ class UserController extends Controller
         $this->messages->add('updated', trans('messages.user.updated'));
 
         return redirect()
-                ->route('users.index')
+                ->route('admin.users.index')
                 ->withSuccess($this->messages);
     }
 
@@ -105,8 +125,12 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
-    public function confirmDestroy(User $user)
+    public function confirmDestroy(Request $request, User $user)
     {
+        if ($request->user()->cant('updateSelf', $user)) {
+            return back()->withErrors(trans('messages.user.selfUpdate'));
+        }
+
         return view('admin.users.delete', compact('user'));
     }
 
@@ -116,14 +140,18 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
+        if ($request->user()->cant('updateSelf', $user)) {
+            return back()->withErrors(trans('messages.user.selfUpdate'));
+        }
+
         $user->delete();
 
         $this->messages->add('deleted', trans('messages.user.deleted'));
 
         return redirect()
-                ->route('users.index')
+                ->route('admin.users.index')
                 ->withSuccess($this->messages);
     }
 }

@@ -4,8 +4,6 @@
 
 @section('content')
     @include('admin.coffees.form', [
-        'action' => route('admin.coffees.store'),
-        'method' => 'POST',
-        'enabled' => true,
+        'enabled' => false,
     ])
 @endsection

@@ -164,7 +164,7 @@ class UserCoffee extends Pivot
     public function scopeByType(Builder $query, Coffee $coffee)
     {
         return $query->whereHas('coffee', function(Builder $query) use ($coffee) {
-            $query->where('slug', $coffee->slug);
+            $query->withTrashed()->where('slug', $coffee->slug);
         });
     }
 

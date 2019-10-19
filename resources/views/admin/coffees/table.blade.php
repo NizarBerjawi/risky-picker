@@ -12,11 +12,11 @@
     <tbody>
         @foreach($coffees as $coffee)
             <tr>
-                <td>{{ $coffee->name }}</td>
+                <td><a href="{{ route('admin.coffees.show', $coffee) }}">{{ $coffee->name }}</a></td>
                 <td>{{ $coffee->description }}</td>
                 <td>
-                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('coffees.edit', $coffee) }}"><i class="tiny material-icons teal-text">edit</i></a>
-                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('coffees.confirm-destroy', $coffee) }}"><i class="tiny material-icons teal-text">delete</i></a>
+                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('admin.coffees.edit', $coffee) }}"><i class="tiny material-icons teal-text">edit</i></a>
+                    <a class="btn-floating btn-small grey lighten-4" href="{{ route('admin.coffees.confirm-destroy', $coffee) }}"><i class="tiny material-icons teal-text">delete</i></a>
                 </td>
             </tr>
         @endforeach

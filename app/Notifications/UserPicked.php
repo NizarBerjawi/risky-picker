@@ -50,11 +50,11 @@ class UserPicked extends Notification implements ShouldQueue
         $tag = config('app.env') === 'production' ? '<!channel> ' : '';
 
         return (new SlackMessage)
-                    ->from('Risky Picker')
-                    ->content("{$tag}{$notifiable->full_name} You have been picked!")
-                    ->attachment(function($attachment) {
-                        $attachment->content("You can find today's orders here:" . route('index', $this->run));
-                    });
+            ->from('Risky Picker')
+            ->content("{$tag}{$notifiable->full_name} You have been picked!")
+            ->attachment(function($attachment) {
+                $attachment->content("You can find today's orders here:" . route('index', $this->run));
+            });
     }
 
 

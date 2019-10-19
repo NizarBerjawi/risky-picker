@@ -8,6 +8,7 @@ module.exports = {
   // Here the application starts executing and webpack starts bundling
   entry: {
     app: path.resolve('./resources/src/app'),
+    web: path.resolve('./resources/src/web'),
     vendor: path.resolve('./resources/src/vendor'),
   },
 

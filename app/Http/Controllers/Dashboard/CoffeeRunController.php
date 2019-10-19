@@ -41,9 +41,15 @@ class CoffeeRunController extends Controller
     {
         // Get the coffee runs that occured recently
         $runs = CoffeeRun::recent()
-                         ->latest('created_at')
-                         ->with(['user', 'volunteer', 'userCoffees'])
-                         ->paginate(3);
+            ->latest('created_at')
+            ->with([
+                'user',
+                'volunteer',
+                'userCoffees' => function($query) {
+                    return $query->withTrashed();
+                }
+            ])
+            ->paginate(3);
 
         $countdown = Schedule::countdown();
 
@@ -63,8 +69,14 @@ class CoffeeRunController extends Controller
 
         // Get all the coffees in this coffee run and filter
         $userCoffees = $run->userCoffees()
+                           ->withTrashed()
                            ->filter($this->filters)
-                           ->with(['coffee', 'user.cup'])
+                           ->with([
+                               'coffee' => function($query) {
+                                   return $query->withTrashed();
+                               },
+                               'user.cup'
+                            ])
                            ->get();
 
         return view('dashboard.runs.show', compact('run', 'coffeeTypes', 'userCoffees'));

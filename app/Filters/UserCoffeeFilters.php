@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use App\Models\Coffee;
 use App\Support\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserCoffeeFilters extends Filter
 {
@@ -15,10 +14,10 @@ class UserCoffeeFilters extends Filter
      */
     protected function coffeeType()
     {
-        $coffee = Coffee::whereSlug($this->request->get('coffee_type'));
+        $coffee = Coffee::withTrashed()->whereSlug($this->request->get('coffee_type'));
 
         if (!$coffee->exists()) { return $this->builder; }
 
-        return $this->builder->byType($coffee->first());
+        return $this->builder->withTrashed()->byType($coffee->first());
     }
 }

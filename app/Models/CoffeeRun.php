@@ -18,8 +18,8 @@ class CoffeeRun extends Model
      */
     const EXPIRY = 1440; // Minutes;
 
-    /** 
-     * The number of minutes before a particular coffee run 
+    /**
+     * The number of minutes before a particular coffee run
      * becomes locked
      *
      * @var int
@@ -189,9 +189,9 @@ class CoffeeRun extends Model
         });
     }
 
-    /** 
+    /**
      * Scope the coffee runs that have a volunteer
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -308,7 +308,7 @@ class CoffeeRun extends Model
 
     /**
      * Check if the coffee run is locked
-     * 
+     *
      * @return boolean
      */
     public function locked()
@@ -318,7 +318,7 @@ class CoffeeRun extends Model
 
     /**
      * Check if the coffee run is not locked
-     * 
+     *
      * @return boolean
      */
     public function notLocked()

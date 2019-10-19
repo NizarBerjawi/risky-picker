@@ -43,8 +43,20 @@ class CoffeeController extends Controller
         $this->messages->add('created', trans('messages.coffee.created'));
 
         return redirect()
-                ->route('coffees.index')
+                ->route('admin.coffees.index')
                 ->withSuccess($this->messages);
+    }
+
+
+    /**
+     * Show the details of the coffee resource.
+     *
+     * @param \App\Models\Coffee  $coffee
+     * @return \Illuminate\View\View
+     */
+    public function show(Coffee $coffee)
+    {
+        return view('admin.coffees.show', compact('coffee'));
     }
 
     /**
@@ -72,7 +84,7 @@ class CoffeeController extends Controller
         $this->messages->add('updated', trans('messages.coffee.updated'));
 
         return redirect()
-                ->route('coffees.index')
+                ->route('admin.coffees.index')
                 ->withSuccess($this->messages);
     }
 
@@ -100,7 +112,7 @@ class CoffeeController extends Controller
         $this->messages->add('deleted', trans('messages.coffee.deleted'));
 
         return redirect()
-                ->route('coffees.index')
+                ->route('admin.coffees.index')
                 ->withSuccess($this->messages);
     }
 }

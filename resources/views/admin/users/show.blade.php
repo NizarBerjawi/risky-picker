@@ -4,8 +4,6 @@
 
 @section('content')
     @include('admin.users.form', [
-        'action' => route('admin.users.update', $user),
-        'method' => 'PUT',
-        'enabled' => true,
+        'enabled' => false,
     ])
 @endsection

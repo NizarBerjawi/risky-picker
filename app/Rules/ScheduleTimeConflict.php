@@ -34,12 +34,13 @@ class ScheduleTimeConflict implements Rule
      */
     public function passes($attribute = null, $value = null)
     {
-        return Schedule::at($this->schedule->time)
-                       ->days($this->schedule->days ?? [])
-                       ->when($this->schedule->exists, function($query) {
-                           $query->exclude([$this->schedule]);
-                       })
-                       ->doesntExist();
+        return Schedule::query()
+            ->at($this->schedule->time)
+            ->days($this->schedule->days ?? [])
+            ->when($this->schedule->exists, function($query) {
+                $query->exclude([$this->schedule]);
+            })
+            ->doesntExist();
     }
 
     /**

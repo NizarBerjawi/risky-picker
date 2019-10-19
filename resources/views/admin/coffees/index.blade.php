@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="right-align">
-        <a href={{ route('coffees.create') }} class="btn-small waves-effect waves-light">Add</a>
+        <a href={{ route('admin.coffees.create') }} class="btn-small waves-effect waves-light">Add</a>
     </div>
 
     @include('admin.coffees.table')

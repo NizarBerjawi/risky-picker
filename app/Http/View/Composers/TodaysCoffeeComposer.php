@@ -16,9 +16,9 @@ class TodaysCoffeeComposer
     public function compose(View $view)
     {
         $todaysCoffee = request()->user()
-                                 ->userCoffees()
-                                 ->today()
-                                 ->get();
+            ->userCoffees()
+            ->today()
+            ->get();
 
         $view->with(compact('todaysCoffee'));
     }
