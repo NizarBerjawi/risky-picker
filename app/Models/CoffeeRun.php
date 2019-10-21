@@ -176,7 +176,7 @@ class CoffeeRun extends Model
     }
 
     /**
-     * Scope the orders by the user who made them
+     * Scope the coffee runs by the user who made them
      *
      * @param \Illuminate\Database\Eloquent\Builder
      * @param \App\Models\User

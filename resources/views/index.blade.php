@@ -1,4 +1,6 @@
-@extends('layouts.base')
+@guest
+    @extends('layouts.base')
+@endguest
 
 @section('content')
     @include('partials.coffees')

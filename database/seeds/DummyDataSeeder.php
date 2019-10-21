@@ -23,7 +23,7 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $totalUsers = 100;
+    protected $totalUsers = 500;
 
     /**
      * The total number of coffees in the database
@@ -68,7 +68,7 @@ class DummyDataSeeder extends Seeder
      *
      * @var integer
      */
-    protected $maxNumberOfSchedules = 50;
+    protected $maxNumberOfSchedules = 100;
 
     /**
      * Run the database seeds.

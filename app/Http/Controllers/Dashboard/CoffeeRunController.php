@@ -83,6 +83,30 @@ class CoffeeRunController extends Controller
     }
 
     /**
+     * Display the latest coffee run statistics
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function statistics(Request $request)
+    {
+        $users = User::query()
+            ->select(['id', 'first_name', 'last_name'])
+            ->withCount('coffeeRuns')
+            ->orderBy('coffee_runs_count', 'desc')
+            ->paginate(20);
+
+        $monthlyData = CoffeeRun::query()
+            ->whereIn('user_id', array_pluck($users->items(), 'id'))
+            ->selectRaw("user_id, count(user_id) as total")
+            ->thisMonth()
+            ->groupBy('user_id')
+            ->get();
+
+        return view('dashboard.runs.statistics', compact('users', 'monthlyData'));
+    }
+
+    /**
      * Update a specified coffee run user
      *
      * @param  \Illuminate\Http\Request  $request

@@ -48,26 +48,4 @@ class CoffeeRunController extends Controller
 
         return view('index', compact('run', 'coffeeTypes', 'userCoffees'));
     }
-
-    /**
-     * Display the latest coffee run statistics
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
-     */
-    public function statistics(Request $request)
-    {
-        $monthlyData = CoffeeRun::query()
-            ->selectRaw("user_id, count(user_id) as total")
-            ->thisMonth()
-            ->groupBy('user_id')
-            ->get();
-
-        $users = User::query()
-                     ->withCount('coffeeRuns')
-                     ->orderBy('coffee_runs_count', 'desc')
-                     ->paginate(20);
-
-        return view('statistics', compact('users', 'monthlyData'));
-    }
 }

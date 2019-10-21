@@ -35,6 +35,7 @@ Route::group(['prefix' => 'cups'], function() {
 
 Route::group(['prefix' => 'coffee-run'], function() {
     Route::get('/', 'CoffeeRunController@index')->name('dashboard.runs.index');
+    Route::get('/statistics', 'CoffeeRunController@statistics')->name('dashboard.runs.statistics');
     Route::get('/{run}', 'CoffeeRunController@show')->name('dashboard.runs.show');
     Route::post('/{run}/busy', 'CoffeeRunController@busy')->name('dashboard.runs.busy');
     Route::post('/{run}/volunteer', 'CoffeeRunController@volunteer')->name('dashboard.runs.volunteer');

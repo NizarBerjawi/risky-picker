@@ -32,7 +32,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'is_vip', 'email', 'password',
+        'first_name', 'last_name', 'is_vip', 'email',
+    ];
+
+    protected $guarded = [
+        'password'
     ];
 
     /**
@@ -214,7 +218,7 @@ class User extends Authenticatable
 
     /**
      * Get the users who have recently volunteered to do a coffee run
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
