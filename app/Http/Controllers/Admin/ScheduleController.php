@@ -38,13 +38,13 @@ class ScheduleController extends Controller
      */
     public function store(CreateSchedule $request)
     {
-        $schedule = Schedule::create($request->all());
+        Schedule::create($request->all());
 
         $this->messages->add('created', trans('messages.schedule.created'));
 
         return redirect()
-                ->route('admin.schedules.index')
-                ->withSuccess($this->messages);
+            ->route('admin.schedules.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -83,8 +83,8 @@ class ScheduleController extends Controller
         $this->messages->add('updated', trans('messages.schedule.updated'));
 
         return redirect()
-                ->route('admin.schedules.index')
-                ->withSuccess($this->messages);
+            ->route('admin.schedules.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -111,7 +111,7 @@ class ScheduleController extends Controller
         $this->messages->add('deleted', trans('messages.schedule.deleted'));
 
         return redirect()
-                ->route('admin.schedules.index')
-                ->withSuccess($this->messages);
+            ->route('admin.schedules.index')
+            ->withSuccess($this->messages);
      }
 }

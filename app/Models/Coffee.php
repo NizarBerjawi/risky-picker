@@ -54,7 +54,7 @@ class Coffee extends Model
     public function users()
     {
         return $this->belongsToMany(User::class)
-                    ->using(UserCoffee::class);
+            ->using(UserCoffee::class);
     }
 
     /**
@@ -100,7 +100,7 @@ class Coffee extends Model
             });
 
         return $query->withTrashed()
-                     ->joinSub($sub, 'coffee_counts', 'coffee_counts.coffee_id', '=', 'coffees.id');
+            ->joinSub($sub, 'coffee_counts', 'coffee_counts.coffee_id', '=', 'coffees.id');
     }
 
     /**

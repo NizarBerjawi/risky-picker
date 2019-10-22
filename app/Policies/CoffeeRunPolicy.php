@@ -67,9 +67,9 @@ class CoffeeRunPolicy
     public function pick(User $user, CoffeeRun $run)
     {
         return $user->isNot($run->user) &&
-               $user->isAdmin() &&
-               !$run->volunteerRequested() &&
-               $run->notExpired() &&
-               $run->notLocked();
+            $user->isAdmin() &&
+            !$run->volunteerRequested() &&
+            $run->notExpired() &&
+            $run->notLocked();
     }
 }

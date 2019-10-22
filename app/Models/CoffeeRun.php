@@ -125,7 +125,7 @@ class CoffeeRun extends Model
     public function scopeLastRun(Builder $query)
     {
         return $query->where('created_at', static::query()->max('created_at'))
-                     ->limit(1);
+            ->limit(1);
     }
 
     /**
@@ -172,7 +172,7 @@ class CoffeeRun extends Model
         $end = Carbon::now()->endOfMonth();
 
         return $query->whereDate('coffee_runs.created_at', '>=', $start)
-                     ->whereDate('coffee_runs.created_at', '<=', $end);
+            ->whereDate('coffee_runs.created_at', '<=', $end);
     }
 
     /**
@@ -209,8 +209,8 @@ class CoffeeRun extends Model
     public function getUserCoffee(User $user)
     {
         return $this->userCoffees()
-                    ->where('user_id', $user->id)
-                    ->first();
+            ->where('user_id', $user->id)
+            ->first();
     }
 
     /**

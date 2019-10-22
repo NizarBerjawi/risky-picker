@@ -71,12 +71,12 @@ class UserCoffeeRequest extends FormRequest
         $validator->after(function ($validator) {
             if (! $this->validTimeRange()->passes()) {
                 $validator->errors()
-                          ->add('end_time', $this->validTimeRange()->message());
+                    ->add('end_time', $this->validTimeRange()->message());
             }
 
             if (!$this->timeslotConflict()->passes()) {
                 $validator->errors()
-                          ->add('conflict', $this->timeslotConflict()->message());
+                    ->add('conflict', $this->timeslotConflict()->message());
             }
         });
     }

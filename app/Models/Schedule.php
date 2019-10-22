@@ -78,7 +78,7 @@ class Schedule extends Model
 
     /**
      * Get the next schedule that is due today
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -88,9 +88,9 @@ class Schedule extends Model
         $today = strtolower(now()->shortEnglishDayOfWeek);
         // Check if there is any schedule today that could be executed
         return $query->days([$today])
-                     ->after(now()->format('G:i'))
-                     ->orderByRaw('time(time) ASC')
-                     ->limit(1);
+            ->after(now()->format('G:i'))
+            ->orderByRaw('time(time) ASC')
+            ->limit(1);
     }
 
     /**

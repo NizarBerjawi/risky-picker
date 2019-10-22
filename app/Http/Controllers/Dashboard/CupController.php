@@ -77,8 +77,8 @@ class CupController extends Controller
         $this->messages->add('updated', trans('messages.cup.created'));
 
         return redirect()
-                ->route('dashboard.cups.index')
-                ->withSuccess($this->messages);
+            ->route('dashboard.cups.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -135,8 +135,8 @@ class CupController extends Controller
         $this->messages->add('updated', trans('messages.cup.updated'));
 
         return redirect()
-                ->route('dashboard.cups.index')
-                ->withSuccess($this->messages);
+            ->route('dashboard.cups.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -173,7 +173,7 @@ class CupController extends Controller
         $this->messages->add('deleted', trans('messages.cup.deleted'));
 
         return redirect()
-                ->route('dashboard.cups.index')
-                ->withSuccess($this->messages);
+            ->route('dashboard.cups.index')
+            ->withSuccess($this->messages);
     }
 }

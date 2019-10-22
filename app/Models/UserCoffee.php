@@ -153,7 +153,7 @@ class UserCoffee extends Pivot
         // a maximum of 1 coffee per user at any given time/day
         // combination
         return $query->between($now->format('G:i'), $now->format('G:i'))
-                     ->days([strtolower($now->shortEnglishDayOfWeek)]);
+            ->days([strtolower($now->shortEnglishDayOfWeek)]);
     }
 
     /**

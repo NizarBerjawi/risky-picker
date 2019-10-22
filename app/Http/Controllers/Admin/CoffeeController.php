@@ -38,13 +38,13 @@ class CoffeeController extends Controller
      */
     public function store(CreateCoffee $request)
     {
-        $coffee = Coffee::create($request->all());
+        Coffee::create($request->all());
 
         $this->messages->add('created', trans('messages.coffee.created'));
 
         return redirect()
-                ->route('admin.coffees.index')
-                ->withSuccess($this->messages);
+            ->route('admin.coffees.index')
+            ->withSuccess($this->messages);
     }
 
 
@@ -84,8 +84,8 @@ class CoffeeController extends Controller
         $this->messages->add('updated', trans('messages.coffee.updated'));
 
         return redirect()
-                ->route('admin.coffees.index')
-                ->withSuccess($this->messages);
+            ->route('admin.coffees.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -112,7 +112,7 @@ class CoffeeController extends Controller
         $this->messages->add('deleted', trans('messages.coffee.deleted'));
 
         return redirect()
-                ->route('admin.coffees.index')
-                ->withSuccess($this->messages);
+            ->route('admin.coffees.index')
+            ->withSuccess($this->messages);
     }
 }

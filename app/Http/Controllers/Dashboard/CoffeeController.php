@@ -59,8 +59,8 @@ class CoffeeController extends Controller
         $this->messages->add('created', trans('messages.coffee.created'));
 
         return redirect()
-                ->route('dashboard.coffee.index')
-                ->withSuccess($this->messages);
+            ->route('dashboard.coffee.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -80,68 +80,68 @@ class CoffeeController extends Controller
      * @param  \App\Models\UserCoffee  $userCoffee
      * @return \Illuminate\View\View
      */
-     public function edit(UserCoffee $userCoffee)
-     {
-         $this->authorize('update', $userCoffee);
+    public function edit(UserCoffee $userCoffee)
+    {
+        $this->authorize('update', $userCoffee);
 
-         return view('dashboard.coffee.edit', compact('userCoffee'));
-     }
+        return view('dashboard.coffee.edit', compact('userCoffee'));
+    }
 
-     /**
-      * Update a user's coffee entry
-      *
-      * @param  \App\Http\Requests\UserCoffee\UpdateUserCoffee  $request
-      * @param  \App\Models\UserCoffee  $userCoffee
-      * @return \Illuminate\Http\RedirectResponse
-      */
-      public function update(UpdateUserCoffee $request, UserCoffee $userCoffee)
-      {
-          if ($request->user()->cant('update', $userCoffee)) {
-              return back()->withErrors(trans('messages.coffee.auth'));
-          }
+    /**
+     * Update a user's coffee entry
+     *
+     * @param  \App\Http\Requests\UserCoffee\UpdateUserCoffee  $request
+     * @param  \App\Models\UserCoffee  $userCoffee
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(UpdateUserCoffee $request, UserCoffee $userCoffee)
+    {
+        if ($request->user()->cant('update', $userCoffee)) {
+            return back()->withErrors(trans('messages.coffee.auth'));
+        }
 
-          $userCoffee->update($request->all());
+        $userCoffee->update($request->all());
 
-          $this->messages->add('updated', trans('messages.coffee.updated'));
+        $this->messages->add('updated', trans('messages.coffee.updated'));
 
-          return redirect()
-                    ->route('dashboard.coffee.index')
-                    ->withSuccess($this->messages);
-      }
+        return redirect()->route('dashboard.coffee.index')->withSuccess($this->messages);
+    }
 
-      /**
-       * Confirm that a user really wants to delete their coffee entry
-       *
-       * @param  \Illuminate\Http\Request  $request
-       * @param  \App\Models\UserCoffee  $coffee
-       * @return \Illuminate\View\View
-       */
-      public function confirmDestroy(Request $request, UserCoffee $userCoffee)
-      {
-          if ($request->user()->cant('delete', $userCoffee)) {
-              return back()->withErrors(trans('messages.coffee.auth'));
-          }
+    /**
+     * Confirm that a user really wants to delete their coffee entry
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\UserCoffee  $coffee
+     * @return \Illuminate\View\View
+     */
+    public function confirmDestroy(Request $request, UserCoffee $userCoffee)
+    {
+        if ($request->user()->cant('delete', $userCoffee)) {
+            return back()->withErrors(trans('messages.coffee.auth'));
+        }
 
-          return view('dashboard.coffee.delete', compact('userCoffee'));
-      }
+        return view('dashboard.coffee.delete', compact('userCoffee'));
+    }
 
-      /**
-       * Delete a user's coffee entry.
-       *
-       * @param  \Illuminate\Http\Request  $request
-       * @param  \App\Models\UserCoffee  $userCoffee
-       * @return \Illuminate\Http\RedirectResponse
-       */
-      public function destroy(Request $request, UserCoffee $userCoffee)
-      {
-          if ($request->user()->cant('delete', $userCoffee)) {
-              return back()->withErrors(trans('messages.coffee.auth'));
-          }
+    /**
+     * Delete a user's coffee entry.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\UserCoffee  $userCoffee
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request, UserCoffee $userCoffee)
+    {
+        if ($request->user()->cant('delete', $userCoffee)) {
+            return back()->withErrors(trans('messages.coffee.auth'));
+        }
 
-          $userCoffee->delete();
+        $userCoffee->delete();
 
-          $this->messages->add('deleted', trans('messages.coffee.deleted'));
+        $this->messages->add('deleted', trans('messages.coffee.deleted'));
 
-          return redirect()->route('dashboard.coffee.index')->withSuccess($this->messages);
-      }
+        return redirect()
+            ->route('dashboard.coffee.index')
+            ->withSuccess($this->messages);
+    }
 }

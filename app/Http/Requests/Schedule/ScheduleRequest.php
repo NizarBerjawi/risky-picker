@@ -44,7 +44,7 @@ class ScheduleRequest extends FormRequest
         $validator->after(function ($validator) {
             if (!$this->timeslotConflict()->passes()) {
                 $validator->errors()
-                          ->add('conflict', $this->timeslotConflict()->message());
+                    ->add('conflict', $this->timeslotConflict()->message());
             }
         });
     }

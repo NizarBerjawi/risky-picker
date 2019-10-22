@@ -20,8 +20,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::query()
-                     ->exclude([$request->user()])
-                     ->paginate(10);
+            ->exclude([$request->user()])
+            ->paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
@@ -115,8 +115,8 @@ class UserController extends Controller
         $this->messages->add('updated', trans('messages.user.updated'));
 
         return redirect()
-                ->route('admin.users.index')
-                ->withSuccess($this->messages);
+            ->route('admin.users.index')
+            ->withSuccess($this->messages);
     }
 
     /**
@@ -151,7 +151,7 @@ class UserController extends Controller
         $this->messages->add('deleted', trans('messages.user.deleted'));
 
         return redirect()
-                ->route('admin.users.index')
-                ->withSuccess($this->messages);
+            ->route('admin.users.index')
+            ->withSuccess($this->messages);
     }
 }

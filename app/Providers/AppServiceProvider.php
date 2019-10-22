@@ -34,14 +34,6 @@ class AppServiceProvider extends ServiceProvider
             ?>";
         });
 
-        Blade::if('ondashboard', function () {
-            return Request::is('dashboard*') && Auth::check();
-        });
-
-        Blade::if('onadmin', function () {
-            return Request::is('admin*') && Auth::check() && Auth::user()->isAdmin();
-        });
-
         Blade::if('success', function () {
             return session()->has('success');
         });

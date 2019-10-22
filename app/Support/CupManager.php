@@ -56,7 +56,7 @@ class CupManager
     public function handleFileDelete($filename)
     {
         return $this->deleteImage($filename) &&
-               $this->deleteThumbnail($filename);
+            $this->deleteThumbnail($filename);
     }
 
     /**

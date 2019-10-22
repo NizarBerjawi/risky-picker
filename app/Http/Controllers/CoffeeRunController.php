@@ -42,9 +42,9 @@ class CoffeeRunController extends Controller
 
         // Get all the coffees in this coffee run and filter
         $userCoffees = $run->userCoffees()
-                           ->filter($this->filters)
-                           ->with(['coffee', 'user.cup'])
-                           ->get();
+            ->filter($this->filters)
+            ->with(['coffee', 'user.cup'])
+            ->get();
 
         return view('index', compact('run', 'coffeeTypes', 'userCoffees'));
     }

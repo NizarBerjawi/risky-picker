@@ -49,7 +49,7 @@ class AdhocCoffeeController extends Controller
         $this->messages->add('created', trans('messages.coffee.created'));
 
         return redirect()
-                ->route('index', $run)
-                ->withSuccess($this->messages);
+            ->route('index', $run)
+            ->withSuccess($this->messages);
     }
 }

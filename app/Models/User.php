@@ -67,11 +67,11 @@ class User extends Authenticatable
     public function coffees()
     {
         return $this->belongsToMany(Coffee::class, 'user_coffee')
-                    ->using(UserCoffee::class)
-                    ->withTimestamps()
-                    ->withPivot([
-                        'id', 'sugar', 'start_time', 'end_time', 'days'
-                    ]);
+            ->using(UserCoffee::class)
+            ->withTimestamps()
+            ->withPivot([
+                'id', 'sugar', 'start_time', 'end_time', 'days'
+            ]);
     }
 
     /**
@@ -123,16 +123,16 @@ class User extends Authenticatable
     public function nextAdhocCoffee()
     {
         $next = $this->nextCoffee()
-                     ->select(['start_time', 'end_time'])
-                     ->first();
+            ->select(['start_time', 'end_time'])
+            ->first();
 
         if (empty($next)) { return $this->nextCoffee(); }
 
         return $this->hasOne(AdhocUserCoffee::class)
-                    ->whereDate('created_at', today())
-                    ->between(...array_values($next->toArray()))
-                    ->latest()
-                    ->limit(1);
+            ->whereDate('created_at', today())
+            ->between(...array_values($next->toArray()))
+            ->latest()
+            ->limit(1);
     }
 
     /**
