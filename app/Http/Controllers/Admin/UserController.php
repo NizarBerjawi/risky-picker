@@ -64,7 +64,7 @@ class UserController extends Controller
         $url = URL::temporarySignedroute('register', $expires, [
             'email' => $email
         ]);
-
+        dd($url);
         Notification::route('mail', $email)->notify(new UserInvited($url));
 
         $this->messages->add('invited', trans('messages.user.invited'));

@@ -33,4 +33,15 @@ class UserPolicy
     {
         return !$authUser->is($requestUser);
     }
+
+    /**
+     * Check if a user is allowed to delete their account
+     *
+     * @param \App\Models\User  $authUser
+     * @param \App\Models\User  $requestUser
+     */
+    public function delete(User $authUser, User $requestUser)
+    {
+        return $authUser->is($requestUser);
+    }
 }

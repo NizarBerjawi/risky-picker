@@ -33,14 +33,6 @@ class AppServiceProvider extends ServiceProvider
                 </div>'
             ?>";
         });
-
-        Blade::if('success', function () {
-            return session()->has('success');
-        });
-
-        Blade::if('errors', function () {
-            return session()->has('errors');
-        });
     }
 
     /**

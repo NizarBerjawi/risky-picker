@@ -4,6 +4,8 @@ Route::group(['prefix' => 'profile'], function() {
     Route::get('/', 'UserController@show')->name('dashboard.profile.show');
     Route::get('/edit', 'UserController@edit')->name('dashboard.profile.edit');
     Route::match(['put', 'patch'], '/', 'UserController@update')->name('dashboard.profile.update');
+    Route::get('/{user}/delete', 'UserController@confirmDestroy')->name('dashboard.profile.confirm-delete');
+    Route::delete('/{user}', 'UserController@destroy')->name('dashboard.profile.delete');
 });
 
 Route::group(['prefix' => 'coffees'], function() {

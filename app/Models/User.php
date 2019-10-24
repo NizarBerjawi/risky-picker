@@ -35,10 +35,6 @@ class User extends Authenticatable
         'first_name', 'last_name', 'is_vip', 'email',
     ];
 
-    protected $guarded = [
-        'password'
-    ];
-
     /**
      * Get all coffee runs the user has done.
      *

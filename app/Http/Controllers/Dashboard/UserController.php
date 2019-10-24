@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Auth;
 use App\Models\User;
 use App\Http\Requests\User\UpdateUser;
 use App\Http\Controllers\Controller;
@@ -60,6 +61,42 @@ class UserController extends Controller
 
         return redirect()
             ->route('dashboard.profile.show')
+            ->withSuccess($this->messages);
+    }
+
+    /**
+     * Confirm that a user really wants to delete their account
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\View\View
+     */
+    public function confirmDestroy(Request $request, User $user)
+    {
+        return view('dashboard.user.delete', compact('user'));
+    }
+
+    /**
+     * Delete a user's account
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Cup  $cup
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Request $request, User $user)
+    {
+        if ($request->user()->cant('delete', $user)) {
+            return back()->withErrors(trans('messages.user.auth'));
+        }
+
+        // Soft delete and logout the user
+        $user->delete();
+        Auth::logout();
+
+        $this->messages->add('deleted', trans('messages.user.deleted'));
+
+        return redirect()
+            ->route('login')
             ->withSuccess($this->messages);
     }
 }

@@ -1,7 +1,7 @@
-@success
+@if(session()->has('success'))
     @alert('success')
-@endsuccess
+@endif
 
-@errors
+@if(session()->has('errors'))
     @alert('errors')
-@enderrors
+@endif
