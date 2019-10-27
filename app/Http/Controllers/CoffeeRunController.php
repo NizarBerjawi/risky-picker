@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\{Coffee, CoffeeRun, User};
 use App\Filters\UserCoffeeFilters;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 class CoffeeRunController extends Controller
 {
     /**
@@ -35,6 +34,14 @@ class CoffeeRunController extends Controller
      */
     public function index(CoffeeRun $run)
     {
+        // If the user is  authenticated we can show them the
+        // coffee run from their dashboard
+        if(Auth::check()){
+            return redirect()->route('dashboard.runs.show', $run);
+        }
+
+        // Because coffee runs are publicly accessable through , we
+        // give the coffee run an expiry date
         abort_if($run->expired(), 410, trans('messages.run.expired'));
 
         // Get all the coffee types that are available in this run

@@ -70,7 +70,7 @@ class CoffeeRun extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**
@@ -80,7 +80,7 @@ class CoffeeRun extends Model
      */
     public function volunteer()
     {
-        return $this->belongsTo(User::class, 'volunteer_id');
+        return $this->belongsTo(User::class, 'volunteer_id')->withTrashed();
     }
 
     /**
@@ -91,7 +91,12 @@ class CoffeeRun extends Model
      */
     public function userCoffees()
     {
-        return $this->belongsToMany(UserCoffee::class, 'coffee_run_user_coffee', 'coffee_run_id', 'user_coffee_id');
+        return $this->belongsToMany(
+            UserCoffee::class,
+            'coffee_run_user_coffee',
+            'coffee_run_id',
+            'user_coffee_id'
+        )->withTrashed();
     }
 
     /**

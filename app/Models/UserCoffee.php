@@ -54,7 +54,7 @@ class UserCoffee extends Pivot
      */
     public function coffee()
     {
-      return $this->belongsTo(Coffee::class);
+      return $this->belongsTo(Coffee::class)->withTrashed();
     }
 
     /**
@@ -64,7 +64,7 @@ class UserCoffee extends Pivot
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**

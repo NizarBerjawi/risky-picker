@@ -8,9 +8,8 @@
         'updated'    => 'User successfully updated.',
         'deleted'    => 'User successfully deleted.',
         'invited'    => 'User successfully invited.',
-        'duplicate'  => 'User is already registered',
-        'activate'   => 'Our records show that you have an inactive account.
-                         You can proceed to activate it.',
+        'registered' => 'Our records show that you have already registered an account.
+                        Please try to login.',
         'auth'       => 'You are not allowed to modify someone else\'s profile',
         'selfUpdate' => 'You are not allowed to modify you own profile',
     ],

@@ -45,9 +45,7 @@ class CoffeeRunController extends Controller
             ->with([
                 'user',
                 'volunteer',
-                'userCoffees' => function($query) {
-                    return $query->withTrashed();
-                }
+                'userCoffees'
             ])
             ->paginate(3);
 
@@ -69,15 +67,17 @@ class CoffeeRunController extends Controller
 
         // Get all the coffees in this coffee run and filter
         $userCoffees = $run->userCoffees()
-                           ->withTrashed()
-                           ->filter($this->filters)
-                           ->with([
-                               'coffee' => function($query) {
-                                   return $query->withTrashed();
-                               },
-                               'user.cup'
-                            ])
-                           ->get();
+            ->withTrashed()
+            ->filter($this->filters)
+            ->with([
+                'coffee' => function($query) {
+                    return $query->withTrashed();
+                },
+                'user' => function($query) {
+                    return $query->with('cup')->withTrashed();
+                }
+            ])
+            ->get();
 
         return view('dashboard.runs.show', compact('run', 'coffeeTypes', 'userCoffees'));
     }

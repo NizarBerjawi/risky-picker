@@ -10,11 +10,11 @@
 
 <div class="section">
     @forelse($userCoffees as $userCoffee)
-        <div class="col s12 m4">
+        <div class="col s12 m6">
             <div class="card">
                 <div class="card-image">
-                    <a href="{{ $userCoffee->user->cup ? $userCoffee->user->cup->image_path : '/dist/img/no-cup-thumb.jpg' }}" target="_blank">
-                        <img src="{{ $userCoffee->user->cup ? $userCoffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.jpg' }}">
+                    <a href="{{ isset($userCoffee->user->cup) ? $userCoffee->user->cup->image_path : '/dist/img/no-cup-thumb.jpg' }}" target="_blank">
+                        <img src="{{ isset($userCoffee->user->cup) ? $userCoffee->user->cup->thumbnail_path : '/dist/img/no-cup-thumb.jpg' }}">
                     </a>
                 </div>
                 <div class="card-content">

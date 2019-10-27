@@ -71,8 +71,10 @@ class RegisterController extends Controller
     public function showRegistrationForm(Request $request)
     {
         $user = User::where('email', $request->get('email'))
-            ->onlyTrashed()
+            ->withTrashed()
             ->first();
+
+        abort_if($user && !$user->trashed(), 410, trans('messages.users.registered'));
 
         return view('auth.register', compact('user'));
     }
@@ -94,9 +96,9 @@ class RegisterController extends Controller
 
         // Check if the user already exists, if so, then
         // attempt to activate their account
-        $success = $this->attemptToActivate($details);
+        $user = $this->attemptToActivate($details);
 
-        return $success ?: User::create($details);
+        return $user ?: User::create($details);
     }
 
     /**
@@ -116,8 +118,9 @@ class RegisterController extends Controller
 
         if (!$user) { return false; }
 
-        return $user->update(array_merge($data, [
-            $user->getDeletedAtColumn() => null
-        ]));
+        $user->update($data);
+        $user->restore();
+
+        return $user;
     }
 }

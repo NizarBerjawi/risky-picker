@@ -1,4 +1,3 @@
-
 @auth
 <div class="container">
     <a href="#" data-target="slide-out" class="top-nav sidenav-trigger full hide-on-large-only"><i class="material-icons">menu</i></a>
@@ -6,7 +5,7 @@
 @endauth
 
 <nav class="top-nav">
-    <div class="nav-wrapper">
+    <div class="nav-wrapper {{ Auth::guest() ? 'teal' : ''}}">
         @auth
             <div class="container">
                 <div class="nav-wrapper">

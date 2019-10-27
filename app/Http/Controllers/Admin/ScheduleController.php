@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class ScheduleController extends Controller
 {
     /**
-     * Display a listing of the schedules
+     * Display a listing of all the schedule resources
      *
      * @return \Illuminate\View\View
      */
@@ -21,7 +21,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Show the form for creating a new schedule.
+     * Show the form for creating a new schedule resource.
      *
      * @return \Illuminate\View\View
      */

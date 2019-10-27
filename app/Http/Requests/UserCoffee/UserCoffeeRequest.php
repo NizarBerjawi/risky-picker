@@ -20,7 +20,7 @@ class UserCoffeeRequest extends FormRequest
     protected $adhoc;
 
     /**
-     * Initialize
+     * Initialize the request
      *
      * @param  \Illuminate\Http\Request  $request
      */

@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class CoffeeController extends Controller
 {
     /**
-     * Display a listing of the available coffee types
+     * Display a listing of the available coffee resources.
      *
      * @return \Illuminate\View\View
      */
@@ -21,7 +21,7 @@ class CoffeeController extends Controller
     }
 
     /**
-     * Show the form for creating a new coffee.
+     * Show the form for creating a new coffee resource.
      *
      * @return \Illuminate\View\View
      */
@@ -90,6 +90,7 @@ class CoffeeController extends Controller
 
     /**
      * Confirm that an admin really wants to delete a coffee
+     * resource
      *
      * @param  \App\Models\Coffee  $coffee
      * @return \Illuminate\View\View
